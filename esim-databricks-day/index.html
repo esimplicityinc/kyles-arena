@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Databricks Day — eSimplicity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3223BD;
+      --light-purple: #D9DCF8;
+      --very-light-purple: #EEEDFE;
+      --black-text: #1C1C1C;
+      --dark-gray: #444441;
+      --light-gray: #F3F3F3;
+      --white: #FFFFFF;
+      --green-bg: #E1F5EE;
+      --green-text: #085041;
+      --amber-bg: #FAEEDA;
+      --amber-text: #633806;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito Sans', system-ui, sans-serif;
+      color: var(--black-text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* Sticky Header */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--primary);
+      color: var(--white);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .sticky-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sticky-header .internal-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    /* Section Spacing */
+    section {
+      margin-bottom: 48px;
+    }
+
+    /* Hero Section */
+    .hero h1 {
+      color: var(--primary);
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .hero .subhead {
+      color: var(--dark-gray);
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+
+    /* Callout Box */
+    .callout {
+      background: var(--very-light-purple);
+      border-left: 4px solid var(--primary);
+      padding: 20px 24px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .callout-label {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .callout-body {
+      color: var(--dark-gray);
+      font-size: 15px;
+    }
+
+    /* Section Headings */
+    .section-heading {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--black-text);
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--primary);
+      margin-bottom: 24px;
+    }
+
+    /* Agenda Cards */
+    .agenda-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .session-card {
+      display: flex;
+      gap: 20px;
+      background: var(--white);
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      padding: 20px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .session-card:hover {
+      box-shadow: 0 4px 12px rgba(50, 35, 189, 0.12);
+    }
+
+    .session-time {
+      flex: 0 0 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .time {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 15px;
+    }
+
+    .tag-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      width: fit-content;
+    }
+
+    .tag-relationship {
+      background: var(--light-purple);
+      color: var(--primary);
+    }
+
+    .tag-business {
+      background: var(--amber-bg);
+      color: var(--amber-text);
+    }
+
+    .tag-break {
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+
+    .session-content {
+      flex: 1;
+    }
+
+    .session-title {
+      font-weight: 700;
+      color: var(--black-text);
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .session-body {
+      color: var(--dark-gray);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .session-bullets {
+      list-style: none;
+      padding: 0;
+    }
+
+    .session-bullets li {
+      position: relative;
+      padding-left: 16px;
+      color: var(--dark-gray);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .session-bullets li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Attendee Tracker */
+    .status-legend {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--dark-gray);
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.green { background: var(--green-bg); border: 2px solid var(--green-text); }
+    .legend-dot.amber { background: var(--amber-bg); border: 2px solid var(--amber-text); }
+    .legend-dot.gray { background: var(--light-gray); border: 2px solid #999; }
+
+    /* Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--primary);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .data-table th:first-child {
+      border-radius: 8px 0 0 0;
+    }
+
+    .data-table th:last-child {
+      border-radius: 0 8px 0 0;
+    }
+
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .data-table tbody tr:nth-child(odd) {
+      background: var(--light-gray);
+    }
+
+    .data-table tbody tr:nth-child(even) {
+      background: var(--white);
+    }
+
+    .data-table tbody tr:last-child td:first-child {
+      border-radius: 0 0 0 8px;
+    }
+
+    .data-table tbody tr:last-child td:last-child {
+      border-radius: 0 0 8px 0;
+    }
+
+    /* Status Pills */
+    .status-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.1s ease;
+    }
+
+    .status-pill:hover {
+      transform: scale(1.05);
+    }
+
+    .status-pill:active {
+      transform: scale(0.95);
+    }
+
+    .status-yes {
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+
+    .status-tbc {
+      background: var(--amber-bg);
+      color: var(--amber-text);
+    }
+
+    .status-unconfirmed {
+      background: var(--light-gray);
+      color: #666;
+    }
+
+    /* Callout in section */
+    .section-callout {
+      background: var(--very-light-purple);
+      border-left: 4px solid var(--primary);
+      padding: 20px 24px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 24px;
+    }
+
+    /* Open Items Table */
+    .open-items-table td:first-child {
+      font-weight: 600;
+      white-space: nowrap;
+      width: 140px;
+    }
+
+    .open-items-table td:last-child {
+      width: 120px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: #999;
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero .subhead {
+        font-size: 16px;
+      }
+
+      .session-card {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .session-time {
+        flex: none;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .data-table {
+        font-size: 12px;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 8px 10px;
+      }
+
+      .status-legend {
+        gap: 16px;
+      }
+
+      .sticky-header {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+
+      .container {
+        padding: 24px 16px 40px;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      .sticky-header {
+        display: none;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 20px;
+      }
+
+      .session-card:hover {
+        box-shadow: none;
+      }
+
+      .status-pill {
+        cursor: default;
+      }
+
+      body {
+        font-size: 12px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      section {
+        margin-bottom: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Header -->
+  <header class="sticky-header">
+    <div class="brand">eSimplicity · Databricks Day</div>
+    <div class="internal-badge">Internal Only</div>
+  </header>
+
+  <div class="container">
+    <!-- SECTION 1: Hero -->
+    <section class="hero">
+      <h1>Databricks Day</h1>
+      <p class="subhead">eSimplicity · On-Site · Date TBD</p>
+      
+      <div class="callout">
+        <div class="callout-label">The Goal of This Day</div>
+        <p class="callout-body">
+          This is not a sales pitch and it is not a product demo. It is a conversation 
+          between two organizations that have a lot to build together — across DoW, DHS, 
+          HHS, CMS, and beyond. We leave knowing each other better, knowing each other's 
+          customers, and knowing exactly where we want to go next.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Agenda -->
+    <section class="agenda">
+      <h2 class="section-heading">Agenda</h2>
+      
+      <div class="agenda-cards">
+        <!-- 9:00 AM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">9:00 AM</span>
+            <span class="tag-pill tag-relationship">Relationship</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Welcome and Introductions</div>
+            <p class="session-body">
+              No slides. Each person introduces themselves and one thing they hope to get 
+              out of the day.
+            </p>
+          </div>
+        </div>
+
+        <!-- 9:30 AM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">9:30 AM</span>
+            <span class="tag-pill tag-relationship">Relationship</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Who We Are — eSimplicity</div>
+            <p class="session-body">
+              Our programs, our people, our pipeline. Not a capabilities brief — a 
+              conversation starter.
+            </p>
+            <ul class="session-bullets">
+              <li>Current programs across DoW, DHS, HHS, CMS</li>
+              <li>Where Databricks already plays a role</li>
+              <li>What we want to build in the next 12–18 months</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 10:15 AM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">10:15 AM</span>
+            <span class="tag-pill tag-relationship">Relationship</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Who You Are — Databricks</div>
+            <p class="session-body">
+              Products, professional services model, federal footprint. Not a pitch — 
+              context for everything that follows.
+            </p>
+            <ul class="session-bullets">
+              <li>Product and ProServe model — how Databricks goes to market in federal</li>
+              <li>Federal agency footprint</li>
+              <li>How they partner with delivery firms</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 11:00 AM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">11:00 AM</span>
+            <span class="tag-pill tag-relationship">Relationship</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Shared Stories — Customers We Have in Common</div>
+            <p class="session-body">
+              The richest part of the morning. Both sides share what they know about the 
+              agencies we both touch.
+            </p>
+            <ul class="session-bullets">
+              <li>CMS / HHS OpDivs</li>
+              <li>USCIS — Databricks has significant presence here</li>
+              <li>Navy / Jupiter</li>
+              <li>DoW and DHS — stories we can tell together</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 12:00 PM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">12:00 PM</span>
+            <span class="tag-pill tag-break">Break</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Lunch</div>
+            <p class="session-body">
+              Unstructured. Keep the conversation going.
+            </p>
+          </div>
+        </div>
+
+        <!-- 1:00 PM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">1:00 PM</span>
+            <span class="tag-pill tag-business">Business</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">How Databricks Works With Delivery Partners</div>
+            <p class="session-body">
+              Databricks is product and professional services — they don't prime work. 
+              Understanding that shapes how eSimplicity positions alongside them.
+            </p>
+            <ul class="session-bullets">
+              <li>ProServe delivery program — how do we get on it?</li>
+              <li>Dedicated SA time and pricing alignment</li>
+              <li>FedRAMP ATO white-label offerings for DoW</li>
+              <li>Building our certified Databricks bench</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 2:00 PM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">2:00 PM</span>
+            <span class="tag-pill tag-business">Business</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Where We Want to Go — PoC and Pipeline</div>
+            <p class="session-body">
+              Concrete conversation about near-term opportunities.
+            </p>
+            <ul class="session-bullets">
+              <li>2–3 PoC opportunities to explore in the next 90 days</li>
+              <li>Active eSimplicity pursuits where Databricks expertise helps</li>
+              <li>Databricks customers who need delivery capacity</li>
+              <li>DoW strategy — eSimplicity has relationships Databricks lacks</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 3:00 PM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">3:00 PM</span>
+            <span class="tag-pill tag-relationship">Relationship</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Open Floor — What Did We Miss?</div>
+            <p class="session-body">
+              Anything that didn't fit in structured sessions.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3:30 PM -->
+        <div class="session-card">
+          <div class="session-time">
+            <span class="time">3:30 PM</span>
+            <span class="tag-pill tag-relationship">Relationship</span>
+          </div>
+          <div class="session-content">
+            <div class="session-title">Wrap-Up — What We're Taking Away</div>
+            <p class="session-body">
+              Each person names one takeaway and one follow-up they own.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Attendee Tracker -->
+    <section class="attendees">
+      <h2 class="section-heading">eSimplicity Attendees</h2>
+      
+      <div class="status-legend">
+        <div class="legend-item">
+          <span class="legend-dot green"></span>
+          <span>Confirmed</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot amber"></span>
+          <span>TBC</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot gray"></span>
+          <span>Unconfirmed</span>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Nam Nguyen</td>
+            <td>Vision & Strategy Lead</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td>Driving the Databricks relationship</td>
+          </tr>
+          <tr>
+            <td>Keith McFarland</td>
+            <td>CTO / CIO</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ian Lowrie</td>
+            <td>Growth / BD</td>
+            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            <td>May send Nick — active opportunities</td>
+          </tr>
+          <tr>
+            <td>Christopher Worley</td>
+            <td>BD / Capture</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td>Wants GTM and product overview</td>
+          </tr>
+          <tr>
+            <td>Ed Benjamin</td>
+            <td>Technical Leadership</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Alisha Hutson</td>
+            <td>Operations / Coordination</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td>Coordinating dates</td>
+          </tr>
+          <tr>
+            <td>Rich Smith</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Don Chipley</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Kyle Hogan</td>
+            <td>RIC / Product</td>
+            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            <td>OOO on 5/4, 5/6, 5/28, 5/29</td>
+          </tr>
+          <tr>
+            <td>Derek [last name TBD]</td>
+            <td></td>
+            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Chris Dillinger</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Aaron West</td>
+            <td>Architect / Katalyst</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>David Green</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Raymond Ling</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>James Shulgold</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Mack Currie</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Don Fergusson (Fergie)</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>AnhThu Nguyen</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Dan Miller</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-callout">
+        <div class="callout-label">Databricks Attendees — TBD</div>
+        <p class="callout-body">
+          Confirm with Travis once dates are locked. We want account reps and tech 
+          leads across the agencies — not just the CMS relationship. The goal is coverage 
+          across DoW, DHS, HHS/CMS and OpDivs. Nam's note: don't rush the date. Better 
+          to have the right participants and strong stories on both sides.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Open Items -->
+    <section class="open-items">
+      <h2 class="section-heading">Logistics and Open Items</h2>
+      
+      <table class="data-table open-items-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Detail</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Date</td>
+            <td>Travis checking availability. Possible: 5/4, 5/6, 5/28, 5/29 — not rushing. Kyle OOO on all four.</td>
+            <td>Kyle / Travis</td>
+          </tr>
+          <tr>
+            <td>Venue</td>
+            <td>Confirm room capacity for ~20 eSimplicity + Databricks attendees</td>
+            <td>Alisha</td>
+          </tr>
+          <tr>
+            <td>Databricks attendees</td>
+            <td>Need account reps + tech leads across DoW, DHS, HHS/CMS. Not just the CMS relationship.</td>
+            <td>Nam / Travis</td>
+          </tr>
+          <tr>
+            <td>Kyle OOO conflict</td>
+            <td>Kyle unavailable on all proposed dates. Confirm whether he attends or delegates.</td>
+            <td>Kyle</td>
+          </tr>
+          <tr>
+            <td>Ian / Nick</td>
+            <td>Ian may send Nick if unavailable due to active opportunities.</td>
+            <td>Ian</td>
+          </tr>
+          <tr>
+            <td>Stories prep</td>
+            <td>Both sides should come with 2–3 customer stories. Coordinate with Databricks pre-event.</td>
+            <td>Nam</td>
+          </tr>
+          <tr>
+            <td>Pre-read / agenda share</td>
+            <td>Share this agenda with Databricks ahead of time so both sides come prepared.</td>
+            <td>Kyle / Alisha</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    eSimplicity · Internal Planning Document · Databricks Day
+  </footer>
+
+  <script>
+    function cycleStatus(pill) {
+      const currentStatus = pill.dataset.status;
+      let newStatus, newText, newClass;
+      
+      switch (currentStatus) {
+        case 'yes':
+          newStatus = 'tbc';
+          newText = 'TBC';
+          newClass = 'status-tbc';
+          break;
+        case 'tbc':
+          newStatus = 'unconfirmed';
+          newText = '—';
+          newClass = 'status-unconfirmed';
+          break;
+        case 'unconfirmed':
+        default:
+          newStatus = 'yes';
+          newText = 'Yes';
+          newClass = 'status-yes';
+          break;
+      }
+      
+      pill.dataset.status = newStatus;
+      pill.textContent = newText;
+      pill.className = 'status-pill ' + newClass;
+    }
+  </script>
+</body>
+</html>
