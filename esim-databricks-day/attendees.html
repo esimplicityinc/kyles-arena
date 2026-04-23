@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendees — Databricks Day — eSimplicity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Sticky Header -->
+  <header class="sticky-header">
+    <div class="header-top">
+      <div class="brand"><a href="index.html">eSimplicity · Databricks Day</a></div>
+      <div class="internal-badge">Internal Only</div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Agenda</a>
+      <a href="attendees.html" class="active">Attendees</a>
+      <a href="logistics.html">Logistics</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- eSimplicity Attendees -->
+    <section class="attendees">
+      <h1 class="page-title">eSimplicity Attendees</h1>
+      
+      <div class="status-legend">
+        <div class="legend-item">
+          <span class="legend-dot green"></span>
+          <span>Confirmed</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot amber"></span>
+          <span>TBC</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot gray"></span>
+          <span>Unconfirmed</span>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Nam Nguyen</td>
+            <td>Vision & Strategy Lead</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td>Driving the Databricks relationship</td>
+          </tr>
+          <tr>
+            <td>Keith McFarland</td>
+            <td>CTO / CIO</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ian Lowrie</td>
+            <td>Growth / BD</td>
+            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            <td>May send Nick — active opportunities</td>
+          </tr>
+          <tr>
+            <td>Christopher Worley</td>
+            <td>BD / Capture</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td>Wants GTM and product overview</td>
+          </tr>
+          <tr>
+            <td>Ed Benjamin</td>
+            <td>Technical Leadership</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Alisha Hutson</td>
+            <td>Operations / Coordination</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td>Coordinating dates</td>
+          </tr>
+          <tr>
+            <td>Rich Smith</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Don Chipley</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Kyle Hogan</td>
+            <td>RIC / Product</td>
+            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            <td>OOO on 5/4, 5/6, 5/28, 5/29</td>
+          </tr>
+          <tr>
+            <td>Derek [last name TBD]</td>
+            <td></td>
+            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Chris Dillinger</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Aaron West</td>
+            <td>Architect / Katalyst</td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>David Green</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Raymond Ling</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>James Shulgold</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Mack Currie</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Don Fergusson (Fergie)</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>AnhThu Nguyen</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Dan Miller</td>
+            <td></td>
+            <td><span class="status-pill status-yes" data-status="yes" onclick="cycleStatus(this)">Yes</span></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-callout">
+        <div class="callout-label">Databricks Attendees — TBD</div>
+        <p class="callout-body">
+          Confirm with Travis once dates are locked. We want account reps and tech 
+          leads across the agencies — not just the CMS relationship. The goal is coverage 
+          across DoW, DHS, HHS/CMS and OpDivs. Nam's note: don't rush the date. Better 
+          to have the right participants and strong stories on both sides.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    eSimplicity · Internal Planning Document · Databricks Day
+  </footer>
+
+  <script>
+    function cycleStatus(pill) {
+      const currentStatus = pill.dataset.status;
+      let newStatus, newText, newClass;
+      
+      switch (currentStatus) {
+        case 'yes':
+          newStatus = 'tbc';
+          newText = 'TBC';
+          newClass = 'status-tbc';
+          break;
+        case 'tbc':
+          newStatus = 'unconfirmed';
+          newText = '—';
+          newClass = 'status-unconfirmed';
+          break;
+        case 'unconfirmed':
+        default:
+          newStatus = 'yes';
+          newText = 'Yes';
+          newClass = 'status-yes';
+          break;
+      }
+      
+      pill.dataset.status = newStatus;
+      pill.textContent = newText;
+      pill.className = 'status-pill ' + newClass;
+    }
+  </script>
+</body>
+</html>
