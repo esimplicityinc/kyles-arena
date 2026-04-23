@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prima Delivery | AI Agents for Modern Development</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3223BD;
+            --primary-light: #4A3DD4;
+            --primary-dark: #251A8A;
+            --primary-glow: rgba(50, 35, 189, 0.4);
+            --accent: #7C6FF7;
+            --background: #0A0A12;
+            --surface: #12121F;
+            --surface-elevated: #1A1A2E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0C0;
+            --text-muted: #6B6B80;
+            --gradient-primary: linear-gradient(135deg, #3223BD 0%, #7C6FF7 100%);
+            --gradient-dark: linear-gradient(180deg, #0A0A12 0%, #12121F 100%);
+            --shadow-glow: 0 0 40px var(--primary-glow);
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.4s ease;
+            --transition-slow: 0.6s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Fade-in animation on page load */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity var(--transition-slow), transform var(--transition-slow);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 18, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-fast);
+        }
+
+        nav.scrolled {
+            padding: 0.75rem 2rem;
+            background: rgba(10, 10, 18, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 20px rgba(50, 35, 189, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(50, 35, 189, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero Section with Parallax */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(50, 35, 189, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-50px) translateX(-30px); }
+            75% { transform: translateY(-150px) translateX(20px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #B0B0C0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 6rem 2rem;
+            background: var(--surface);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--surface-elevated);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity var(--transition-medium);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .stat-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+        }
+
+        /* Results Section */
+        .results {
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, var(--surface-elevated) 0%, var(--surface) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform var(--transition-medium);
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .result-multiplier {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .result-context {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Maturity Model / Timeline */
+        .maturity {
+            padding: 6rem 2rem;
+            background: var(--surface);
+        }
+
+        .maturity-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 0.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--background);
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: translateX(-50%);
+        }
+
+        .timeline-phase {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .validated-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 100px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #81c784;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .scaling-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(124, 111, 247, 0.15);
+            border: 1px solid rgba(124, 111, 247, 0.3);
+            border-radius: 100px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            padding: 6rem 2rem;
+        }
+
+        .use-cases-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .use-case-card {
+            background: var(--surface-elevated);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-medium);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .use-case-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .use-case-text {
+            font-weight: 500;
+        }
+
+        /* Integrations */
+        .integrations {
+            padding: 6rem 2rem;
+            background: var(--surface);
+        }
+
+        .integrations-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .integrations-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+
+        .integrations-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .integration-badge {
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all var(--transition-fast);
+        }
+
+        .integration-badge:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .integrations-note {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 8rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(50, 35, 189, 0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .footer-link {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-link:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-contact {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-email {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-email:hover {
+            color: var(--accent);
+        }
+
+        /* Trust Badge */
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(50, 35, 189, 0.15);
+            border: 1px solid rgba(124, 111, 247, 0.3);
+            border-radius: 100px;
+            padding: 0.4rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .trust-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Contract Vehicles Section */
+        .contract-vehicles {
+            padding: 4rem 2rem;
+            background: var(--surface);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contract-vehicles-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contract-vehicles-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
+        }
+
+        .contract-vehicles-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .contract-badge {
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all var(--transition-fast);
+        }
+
+        .contract-badge:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Agent Collaboration Diagram */
+        .agent-collab {
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-collab-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .agent-diagram {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            margin: 3rem auto 0;
+        }
+
+        .agent-node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            box-shadow: 0 0 30px var(--primary-glow);
+            animation: agentPulse 3s ease-in-out infinite;
+        }
+
+        .agent-node::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            opacity: 0.3;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+
+        .agent-node:nth-child(1) { top: 20%; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        .agent-node:nth-child(2) { top: 55%; left: 15%; animation-delay: 0.5s; }
+        .agent-node:nth-child(3) { top: 55%; right: 15%; animation-delay: 1s; }
+        .agent-node:nth-child(4) { top: 85%; left: 50%; transform: translateX(-50%); animation-delay: 1.5s; }
+
+        .agent-label {
+            position: absolute;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .agent-node:nth-child(1) .agent-label { bottom: -25px; left: 50%; transform: translateX(-50%); }
+        .agent-node:nth-child(2) .agent-label { bottom: -25px; left: 50%; transform: translateX(-50%); }
+        .agent-node:nth-child(3) .agent-label { bottom: -25px; left: 50%; transform: translateX(-50%); }
+        .agent-node:nth-child(4) .agent-label { bottom: -25px; left: 50%; transform: translateX(-50%); }
+
+        @keyframes agentPulse {
+            0%, 100% { transform: scale(1) translateX(var(--tx, 0)); box-shadow: 0 0 30px var(--primary-glow); }
+            50% { transform: scale(1.05) translateX(var(--tx, 0)); box-shadow: 0 0 50px var(--primary-glow); }
+        }
+
+        .agent-node:nth-child(1) { --tx: -50%; }
+        .agent-node:nth-child(4) { --tx: -50%; }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.1; }
+        }
+
+        /* Connection lines */
+        .agent-connections {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .agent-connections svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .connection-line {
+            stroke: var(--accent);
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.3;
+            stroke-dasharray: 8 4;
+            animation: flowDash 2s linear infinite;
+        }
+
+        @keyframes flowDash {
+            to { stroke-dashoffset: -24; }
+        }
+
+        .connection-pulse {
+            fill: var(--accent);
+            opacity: 0;
+            animation: pulseDot 3s ease-in-out infinite;
+        }
+
+        .connection-pulse:nth-child(2) { animation-delay: 1s; }
+        .connection-pulse:nth-child(3) { animation-delay: 2s; }
+
+        @keyframes pulseDot {
+            0% { opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { opacity: 0; }
+        }
+
+        /* What It Is Section */
+        .what-it-is {
+            padding: 6rem 2rem;
+            background: var(--surface);
+        }
+
+        .what-it-is-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .callout-box {
+            background: var(--surface-elevated);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            padding: 2rem 2.5rem;
+            margin-bottom: 3rem;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .component-card {
+            background: var(--surface-elevated);
+            border-radius: 12px;
+            padding: 1.75rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-medium);
+        }
+
+        .component-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .component-card-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .component-card-value {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .key-message {
+            background: linear-gradient(135deg, rgba(50, 35, 189, 0.15) 0%, rgba(124, 111, 247, 0.1) 100%);
+            border: 1px solid rgba(124, 111, 247, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* What It's NOT Section */
+        .what-its-not {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, #0A0A12 0%, #0D0D18 100%);
+        }
+
+        .what-its-not-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .not-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .not-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--surface-elevated);
+            border-radius: 12px;
+            padding: 1.25rem 1.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .not-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .not-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .not-key-message {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* T-MSIS Story Section */
+        .tmsis-story {
+            padding: 6rem 2rem;
+            background: var(--surface);
+        }
+
+        .tmsis-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: var(--surface-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .story-card-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .story-card-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .story-card-highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Testimonial Section */
+        .testimonial {
+            padding: 6rem 2rem;
+        }
+
+        .testimonial-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, var(--surface-elevated) 0%, var(--surface) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 2rem;
+            left: 2.5rem;
+            font-size: 5rem;
+            color: var(--primary);
+            opacity: 0.3;
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+            padding-left: 0.5rem;
+        }
+
+        .testimonial-attribution {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        /* Mobile Navigation */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .logo img {
+                height: 28px;
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .stats, .results, .maturity, .use-cases, .integrations, .cta, .agent-collab, .contract-vehicles, .what-it-is, .what-its-not, .tmsis-story, .testimonial {
+                padding: 4rem 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 3rem;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item::before {
+                left: -2rem;
+                width: 12px;
+                height: 12px;
+            }
+
+            .agent-diagram {
+                height: 280px;
+                max-width: 350px;
+            }
+
+            .agent-node {
+                width: 60px;
+                height: 60px;
+                font-size: 1.25rem;
+            }
+
+            .agent-label {
+                font-size: 0.6rem;
+            }
+
+            .agent-node:nth-child(1) { top: 10%; }
+            .agent-node:nth-child(2) { top: 45%; left: 10%; }
+            .agent-node:nth-child(3) { top: 45%; right: 10%; }
+            .agent-node:nth-child(4) { top: 80%; }
+
+            .contract-badge {
+                font-size: 0.7rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .callout-box {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+
+            .component-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .quote-icon {
+                font-size: 3rem;
+                top: 1rem;
+                left: 1.5rem;
+            }
+
+            .testimonial-text {
+                font-size: 1rem;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal.delay-1 { transition-delay: 0.1s; }
+        .scroll-reveal.delay-2 { transition-delay: 0.2s; }
+        .scroll-reveal.delay-3 { transition-delay: 0.3s; }
+        .scroll-reveal.delay-4 { transition-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <img src="images/prima-logo.png" alt="Prima" style="height: 36px; width: auto; filter: drop-shadow(0 0 8px rgba(124, 111, 247, 0.5));">
+                <span style="color: var(--text-secondary); font-weight: 500;">eSimplicity</span>
+                <span style="color: var(--text-muted); margin: 0 0.25rem;">|</span>
+                <span style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Prima Delivery</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="#what-it-is">What It Is</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#tmsis-story">T-MSIS Story</a></li>
+                <li><a href="#maturity">Maturity Model</a></li>
+                <li><a href="#use-cases">Use Cases</a></li>
+            </ul>
+            <div style="display: flex; align-items: center; gap: 1rem;" class="nav-cta">
+                <span class="trust-badge">Built by eSimplicity</span>
+                <a href="#demo" class="btn btn-primary">Request Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content fade-in">
+            <h1>Prima Delivery</h1>
+            <p class="tagline">A portable library of pre-built AI agents, skills, and workflows</p>
+            <div class="hero-cta">
+                <a href="#demo" class="btn btn-primary">Request Demo</a>
+                <a href="#maturity" class="btn btn-secondary">Explore the Model</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" id="stats">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-number" data-count="108">0</div>
+                    <div class="stat-label">Pre-built AI agents</div>
+                </div>
+                <div class="stat-card scroll-reveal delay-1">
+                    <div class="stat-number" data-count="140">0</div>
+                    <div class="stat-label">Modular skill packages</div>
+                </div>
+                <div class="stat-card scroll-reveal delay-2">
+                    <div class="stat-number" data-count="72">0</div>
+                    <div class="stat-label">Workflow plugins</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agent Collaboration Diagram -->
+    <section class="agent-collab">
+        <div class="agent-collab-container">
+            <div class="section-header scroll-reveal">
+                <h2>Agents Working Together</h2>
+                <p>Coordinated AI agents collaborate to accelerate your delivery pipeline</p>
+            </div>
+            <div class="agent-diagram scroll-reveal delay-1">
+                <div class="agent-connections">
+                    <svg viewBox="0 0 500 350" preserveAspectRatio="xMidYMid meet">
+                        <!-- Connection lines between agents -->
+                        <path class="connection-line" d="M250,110 L100,230" />
+                        <path class="connection-line" d="M250,110 L400,230" style="animation-delay: 0.5s;" />
+                        <path class="connection-line" d="M100,230 L250,330" style="animation-delay: 1s;" />
+                        <path class="connection-line" d="M400,230 L250,330" style="animation-delay: 1.5s;" />
+                        <path class="connection-line" d="M100,230 L400,230" style="animation-delay: 0.75s;" />
+                        
+                        <!-- Animated pulses along paths -->
+                        <circle class="connection-pulse" r="4">
+                            <animateMotion dur="3s" repeatCount="indefinite" path="M250,110 L100,230" />
+                        </circle>
+                        <circle class="connection-pulse" r="4">
+                            <animateMotion dur="3s" repeatCount="indefinite" path="M250,110 L400,230" begin="1s" />
+                        </circle>
+                        <circle class="connection-pulse" r="4">
+                            <animateMotion dur="3s" repeatCount="indefinite" path="M100,230 L250,330" begin="2s" />
+                        </circle>
+                    </svg>
+                </div>
+                <div class="agent-node">
+                    &#129302;
+                    <span class="agent-label">Orchestrator</span>
+                </div>
+                <div class="agent-node">
+                    &#128187;
+                    <span class="agent-label">Code Agent</span>
+                </div>
+                <div class="agent-node">
+                    &#128269;
+                    <span class="agent-label">Test Agent</span>
+                </div>
+                <div class="agent-node">
+                    &#128737;
+                    <span class="agent-label">Security Agent</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Prima Actually Is Section -->
+    <section class="what-it-is" id="what-it-is">
+        <div class="what-it-is-container">
+            <div class="section-header scroll-reveal">
+                <h2>What Prima Delivery Actually Is</h2>
+            </div>
+            <div class="callout-box scroll-reveal delay-1">
+                Prima Delivery is the toolkit that makes the Prima operating model run. It gives any engineering team access to pre-built domain specialists, modular knowledge packages, and full-workflow bundles&mdash;without writing a single agent from scratch.
+            </div>
+            <div class="component-grid scroll-reveal delay-2">
+                <div class="component-card">
+                    <div class="component-card-label">Agents</div>
+                    <div class="component-card-value">108 pre-built AI domain specialists</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-label">Skills</div>
+                    <div class="component-card-value">140 modular knowledge packages</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-label">Tools</div>
+                    <div class="component-card-value">72 workflow plugins & integrations</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-label">Practices</div>
+                    <div class="component-card-value">Proven methods & workflows</div>
+                </div>
+            </div>
+            <div class="key-message scroll-reveal delay-3">
+                The IP is the agents and skills. The harness is interchangeable. No vendor lock-in.
+            </div>
+        </div>
+    </section>
+
+    <!-- What Prima Is NOT Section -->
+    <section class="what-its-not" id="what-its-not">
+        <div class="what-its-not-container">
+            <div class="section-header scroll-reveal">
+                <h2>What Prima Is NOT</h2>
+            </div>
+            <div class="not-list scroll-reveal delay-1">
+                <div class="not-item">
+                    <span class="not-icon">&#10060;</span>
+                    <span class="not-text">Not a chatbot</span>
+                </div>
+                <div class="not-item">
+                    <span class="not-icon">&#10060;</span>
+                    <span class="not-text">Not an autonomous decision-maker</span>
+                </div>
+                <div class="not-item">
+                    <span class="not-icon">&#10060;</span>
+                    <span class="not-text">Not a replacement for engineering discipline or program management</span>
+                </div>
+            </div>
+            <div class="not-key-message scroll-reveal delay-2">
+                Prima amplifies execution quality&mdash;every action is observable and subject to human authority.
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results" id="results">
+        <div class="results-container">
+            <div class="section-header scroll-reveal">
+                <h2>Proven Results</h2>
+                <p>Real metrics from T-MSIS at CMS</p>
+            </div>
+            <div class="results-grid">
+                <div class="result-card scroll-reveal">
+                    <div class="result-multiplier" data-count="136" data-suffix="&times;">0&times;</div>
+                    <div class="result-description">Data engineering throughput</div>
+                    <div class="result-context">Data engineering throughput (T-MSIS)</div>
+                </div>
+                <div class="result-card scroll-reveal delay-1">
+                    <div class="result-multiplier" data-count="24" data-suffix="&times;">0&times;</div>
+                    <div class="result-description">Feature delivery acceleration</div>
+                </div>
+                <div class="result-card scroll-reveal delay-2">
+                    <div class="result-multiplier" data-count="4" data-suffix="&times;">0&times;</div>
+                    <div class="result-description">Reduction in testing cycle time</div>
+                </div>
+                <div class="result-card scroll-reveal delay-3">
+                    <div class="result-multiplier" data-count="100" data-suffix="%">0%</div>
+                    <div class="result-description">AI-assisted PR review coverage</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T-MSIS Success Story Section -->
+    <section class="tmsis-story" id="tmsis-story">
+        <div class="tmsis-container">
+            <div class="section-header scroll-reveal">
+                <h2>Proven at T-MSIS</h2>
+                <p>One of the largest federal data engineering programs</p>
+            </div>
+            <div class="story-grid">
+                <div class="story-card scroll-reveal">
+                    <div class="story-card-label">The Challenge</div>
+                    <div class="story-card-text">
+                        <span class="story-card-highlight">1,800+ Java validation rules</span> needed conversion to PySpark. Manual rate: <span class="story-card-highlight">0.5 rules per engineer per day.</span>
+                    </div>
+                </div>
+                <div class="story-card scroll-reveal delay-1">
+                    <div class="story-card-label">The Solution</div>
+                    <div class="story-card-text">
+                        Multi-agent workflow for <span class="story-card-highlight">AI-assisted code translation</span> and <span class="story-card-highlight">equivalency validation.</span>
+                    </div>
+                </div>
+                <div class="story-card scroll-reveal delay-2">
+                    <div class="story-card-label">The Result</div>
+                    <div class="story-card-text">
+                        <span class="story-card-highlight">68 rules per engineer per day</span>&mdash;a <span class="story-card-highlight">136&times; improvement.</span> A multi-month, multi-person effort completed by a single engineer in days.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial" id="testimonial">
+        <div class="testimonial-container">
+            <div class="testimonial-card scroll-reveal">
+                <span class="quote-icon">&ldquo;</span>
+                <p class="testimonial-text">
+                    Shout out to our RIC Prima team! The T-MSIS data engineering team faced a challenge of having to generate proper test data for unit testing thousands of data validation rules. The RIC team gathered and analyzed our needs and dived right in. In just a few days the RIC team provided the agentic process for automating the test data generation. The productivity improvement is at least 100%+! You are truly amazing partners.
+                </p>
+                <div class="testimonial-attribution">&mdash; T-MSIS Data Engineering Team</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maturity Model -->
+    <section class="maturity" id="maturity">
+        <div class="maturity-container">
+            <div class="section-header scroll-reveal">
+                <h2>The Prima Maturity Model</h2>
+                <p>A proven path from AI experimentation to enterprise-scale delivery</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-phase">
+                        Phase 1
+                        <span class="validated-badge">&#10003; Validated at T-MSIS</span>
+                    </div>
+                    <h3 class="timeline-title">AI-assisted foundations</h3>
+                    <p class="timeline-description">Code completions, prompt templates, and developer copilots. Build the foundation of AI-enhanced development with minimal disruption to existing workflows.</p>
+                </div>
+                <div class="timeline-item scroll-reveal delay-1">
+                    <div class="timeline-phase">
+                        Phase 2
+                        <span class="validated-badge">&#10003; Validated at T-MSIS</span>
+                    </div>
+                    <h3 class="timeline-title">Structured agentic development</h3>
+                    <p class="timeline-description">Agents own bounded tasks with RAG-backed knowledge bases. Move from suggestions to autonomous task completion with guardrails and oversight.</p>
+                </div>
+                <div class="timeline-item scroll-reveal delay-2">
+                    <div class="timeline-phase">
+                        Phase 3
+                        <span class="scaling-badge">Scaling</span>
+                    </div>
+                    <h3 class="timeline-title">Multi-agent delivery at scale</h3>
+                    <p class="timeline-description">Coordinated agents across development, testing, and security. Full lifecycle automation with human-in-the-loop governance and continuous improvement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases" id="use-cases">
+        <div class="use-cases-container">
+            <div class="section-header scroll-reveal">
+                <h2>Built For Your Reality</h2>
+                <p>Prima adapts to your specific challenges and constraints</p>
+            </div>
+            <div class="use-cases-grid">
+                <div class="use-case-card scroll-reveal">
+                    <div class="use-case-icon">&#128737;</div>
+                    <div class="use-case-text">DevSecOps modernization</div>
+                </div>
+                <div class="use-case-card scroll-reveal delay-1">
+                    <div class="use-case-icon">&#128200;</div>
+                    <div class="use-case-text">Resource-constrained programs</div>
+                </div>
+                <div class="use-case-card scroll-reveal delay-2">
+                    <div class="use-case-icon">&#127970;</div>
+                    <div class="use-case-text">AI-cautious federal customers</div>
+                </div>
+                <div class="use-case-card scroll-reveal delay-3">
+                    <div class="use-case-icon">&#129309;</div>
+                    <div class="use-case-text">Partner acceleration</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations -->
+    <section class="integrations">
+        <div class="integrations-container">
+            <div class="integrations-label">Harness Agnostic</div>
+            <h2 class="scroll-reveal" style="margin-bottom: 2rem;">Works with your tools</h2>
+            <div class="integrations-list scroll-reveal delay-1">
+                <span class="integration-badge">GitHub Copilot</span>
+                <span class="integration-badge">Claude Code</span>
+                <span class="integration-badge">Cursor</span>
+                <span class="integration-badge">Windsurf</span>
+                <span class="integration-badge">OpenCode</span>
+            </div>
+            <p class="integrations-note scroll-reveal delay-2">
+                Prima provides the agents and skills. You keep whatever AI environment your program already uses. No new ATO required for the toolkit itself.
+            </p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="demo">
+        <div class="cta-container scroll-reveal">
+            <h2>Ready to transform your delivery?</h2>
+            <p>See how Prima can accelerate your team's capabilities with a personalized demo.</p>
+            <a href="mailto:primateam@esimplicity.com" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2rem;">
+                Request Demo
+            </a>
+        </div>
+    </section>
+
+    <!-- Contract Vehicles Section -->
+    <section class="contract-vehicles">
+        <div class="contract-vehicles-container">
+            <div class="contract-vehicles-label scroll-reveal">Prime Vehicles</div>
+            <div class="contract-vehicles-list scroll-reveal delay-1">
+                <span class="contract-badge">GSA 8(a) STARS III</span>
+                <span class="contract-badge">GSA MAS - IT Professional Services</span>
+                <span class="contract-badge">GSA MAS - Cloud</span>
+                <span class="contract-badge">GSA MAS - Health IT</span>
+                <span class="contract-badge">GSA OASIS+</span>
+                <span class="contract-badge">SeaPort NXG</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand" style="font-size: 1.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">eSimplicity</div>
+        <div class="footer-tagline" style="font-size: 1.1rem; color: var(--text-secondary); font-style: italic;">Simply. Better.</div>
+        <div class="footer-contact">
+            <a href="mailto:primateam@esimplicity.com" class="footer-email">primateam@esimplicity.com</a>
+            <a href="https://delivery.alvisprima.com" class="footer-link" target="_blank" rel="noopener">delivery.alvisprima.com</a>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize page animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in hero content
+            setTimeout(() => {
+                document.querySelector('.hero-content').classList.add('visible');
+            }, 100);
+
+            // Create floating particles
+            createParticles();
+
+            // Initialize scroll animations
+            initScrollReveal();
+
+            // Initialize counter animations
+            initCounters();
+
+            // Navbar scroll effect
+            initNavbarScroll();
+
+            // Mobile menu toggle
+            initMobileMenu();
+
+            // Parallax effect
+            initParallax();
+        });
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        function initCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                        entry.target.classList.add('counted');
+                        animateCounter(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        function animateCounter(element) {
+            const target = parseInt(element.dataset.count);
+            const suffix = element.dataset.suffix || '';
+            const duration = 2000;
+            const steps = 60;
+            const stepDuration = duration / steps;
+            let current = 0;
+            const increment = target / steps;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.innerHTML = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.innerHTML = Math.floor(current) + suffix;
+                }
+            }, stepDuration);
+        }
+
+        function initNavbarScroll() {
+            const nav = document.querySelector('nav');
+            let lastScroll = 0;
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+
+                lastScroll = currentScroll;
+            });
+        }
+
+        function initMobileMenu() {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuBtn.innerHTML = navLinks.classList.contains('active') ? '&#10005;' : '&#9776;';
+            });
+
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    menuBtn.innerHTML = '&#9776;';
+                });
+            });
+        }
+
+        function initParallax() {
+            const heroBg = document.getElementById('hero-bg');
+            
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * 0.3;
+                
+                if (heroBg) {
+                    heroBg.style.transform = `translateY(${rate}px)`;
+                }
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

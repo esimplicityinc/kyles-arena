@@ -1,0 +1,3196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partnership Tier Advancement Tracker | eSimplicity</title>
+    <style>
+        /* CSS Variables for theming */
+        :root {
+            --primary: #3A2EDE;
+            --primary-dark: #2D23B0;
+            --secondary: #6B5FFF;
+            --secondary-light: #9D94FF;
+            --accent: #E8E6FF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            
+            /* Light mode */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F5FC;
+            --bg-card: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border-color: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(63, 5, 121, 0.1), 0 2px 4px -1px rgba(63, 5, 121, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(63, 5, 121, 0.1), 0 4px 6px -2px rgba(63, 5, 121, 0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0F0A14;
+                --bg-secondary: #1A1225;
+                --bg-card: #251A33;
+                --text-primary: #F9FAFB;
+                --text-secondary: #D1D5DB;
+                --text-muted: #9CA3AF;
+                --border-color: #3F3154;
+                --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        /* Reset & Base */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header - Modern Clean Design */
+        .header {
+            background: white;
+            color: var(--text-primary);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo-text {
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .header-title {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .header-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        @media (max-width: 900px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .tab {
+            padding: 0.875rem 1.25rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Tab Panels */
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Partner Cards Grid */
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 1200px) {
+            .partner-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .partner-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .partner-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .partner-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .partner-card.aws-card {
+            border-left: 4px solid #FF9900;
+        }
+
+        .partner-card.databricks-card {
+            border-left: 4px solid #FF3621;
+        }
+
+        .partner-card.salesforce-card {
+            border-left: 4px solid #00A1E0;
+        }
+
+        .partner-card.snowflake-card {
+            border-left: 4px solid #29B5E8;
+        }
+
+        .partner-card.copado-card {
+            border-left: 4px solid #6B4FBB;
+        }
+
+        .partner-card.palantir-card {
+            border-left: 4px solid #101820;
+        }
+
+        .partner-header {
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--bg-secondary);
+        }
+
+        .partner-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: white;
+        }
+
+        .partner-logo.aws { background: linear-gradient(135deg, #FF9900, #FF6600); }
+        .partner-logo.databricks { background: linear-gradient(135deg, #FF3621, #E62212); }
+        .partner-logo.salesforce { background: linear-gradient(135deg, #00A1E0, #0070D2); }
+        .partner-logo.snowflake { background: linear-gradient(135deg, #29B5E8, #1A8BC5); }
+        .partner-logo.copado { background: linear-gradient(135deg, #6B4FBB, #5A3FA8); }
+        .partner-logo.palantir { background: linear-gradient(135deg, #101820, #1A2530); }
+
+        /* Dashboard Status Cards */
+        .status-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .status-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .status-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .status-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .status-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .status-card-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+        }
+
+        .status-card-header.aws { border-left: 4px solid #FF9900; }
+        .status-card-header.databricks { border-left: 4px solid #FF3621; }
+        .status-card-header.salesforce { border-left: 4px solid #00A1E0; }
+        .status-card-header.snowflake { border-left: 4px solid #29B5E8; }
+
+        .status-card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .status-card-title h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .status-indicator {
+            font-size: 1.25rem;
+        }
+
+        .status-card-body {
+            padding: 1.25rem;
+        }
+
+        .tier-progression {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .tier-current {
+            background: var(--bg-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .tier-target {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .tier-arrow {
+            color: var(--text-muted);
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.8125rem;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            font-weight: 600;
+        }
+
+        .mini-progress {
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.75rem;
+        }
+
+        .mini-progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .mini-progress-fill.green { background: var(--success); }
+        .mini-progress-fill.yellow { background: var(--warning); }
+        .mini-progress-fill.red { background: var(--danger); }
+
+        .status-card-footer {
+            padding: 0.75rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .details-link {
+            font-size: 0.8125rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .details-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .dashboard-section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .alert-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .alert-item.red {
+            border-left: 3px solid var(--danger);
+            background: #FEF2F2;
+        }
+
+        .alert-item.yellow {
+            border-left: 3px solid var(--warning);
+            background: #FFFBEB;
+        }
+
+        .alert-item.green {
+            border-left: 3px solid var(--success);
+            background: #F0FDF4;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .alert-item.red { background: #450A0A; }
+            .alert-item.yellow { background: #451A03; }
+            .alert-item.green { background: #052E16; }
+        }
+
+        .alert-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-partner {
+            font-weight: 600;
+            margin-right: 0.25rem;
+        }
+
+        /* Certification Table */
+        .cert-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .cert-table th,
+        .cert-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cert-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        .cert-table tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .cert-gap {
+            font-weight: 600;
+        }
+
+        .cert-gap.positive {
+            color: var(--danger);
+        }
+
+        .cert-gap.zero {
+            color: var(--success);
+        }
+
+        /* Editable certification inputs */
+        .cert-current-input {
+            width: 50px;
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.875rem;
+            text-align: center;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .cert-current-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        
+        .cert-current-input:hover {
+            border-color: var(--secondary);
+        }
+
+        .partner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.625rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .partner-badge.aws { background: #FFF3E0; color: #E65100; }
+        .partner-badge.databricks { background: #FFEBEE; color: #C62828; }
+        .partner-badge.salesforce { background: #E1F5FE; color: #0277BD; }
+        .partner-badge.snowflake { background: #E0F7FA; color: #00838F; }
+
+        @media (prefers-color-scheme: dark) {
+            .partner-badge.aws { background: #4A2800; color: #FFB74D; }
+            .partner-badge.databricks { background: #4A0000; color: #EF9A9A; }
+            .partner-badge.salesforce { background: #003850; color: #81D4FA; }
+            .partner-badge.snowflake { background: #004D56; color: #80DEEA; }
+        }
+
+        /* Partner logo icons */
+        .partner-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .partner-icon svg {
+            display: block;
+        }
+        
+        .partner-icon-sm { width: 20px; height: 20px; }
+        .partner-icon-md { width: 28px; height: 28px; }
+        
+        /* Table partner name with logo */
+        .partner-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Timeline partner tags */
+        .timeline-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+            margin-top: 0.625rem;
+        }
+        
+        .partner-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.125rem 0.5rem 0.125rem 0.25rem;
+            border-radius: 4px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        
+        .partner-tag.aws { background: #FFF3E0; color: #E65100; }
+        .partner-tag.databricks { background: #FFEBEE; color: #C62828; }
+        .partner-tag.salesforce { background: #E1F5FE; color: #0277BD; }
+        .partner-tag.snowflake { background: #E0F7FA; color: #00838F; }
+        
+        @media (prefers-color-scheme: dark) {
+            .partner-tag.aws { background: #4A2800; color: #FFB74D; }
+            .partner-tag.databricks { background: #4A0000; color: #EF9A9A; }
+            .partner-tag.salesforce { background: #003850; color: #81D4FA; }
+            .partner-tag.snowflake { background: #004D56; color: #80DEEA; }
+        }
+        
+        .partner-tag svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .partner-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .partner-tier {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .partner-body {
+            padding: 1.25rem;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin-bottom: 1.25rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.8125rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.green { background: linear-gradient(90deg, #10B981, #34D399); }
+        .progress-fill.yellow { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
+        .progress-fill.red { background: linear-gradient(90deg, #EF4444, #F87171); }
+        .progress-fill.purple { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.625rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .checklist-item.completed label {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        th, td {
+            padding: 0.875rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .badge-high { background: #FEE2E2; color: #991B1B; }
+        .badge-medium { background: #FEF3C7; color: #92400E; }
+        .badge-low { background: #D1FAE5; color: #065F46; }
+        .badge-success { background: #D1FAE5; color: #065F46; }
+        .badge-warning { background: #FEF3C7; color: #92400E; }
+        .badge-info { background: #DBEAFE; color: #1E40AF; }
+        .badge-purple { background: var(--accent); color: var(--primary); }
+
+        @media (prefers-color-scheme: dark) {
+            .badge-high { background: #7F1D1D; color: #FCA5A5; }
+            .badge-medium { background: #78350F; color: #FDE68A; }
+            .badge-low { background: #064E3B; color: #6EE7B7; }
+            .badge-success { background: #064E3B; color: #6EE7B7; }
+            .badge-warning { background: #78350F; color: #FDE68A; }
+            .badge-info { background: #1E3A8A; color: #93C5FD; }
+            .badge-purple { background: #3F0579; color: #C9A0FF; }
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -1.65rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--bg-card);
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+
+        .timeline-marker.completed {
+            background: var(--success);
+            box-shadow: 0 0 0 3px #D1FAE5;
+        }
+
+        .timeline-content {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Stakeholders */
+        .stakeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .stakeholder-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .stakeholder-card:hover {
+            border-color: var(--secondary);
+        }
+
+        .stakeholder-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .stakeholder-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .stakeholder-name {
+            font-weight: 600;
+            margin-bottom: 0.125rem;
+        }
+
+        .stakeholder-role {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stakeholder-area {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .engage-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .engage-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .engage-btn.engaged {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .footer p {
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .tabs {
+                gap: 0.25rem;
+            }
+
+            .tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            th, td {
+                padding: 0.625rem 0.75rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 11pt;
+            }
+
+            .header {
+                background: #3F0579 !important;
+                -webkit-print-color-adjust: exact;
+                padding: 1rem 1.5rem;
+            }
+
+            .header-actions, .tabs, .engage-btn, .btn {
+                display: none !important;
+            }
+
+            .main-content {
+                padding: 0.5rem;
+            }
+
+            .tab-panel {
+                display: block !important;
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+
+            .tab-panel::before {
+                content: attr(data-tab-title);
+                display: block;
+                font-size: 14pt;
+                font-weight: bold;
+                color: #3F0579;
+                border-bottom: 2px solid #3F0579;
+                padding-bottom: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+
+            .partner-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd;
+            }
+
+            .partner-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stakeholder-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            table {
+                font-size: 9pt;
+            }
+
+            .badge {
+                border: 1px solid currentColor;
+            }
+
+            .timeline::before {
+                background: #3F0579;
+            }
+
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                border-top: 1px solid #ddd;
+                padding: 0.5rem;
+                font-size: 9pt;
+            }
+
+            .progress-fill.purple {
+                background: #3F0579 !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* Section dividers for print */
+        .print-section {
+            page-break-before: always;
+        }
+
+        .print-section:first-child {
+            page-break-before: avoid;
+        }
+
+        /* Resources Tab Styles */
+        .resource-card .partner-body {
+            padding: 0;
+        }
+
+        .resource-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .resource-item {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .resource-link:hover {
+            color: var(--primary);
+        }
+
+        .resource-link-primary {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .resource-link-primary:hover {
+            color: var(--secondary);
+        }
+
+        .external-icon {
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+
+        .resource-link:hover .external-icon {
+            opacity: 1;
+        }
+
+        .resource-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.625rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-left: 0.5rem;
+        }
+
+        .resource-badge.login-required {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .resource-badge.public {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .resource-badge.login-required {
+                background: #78350F;
+                color: #FDE68A;
+            }
+            .resource-badge.public {
+                background: #064E3B;
+                color: #6EE7B7;
+            }
+        }
+
+        .resource-description {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-top: 0.375rem;
+            margin-left: 1.5rem;
+        }
+
+        /* Quick Reference Section */
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .reference-item {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .reference-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .reference-header h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .reference-content {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .reference-content p {
+            margin-bottom: 0.75rem;
+        }
+
+        .reference-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .tip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tip-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .tip-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--secondary);
+        }
+
+        /* Print styles for Resources tab */
+        @media print {
+            .resource-link {
+                color: var(--primary) !important;
+            }
+            
+            .resource-badge {
+                border: 1px solid currentColor;
+            }
+
+            .reference-item {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <a href="#" class="logo">
+                    <span class="logo-text">eSimplicity</span>
+                </a>
+                <div class="header-title">
+                    <h1>Partnership Tier Tracker</h1>
+                    <p class="header-subtitle">2026 Goals Dashboard</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-meta">
+                    <span>Updated: <strong id="lastUpdated"></strong></span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="window.print()">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6v-8z"/>
+                        </svg>
+                        Print
+                    </button>
+                    <button class="btn btn-primary" onclick="exportPDF()">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        Export
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Tabs Navigation -->
+        <nav class="tabs no-print">
+            <button class="tab active" data-tab="overview">Overview</button>
+            <button class="tab" data-tab="certifications">Certifications</button>
+            <button class="tab" data-tab="requirements">Tier Requirements</button>
+            <button class="tab" data-tab="workback">Roadmap</button>
+            <button class="tab" data-tab="risks">Risks</button>
+            <button class="tab" data-tab="stakeholders">Stakeholders</button>
+            <button class="tab" data-tab="resources">Resources</button>
+        </nav>
+
+        <!-- Overview Tab -->
+        <section class="tab-panel active" id="overview" data-tab-title="Overview - Partner Progress">
+            <div class="partner-grid">
+                <!-- AWS Partner Card -->
+                <div class="partner-card aws-card">
+                    <div class="partner-header">
+                        <div class="partner-logo aws">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <text x="3" y="14" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">aws</text>
+                                <path d="M4 19 Q16 25 28 19" stroke="#FF9900" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                <path d="M24 17 L28 19 L25 22" stroke="#FF9900" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="partner-info">
+                            <h3>Amazon Web Services</h3>
+                            <div class="tier-progression">
+                                <span class="tier-current">Select</span>
+                                <span class="tier-arrow">→</span>
+                                <span class="tier-target">Premier</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-body">
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span>Progress to Next Tier</span>
+                                <span class="progress-value" data-partner="aws">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple" data-partner="aws" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <ul class="checklist" data-partner="aws">
+                            <li class="checklist-item">
+                                <input type="checkbox" id="aws-1" data-key="aws-accredited">
+                                <label for="aws-1">20 Accredited individuals (10 Technical + 10 Business)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="aws-2" data-key="aws-foundational">
+                                <label for="aws-2">10 AWS Foundational certifications</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="aws-3" data-key="aws-technical">
+                                <label for="aws-3">25 Technical certifications (min 10 Professional/Specialty)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="aws-4" data-key="aws-competencies">
+                                <label for="aws-4">3 Competencies (must include MSP, DevOps, or CloudOps)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="aws-5" data-key="aws-opportunities">
+                                <label for="aws-5">50 launched opportunities ($50K+ MRR)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="aws-6" data-key="aws-business-plan">
+                                <label for="aws-6">Partner Business Plan & Executive Review</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="aws-7" data-key="aws-sustained">
+                                <label for="aws-7">6+ months sustained attainment</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Databricks Partner Card -->
+                <div class="partner-card databricks-card">
+                    <div class="partner-header">
+                        <div class="partner-logo databricks">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 3 L28 10 L16 17 L4 10 Z" fill="white"/>
+                                <path d="M4 14 L16 21 L28 14 L28 17 L16 24 L4 17 Z" fill="white" fill-opacity="0.8"/>
+                                <path d="M4 21 L16 28 L28 21 L28 24 L16 31 L4 24 Z" fill="white" fill-opacity="0.6"/>
+                            </svg>
+                        </div>
+                        <div class="partner-info">
+                            <h3>Databricks</h3>
+                            <div class="tier-progression">
+                                <span class="tier-current">Bronze</span>
+                                <span class="tier-arrow">→</span>
+                                <span class="tier-target">Gold</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-body">
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span>Progress to Next Tier</span>
+                                <span class="progress-value" data-partner="databricks">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple" data-partner="databricks" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <ul class="checklist" data-partner="databricks">
+                            <li class="checklist-item">
+                                <input type="checkbox" id="db-1" data-key="db-silver">
+                                <label for="db-1">Achieve Silver tier (baseline revenue + certified team)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="db-2" data-key="db-de-certs">
+                                <label for="db-2">Data Engineer certifications (Associate + Professional)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="db-3" data-key="db-ml-certs">
+                                <label for="db-3">Machine Learning certifications (Associate + Professional)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="db-4" data-key="db-specialization">
+                                <label for="db-4">1+ Brickbuilder specialization</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="db-5" data-key="db-customer-stories">
+                                <label for="db-5">Customer success stories documented</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="db-6" data-key="db-marketplace">
+                                <label for="db-6">Published solution on Databricks Marketplace</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Salesforce Partner Card -->
+                <div class="partner-card salesforce-card">
+                    <div class="partner-header">
+                        <div class="partner-logo salesforce">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.3 9.1c1.1-1.2 2.7-1.9 4.4-1.9 2.3 0 4.3 1.3 5.4 3.2 0.8-0.3 1.6-0.5 2.5-0.5 3.5 0 6.4 2.9 6.4 6.4s-2.9 6.4-6.4 6.4H8.8c-2.9 0-5.3-2.4-5.3-5.3 0-2.6 1.9-4.8 4.4-5.2 0.3-1.9 1.5-3.6 3.2-4.5 0.7-0.4 1.4-0.6 2.2-0.6z" fill="white"/>
+</svg>
+                        </div>
+                        <div class="partner-info">
+                            <h3>Salesforce</h3>
+                            <div class="tier-progression">
+                                <span class="tier-current">Select</span>
+                                <span class="tier-arrow">→</span>
+                                <span class="tier-target">Summit</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-body">
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span>Progress to Next Tier</span>
+                                <span class="progress-value" data-partner="salesforce">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple" data-partner="salesforce" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <ul class="checklist" data-partner="salesforce">
+                            <li class="checklist-item">
+                                <input type="checkbox" id="sf-1" data-key="sf-onboarding">
+                                <label for="sf-1">Complete partner onboarding & Accelerate course</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="sf-2" data-key="sf-admin-certs">
+                                <label for="sf-2">Salesforce Administrator certifications</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="sf-3" data-key="sf-dev-certs">
+                                <label for="sf-3">Platform Developer I/II certifications</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="sf-4" data-key="sf-consultant-certs">
+                                <label for="sf-4">Consultant certifications (Sales/Service Cloud)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="sf-5" data-key="sf-outcomes">
+                                <label for="sf-5">Verified customer outcomes documented</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="sf-6" data-key="sf-cosell">
+                                <label for="sf-6">Co-sell engagement with Salesforce</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Snowflake Partner Card -->
+                <div class="partner-card snowflake-card">
+                    <div class="partner-header">
+                        <div class="partner-logo snowflake">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 4v24M4 16h24M7.5 7.5l17 17M24.5 7.5l-17 17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <path d="M14 4h4M14 28h4M4 14v4M28 14v4M6.1 8.9l2.8 2.8M23.1 6.1l-2.8 2.8M6.1 23.1l2.8-2.8M23.1 25.9l-2.8-2.8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+</svg>
+                        </div>
+                        <div class="partner-info">
+                            <h3>Snowflake</h3>
+                            <div class="tier-progression">
+                                <span class="tier-current">Registered</span>
+                                <span class="tier-arrow">→</span>
+                                <span class="tier-target">Select</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-body">
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span>Progress to Next Tier</span>
+                                <span class="progress-value" data-partner="snowflake">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple" data-partner="snowflake" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <ul class="checklist" data-partner="snowflake">
+                            <li class="checklist-item">
+                                <input type="checkbox" id="snow-1" data-key="snow-register">
+                                <label for="snow-1">Register as Snowflake Partner (SPN)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="snow-2" data-key="snow-onboarding">
+                                <label for="snow-2">Complete partner onboarding program</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="snow-3" data-key="snow-core-certs">
+                                <label for="snow-3">SnowPro Core certifications (4+ staff)</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="snow-4" data-key="snow-hands-on">
+                                <label for="snow-4">Complete Hands-On Essentials workshops</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="snow-5" data-key="snow-reference">
+                                <label for="snow-5">Establish first customer reference</label>
+                            </li>
+                            <li class="checklist-item">
+                                <input type="checkbox" id="snow-6" data-key="snow-specialization">
+                                <label for="snow-6">Identify workload specialization focus</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Future Partners Row -->
+            <h3 style="margin: 2rem 0 1rem; color: var(--text-secondary); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">Future Partnership Opportunities</h3>
+            <div class="partner-grid">
+                <!-- Copado Partner Card -->
+                <div class="partner-card copado-card" style="opacity: 0.7;">
+                    <div class="partner-header">
+                        <div class="partner-logo copado">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <text x="4" y="20" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">C</text>
+                                <circle cx="22" cy="12" r="4" stroke="white" stroke-width="2" fill="none"/>
+                                <path d="M22 16 L22 24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="partner-info">
+                            <h3>Copado</h3>
+                            <div class="tier-progression">
+                                <span class="tier-current">Not Started</span>
+                                <span class="tier-arrow">→</span>
+                                <span class="tier-target">TBD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-body">
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span>Progress to Next Tier</span>
+                                <span class="progress-value">—</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <ul class="checklist">
+                            <li class="checklist-item" style="color: var(--text-muted); font-style: italic;">
+                                <span>DevOps platform for Salesforce ecosystems</span>
+                            </li>
+                            <li class="checklist-item" style="color: var(--text-muted); font-style: italic;">
+                                <span>Partnership requirements to be researched</span>
+                            </li>
+                            <li class="checklist-item" style="color: var(--text-muted); font-style: italic;">
+                                <span>Potential synergy with Salesforce partnership</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Palantir Partner Card -->
+                <div class="partner-card palantir-card" style="opacity: 0.7;">
+                    <div class="partner-header">
+                        <div class="partner-logo palantir">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="16,4 28,16 16,28 4,16" stroke="white" stroke-width="2" fill="none"/>
+                                <polygon points="16,10 22,16 16,22 10,16" fill="white"/>
+                            </svg>
+                        </div>
+                        <div class="partner-info">
+                            <h3>Palantir</h3>
+                            <div class="tier-progression">
+                                <span class="tier-current">Not Started</span>
+                                <span class="tier-arrow">→</span>
+                                <span class="tier-target">TBD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-body">
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span>Progress to Next Tier</span>
+                                <span class="progress-value">—</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <ul class="checklist">
+                            <li class="checklist-item" style="color: var(--text-muted); font-style: italic;">
+                                <span>Data integration and analytics platform</span>
+                            </li>
+                            <li class="checklist-item" style="color: var(--text-muted); font-style: italic;">
+                                <span>Partnership requirements to be researched</span>
+                            </li>
+                            <li class="checklist-item" style="color: var(--text-muted); font-style: italic;">
+                                <span>Strong federal/government sector presence</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Tab -->
+        <section class="tab-panel" id="certifications" data-tab-title="Certifications - Team Progress">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                        </svg>
+                        Certification Progress by Partner
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table class="cert-table">
+                            <thead>
+                                <tr>
+                                    <th>Partner</th>
+                                    <th>Certification Type</th>
+                                    <th>Required</th>
+                                    <th>Current</th>
+                                    <th>Gap</th>
+                                    <th>Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- AWS Certs -->
+                                <tr data-cert-id="aws-foundational">
+                                    <td><span class="partner-badge aws">AWS</span></td>
+                                    <td>Cloud Practitioner (Foundational)</td>
+                                    <td>10</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="6" data-cert-key="aws-foundational"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <tr data-cert-id="aws-associate">
+                                    <td><span class="partner-badge aws">AWS</span></td>
+                                    <td>Solutions Architect Associate</td>
+                                    <td>15</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="3" data-cert-key="aws-associate"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <tr data-cert-id="aws-professional">
+                                    <td><span class="partner-badge aws">AWS</span></td>
+                                    <td>Professional / Specialty</td>
+                                    <td>10</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="2" data-cert-key="aws-professional"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <!-- Databricks Certs -->
+                                <tr data-cert-id="databricks-de-associate">
+                                    <td><span class="partner-badge databricks">Databricks</span></td>
+                                    <td>Data Engineer Associate</td>
+                                    <td>3</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="1" data-cert-key="databricks-de-associate"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <tr data-cert-id="databricks-de-pro">
+                                    <td><span class="partner-badge databricks">Databricks</span></td>
+                                    <td>Data Engineer Professional</td>
+                                    <td>2</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="0" data-cert-key="databricks-de-pro"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <tr data-cert-id="databricks-ml">
+                                    <td><span class="partner-badge databricks">Databricks</span></td>
+                                    <td>ML Associate / Professional</td>
+                                    <td>3</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="1" data-cert-key="databricks-ml"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <!-- Salesforce Certs -->
+                                <tr data-cert-id="salesforce-admin">
+                                    <td><span class="partner-badge salesforce">Salesforce</span></td>
+                                    <td>Administrator</td>
+                                    <td>2</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="2" data-cert-key="salesforce-admin"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <tr data-cert-id="salesforce-dev">
+                                    <td><span class="partner-badge salesforce">Salesforce</span></td>
+                                    <td>Platform Developer I/II</td>
+                                    <td>2</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="1" data-cert-key="salesforce-dev"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <tr data-cert-id="salesforce-consultant">
+                                    <td><span class="partner-badge salesforce">Salesforce</span></td>
+                                    <td>Consultant (Sales/Service Cloud)</td>
+                                    <td>2</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="1" data-cert-key="salesforce-consultant"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                                <!-- Snowflake Certs -->
+                                <tr data-cert-id="snowflake-core">
+                                    <td><span class="partner-badge snowflake">Snowflake</span></td>
+                                    <td>SnowPro Core</td>
+                                    <td>4</td>
+                                    <td><input type="number" class="cert-current-input" min="0" value="0" data-cert-key="snowflake-core"></td>
+                                    <td class="cert-gap"></td>
+                                    <td class="cert-priority"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Certification Priority Recommendations
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <ol style="margin: 0; padding-left: 1.5rem; font-size: 0.9375rem; line-height: 1.8;">
+                        <li><strong>Snowflake SnowPro Core (4 needed)</strong> — Required to become Select partner; blocks all Snowflake progress</li>
+                        <li><strong>AWS Professional/Specialty (8 needed)</strong> — Biggest gap for Premier tier; high-value certifications</li>
+                        <li><strong>AWS Solutions Architect Associate (5 needed)</strong> — Foundation for Professional track</li>
+                        <li><strong>Databricks Data Engineer Associate (2 needed)</strong> — Required for Gold tier and specialization</li>
+                        <li><strong>Salesforce Platform Developer (1 needed)</strong> — Completes development expertise</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tier Requirements Tab -->
+        <section class="tab-panel print-section" id="requirements" data-tab-title="Tier Requirements - Partner Program Structures">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/>
+                        </svg>
+                        Partner Tier Structures
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Partner</th>
+                                    <th>Tier Structure</th>
+                                    <th>Current</th>
+                                    <th>Target</th>
+                                    <th>Key Requirements</th>
+                                    <th>2026 Changes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="20" height="20" rx="4" fill="#232F3E"/>
+                                                    <text x="2" y="10" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="white">aws</text>
+                                                    <path d="M2 13 Q10 16 18 13" stroke="#FF9900" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                                                    <path d="M15.5 12 L18 13 L16 15" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </span>
+                                            <strong>AWS</strong>
+                                        </div>
+                                    </td>
+                                    <td>Registered → Select → Advanced → Premier</td>
+                                    <td><span class="badge badge-warning">Select</span></td>
+                                    <td><span class="badge badge-purple">Premier</span></td>
+                                    <td>25 tech certs (10+ Pro/Specialty), 3 competencies, $50K+ MRR, 50 opportunities</td>
+                                    <td>MSP, DevOps, or CloudOps competency required; sustained 6mo+ attainment</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="20" height="20" rx="4" fill="#FF3621"/>
+                                                    <path d="M10 3 L17 7 L10 11 L3 7 Z" fill="white"/>
+                                                    <path d="M3 9.5 L10 13.5 L17 9.5 L17 11 L10 15 L3 11 Z" fill="white" fill-opacity="0.8"/>
+                                                    <path d="M3 13 L10 17 L17 13 L17 14.5 L10 18.5 L3 14.5 Z" fill="white" fill-opacity="0.6"/>
+                                                </svg>
+                                            </span>
+                                            <strong>Databricks</strong>
+                                        </div>
+                                    </td>
+                                    <td>Bronze → Silver → Gold → Platinum</td>
+                                    <td><span class="badge badge-warning">Bronze</span></td>
+                                    <td><span class="badge badge-success">Gold</span></td>
+                                    <td>Proven practices, certified professionals, customer stories, 1+ Brickbuilder specialization</td>
+                                    <td>Gold tier requires specialization and published solutions</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="20" rx="4" fill="#00A1E0"/>
+    <path d="M8.3 5.7c0.7-0.7 1.7-1.2 2.8-1.2 1.4 0 2.7 0.8 3.4 2 0.5-0.2 1-0.3 1.6-0.3 2.2 0 4 1.8 4 4s-1.8 4-4 4H5.5c-1.8 0-3.3-1.5-3.3-3.3 0-1.6 1.2-3 2.8-3.2 0.2-1.2 0.9-2.2 2-2.8 0.4-0.2 0.9-0.4 1.3-0.4z" fill="white"/>
+</svg>
+                                            </span>
+                                            <strong>Salesforce</strong>
+                                        </div>
+                                    </td>
+                                    <td>Provisional → Registered → Competency-based</td>
+                                    <td><span class="badge badge-warning">Select</span></td>
+                                    <td><span class="badge badge-purple">Summit/Top Competency</span></td>
+                                    <td>Verified customer outcomes, expertise certifications, co-sell engagement</td>
+                                    <td>New Agentic Era model; competency-based vs traditional tiers</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="20" rx="4" fill="#29B5E8"/>
+    <path d="M10 3v14M3 10h14M5 5l10 10M15 5l-10 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M9 3h2M9 17h2M3 9v2M17 9v2M4 6l1.5 1.5M14.5 4l-1.5 1.5M4 14l1.5-1.5M14.5 16l-1.5-1.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+                                            </span>
+                                            <strong>Snowflake</strong>
+                                        </div>
+                                    </td>
+                                    <td>Registered → Select → Premier → Elite</td>
+                                    <td><span class="badge badge-warning">Registered</span></td>
+                                    <td><span class="badge badge-success">Select</span></td>
+                                    <td>SnowPro Core certifications, trained staff, customer reference</td>
+                                    <td>Focus on AI Data Cloud Services partner track</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                        Certification Requirements Summary
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Partner</th>
+                                    <th>Entry Level</th>
+                                    <th>Associate/Mid</th>
+                                    <th>Professional</th>
+                                    <th>Total Needed</th>
+                                    <th>Current Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="20" height="20" rx="4" fill="#232F3E"/>
+                                                    <text x="2" y="10" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="white">aws</text>
+                                                    <path d="M2 13 Q10 16 18 13" stroke="#FF9900" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                                                    <path d="M15.5 12 L18 13 L16 15" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </span>
+                                            <strong>AWS</strong>
+                                        </div>
+                                    </td>
+                                    <td>10 Cloud Practitioner</td>
+                                    <td>4 Solutions Architect Associate</td>
+                                    <td>2 Professional</td>
+                                    <td>16</td>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="20" height="20" rx="4" fill="#FF3621"/>
+                                                    <path d="M10 3 L17 7 L10 11 L3 7 Z" fill="white"/>
+                                                    <path d="M3 9.5 L10 13.5 L17 9.5 L17 11 L10 15 L3 11 Z" fill="white" fill-opacity="0.8"/>
+                                                    <path d="M3 13 L10 17 L17 13 L17 14.5 L10 18.5 L3 14.5 Z" fill="white" fill-opacity="0.6"/>
+                                                </svg>
+                                            </span>
+                                            <strong>Databricks</strong>
+                                        </div>
+                                    </td>
+                                    <td>-</td>
+                                    <td>5 DE Associate, 3 ML Associate</td>
+                                    <td>2 Professional</td>
+                                    <td>10</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="20" rx="4" fill="#00A1E0"/>
+    <path d="M8.3 5.7c0.7-0.7 1.7-1.2 2.8-1.2 1.4 0 2.7 0.8 3.4 2 0.5-0.2 1-0.3 1.6-0.3 2.2 0 4 1.8 4 4s-1.8 4-4 4H5.5c-1.8 0-3.3-1.5-3.3-3.3 0-1.6 1.2-3 2.8-3.2 0.2-1.2 0.9-2.2 2-2.8 0.4-0.2 0.9-0.4 1.3-0.4z" fill="white"/>
+</svg>
+                                            </span>
+                                            <strong>Salesforce</strong>
+                                        </div>
+                                    </td>
+                                    <td>6 Administrator</td>
+                                    <td>4 Platform Dev I</td>
+                                    <td>2 Consultant</td>
+                                    <td>12</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="partner-name-cell">
+                                            <span class="partner-icon partner-icon-sm">
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="20" rx="4" fill="#29B5E8"/>
+    <path d="M10 3v14M3 10h14M5 5l10 10M15 5l-10 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M9 3h2M9 17h2M3 9v2M17 9v2M4 6l1.5 1.5M14.5 4l-1.5 1.5M4 14l1.5-1.5M14.5 16l-1.5-1.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+                                            </span>
+                                            <strong>Snowflake</strong>
+                                        </div>
+                                    </td>
+                                    <td>8 SnowPro Core</td>
+                                    <td>-</td>
+                                    <td>3 SnowPro Advanced</td>
+                                    <td>11</td>
+                                    <td>4</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap Tab -->
+        <section class="tab-panel print-section" id="workback" data-tab-title="Roadmap - 2026 Timeline">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        2026 Milestone Timeline
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker completed"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">April 2026</div>
+                                <div class="timeline-title">Q2 Certification Push - Phase 1</div>
+                                <div class="timeline-description">
+                                    Complete AWS Cloud Practitioner cohort (4 employees). Register for Databricks DE Associate exam slots. Begin Snowflake SnowPro Core study groups.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag aws">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="1" y="7" font-family="Arial, sans-serif" font-size="4.5" font-weight="bold" fill="currentColor">aws</text><path d="M1 9.5 Q7 12 13 9.5" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+                                        AWS
+                                    </span>
+                                    <span class="partner-tag databricks">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2 L12 4.5 L7 7 L2 4.5 Z" fill="currentColor"/><path d="M2 6.5 L7 9 L12 6.5 L12 8 L7 10.5 L2 8 Z" fill="currentColor" fill-opacity="0.7"/></svg>
+                                        Databricks
+                                    </span>
+                                    <span class="partner-tag snowflake">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 2v10M2 7h10M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M6.2 2h1.6M6.2 12h1.6M2 6.2v1.6M12 6.2v1.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+                                        Snowflake
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">May 2026</div>
+                                <div class="timeline-title">Case Study Development</div>
+                                <div class="timeline-description">
+                                    Identify AWS and Databricks customer case study candidates. Draft narratives and obtain customer approvals. Submit AWS case study for review.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag aws">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="1" y="7" font-family="Arial, sans-serif" font-size="4.5" font-weight="bold" fill="currentColor">aws</text><path d="M1 9.5 Q7 12 13 9.5" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+                                        AWS
+                                    </span>
+                                    <span class="partner-tag databricks">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2 L12 4.5 L7 7 L2 4.5 Z" fill="currentColor"/><path d="M2 6.5 L7 9 L12 6.5 L12 8 L7 10.5 L2 8 Z" fill="currentColor" fill-opacity="0.7"/></svg>
+                                        Databricks
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">June 2026</div>
+                                <div class="timeline-title">Mid-Year Certification Review</div>
+                                <div class="timeline-description">
+                                    AWS Solutions Architect Associates (2 remaining). Complete Salesforce Administrator certifications. Databricks ML Associate cohort begins.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag aws">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="1" y="7" font-family="Arial, sans-serif" font-size="4.5" font-weight="bold" fill="currentColor">aws</text><path d="M1 9.5 Q7 12 13 9.5" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+                                        AWS
+                                    </span>
+                                    <span class="partner-tag salesforce">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.8 4c0.5-0.5 1.2-0.8 1.9-0.8 1 0 1.9 0.6 2.4 1.4 0.3-0.1 0.7-0.2 1.1-0.2 1.5 0 2.8 1.3 2.8 2.8s-1.3 2.8-2.8 2.8H3.9c-1.3 0-2.3-1-2.3-2.3 0-1.1 0.8-2.1 1.9-2.3 0.1-0.8 0.6-1.6 1.4-2 0.3-0.2 0.6-0.3 0.9-0.3z" fill="currentColor"/>
+</svg>
+                                        Salesforce
+                                    </span>
+                                    <span class="partner-tag databricks">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2 L12 4.5 L7 7 L2 4.5 Z" fill="currentColor"/><path d="M2 6.5 L7 9 L12 6.5 L12 8 L7 10.5 L2 8 Z" fill="currentColor" fill-opacity="0.7"/></svg>
+                                        Databricks
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">July 2026</div>
+                                <div class="timeline-title">Specialization Applications</div>
+                                <div class="timeline-description">
+                                    Submit Databricks Data Engineering specialization application. Begin Snowflake Data Engineering specialization requirements. AWS FTR process initiation.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag databricks">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2 L12 4.5 L7 7 L2 4.5 Z" fill="currentColor"/><path d="M2 6.5 L7 9 L12 6.5 L12 8 L7 10.5 L2 8 Z" fill="currentColor" fill-opacity="0.7"/></svg>
+                                        Databricks
+                                    </span>
+                                    <span class="partner-tag snowflake">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 2v10M2 7h10M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M6.2 2h1.6M6.2 12h1.6M2 6.2v1.6M12 6.2v1.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+                                        Snowflake
+                                    </span>
+                                    <span class="partner-tag aws">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="1" y="7" font-family="Arial, sans-serif" font-size="4.5" font-weight="bold" fill="currentColor">aws</text><path d="M1 9.5 Q7 12 13 9.5" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+                                        AWS
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">August 2026</div>
+                                <div class="timeline-title">Q3 Revenue Checkpoint</div>
+                                <div class="timeline-description">
+                                    Review partner revenue tracking against thresholds. Register Salesforce pipeline opportunities. Assess Snowflake influenced revenue progress.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag salesforce">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.8 4c0.5-0.5 1.2-0.8 1.9-0.8 1 0 1.9 0.6 2.4 1.4 0.3-0.1 0.7-0.2 1.1-0.2 1.5 0 2.8 1.3 2.8 2.8s-1.3 2.8-2.8 2.8H3.9c-1.3 0-2.3-1-2.3-2.3 0-1.1 0.8-2.1 1.9-2.3 0.1-0.8 0.6-1.6 1.4-2 0.3-0.2 0.6-0.3 0.9-0.3z" fill="currentColor"/>
+</svg>
+                                        Salesforce
+                                    </span>
+                                    <span class="partner-tag snowflake">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 2v10M2 7h10M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M6.2 2h1.6M6.2 12h1.6M2 6.2v1.6M12 6.2v1.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+                                        Snowflake
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">September 2026</div>
+                                <div class="timeline-title">Professional Certification Sprint</div>
+                                <div class="timeline-description">
+                                    AWS Professional certifications (1 remaining). Databricks Professional certifications. Salesforce Consultant certifications (2).
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag aws">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="1" y="7" font-family="Arial, sans-serif" font-size="4.5" font-weight="bold" fill="currentColor">aws</text><path d="M1 9.5 Q7 12 13 9.5" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+                                        AWS
+                                    </span>
+                                    <span class="partner-tag databricks">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2 L12 4.5 L7 7 L2 4.5 Z" fill="currentColor"/><path d="M2 6.5 L7 9 L12 6.5 L12 8 L7 10.5 L2 8 Z" fill="currentColor" fill-opacity="0.7"/></svg>
+                                        Databricks
+                                    </span>
+                                    <span class="partner-tag salesforce">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.8 4c0.5-0.5 1.2-0.8 1.9-0.8 1 0 1.9 0.6 2.4 1.4 0.3-0.1 0.7-0.2 1.1-0.2 1.5 0 2.8 1.3 2.8 2.8s-1.3 2.8-2.8 2.8H3.9c-1.3 0-2.3-1-2.3-2.3 0-1.1 0.8-2.1 1.9-2.3 0.1-0.8 0.6-1.6 1.4-2 0.3-0.2 0.6-0.3 0.9-0.3z" fill="currentColor"/>
+</svg>
+                                        Salesforce
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">October 2026</div>
+                                <div class="timeline-title">Case Study Finalization</div>
+                                <div class="timeline-description">
+                                    Databricks second case study completion. Snowflake customer story submission. All partner case study requirements met.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag databricks">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2 L12 4.5 L7 7 L2 4.5 Z" fill="currentColor"/><path d="M2 6.5 L7 9 L12 6.5 L12 8 L7 10.5 L2 8 Z" fill="currentColor" fill-opacity="0.7"/></svg>
+                                        Databricks
+                                    </span>
+                                    <span class="partner-tag snowflake">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 2v10M2 7h10M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M6.2 2h1.6M6.2 12h1.6M2 6.2v1.6M12 6.2v1.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+                                        Snowflake
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">November 2026</div>
+                                <div class="timeline-title">Final Certification Push</div>
+                                <div class="timeline-description">
+                                    Complete any remaining certifications. SnowPro Advanced certifications (3). Final Trailhead learning path completions.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag snowflake">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 2v10M2 7h10M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M6.2 2h1.6M6.2 12h1.6M2 6.2v1.6M12 6.2v1.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+                                        Snowflake
+                                    </span>
+                                    <span class="partner-tag salesforce">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.8 4c0.5-0.5 1.2-0.8 1.9-0.8 1 0 1.9 0.6 2.4 1.4 0.3-0.1 0.7-0.2 1.1-0.2 1.5 0 2.8 1.3 2.8 2.8s-1.3 2.8-2.8 2.8H3.9c-1.3 0-2.3-1-2.3-2.3 0-1.1 0.8-2.1 1.9-2.3 0.1-0.8 0.6-1.6 1.4-2 0.3-0.2 0.6-0.3 0.9-0.3z" fill="currentColor"/>
+</svg>
+                                        Salesforce
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">December 31, 2026</div>
+                                <div class="timeline-title">Year-End Goal Achievement</div>
+                                <div class="timeline-description">
+                                    All tier advancement requirements complete. Final revenue reconciliation. Partner tier upgrade applications submitted.
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="partner-tag aws">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="1" y="7" font-family="Arial, sans-serif" font-size="4.5" font-weight="bold" fill="currentColor">aws</text><path d="M1 9.5 Q7 12 13 9.5" stroke="#FF9900" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+                                        AWS
+                                    </span>
+                                    <span class="partner-tag databricks">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2 L12 4.5 L7 7 L2 4.5 Z" fill="currentColor"/><path d="M2 6.5 L7 9 L12 6.5 L12 8 L7 10.5 L2 8 Z" fill="currentColor" fill-opacity="0.7"/></svg>
+                                        Databricks
+                                    </span>
+                                    <span class="partner-tag salesforce">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.8 4c0.5-0.5 1.2-0.8 1.9-0.8 1 0 1.9 0.6 2.4 1.4 0.3-0.1 0.7-0.2 1.1-0.2 1.5 0 2.8 1.3 2.8 2.8s-1.3 2.8-2.8 2.8H3.9c-1.3 0-2.3-1-2.3-2.3 0-1.1 0.8-2.1 1.9-2.3 0.1-0.8 0.6-1.6 1.4-2 0.3-0.2 0.6-0.3 0.9-0.3z" fill="currentColor"/>
+</svg>
+                                        Salesforce
+                                    </span>
+                                    <span class="partner-tag snowflake">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 2v10M2 7h10M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M6.2 2h1.6M6.2 12h1.6M2 6.2v1.6M12 6.2v1.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+                                        Snowflake
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Risks Tab -->
+        <section class="tab-panel print-section" id="risks" data-tab-title="Risks - Partnership Advancement Risks">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        Risk Register
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Risk ID</th>
+                                    <th>Description</th>
+                                    <th>Partner</th>
+                                    <th>Likelihood</th>
+                                    <th>Impact</th>
+                                    <th>Severity</th>
+                                    <th>Mitigation</th>
+                                    <th>Owner</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>R-001</td>
+                                    <td>Certification exam failures delay timeline</td>
+                                    <td>All</td>
+                                    <td>Medium</td>
+                                    <td>High</td>
+                                    <td><span class="badge badge-high">High</span></td>
+                                    <td>Build 4-week buffer into study plans; provide practice exams</td>
+                                    <td>Training Lead</td>
+                                </tr>
+                                <tr>
+                                    <td>R-002</td>
+                                    <td>Revenue thresholds not met due to project delays</td>
+                                    <td>AWS, Databricks</td>
+                                    <td>Medium</td>
+                                    <td>High</td>
+                                    <td><span class="badge badge-high">High</span></td>
+                                    <td>Monthly revenue tracking; accelerate deal registration</td>
+                                    <td>BD Director</td>
+                                </tr>
+                                <tr>
+                                    <td>R-003</td>
+                                    <td>Customer unwilling to participate in case study</td>
+                                    <td>AWS, Databricks, Snowflake</td>
+                                    <td>Medium</td>
+                                    <td>Medium</td>
+                                    <td><span class="badge badge-medium">Medium</span></td>
+                                    <td>Maintain pipeline of 3+ potential customers per partner</td>
+                                    <td>Account Managers</td>
+                                </tr>
+                                <tr>
+                                    <td>R-004</td>
+                                    <td>Staff turnover reduces certification count</td>
+                                    <td>All</td>
+                                    <td>Low</td>
+                                    <td>High</td>
+                                    <td><span class="badge badge-medium">Medium</span></td>
+                                    <td>Cross-train multiple staff; retention bonuses for certified</td>
+                                    <td>HR Director</td>
+                                </tr>
+                                <tr>
+                                    <td>R-005</td>
+                                    <td>Partner program requirements change mid-year</td>
+                                    <td>All</td>
+                                    <td>Low</td>
+                                    <td>High</td>
+                                    <td><span class="badge badge-medium">Medium</span></td>
+                                    <td>Monitor partner announcements; maintain PAM relationships</td>
+                                    <td>Partnerships Lead</td>
+                                </tr>
+                                <tr>
+                                    <td>R-006</td>
+                                    <td>Salesforce CSAT drops below 4.5 threshold</td>
+                                    <td>Salesforce</td>
+                                    <td>Low</td>
+                                    <td>Medium</td>
+                                    <td><span class="badge badge-low">Low</span></td>
+                                    <td>Bi-weekly CSAT reviews; proactive customer outreach</td>
+                                    <td>Delivery Lead</td>
+                                </tr>
+                                <tr>
+                                    <td>R-007</td>
+                                    <td>Specialization application rejected</td>
+                                    <td>Databricks, Snowflake</td>
+                                    <td>Low</td>
+                                    <td>Medium</td>
+                                    <td><span class="badge badge-low">Low</span></td>
+                                    <td>Pre-review with PAM before submission; address gaps early</td>
+                                    <td>Partnerships Lead</td>
+                                </tr>
+                                <tr>
+                                    <td>R-008</td>
+                                    <td>AWS FTR audit findings require remediation</td>
+                                    <td>AWS</td>
+                                    <td>Medium</td>
+                                    <td>Medium</td>
+                                    <td><span class="badge badge-medium">Medium</span></td>
+                                    <td>Pre-assessment review; engage AWS SA for guidance</td>
+                                    <td>Technical Lead</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Risk Summary</h2>
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                        <div>
+                            <span class="badge badge-high">High</span>
+                            <span style="margin-left: 0.5rem;">2 risks</span>
+                        </div>
+                        <div>
+                            <span class="badge badge-medium">Medium</span>
+                            <span style="margin-left: 0.5rem;">4 risks</span>
+                        </div>
+                        <div>
+                            <span class="badge badge-low">Low</span>
+                            <span style="margin-left: 0.5rem;">2 risks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stakeholders Tab -->
+        <section class="tab-panel print-section" id="stakeholders" data-tab-title="Stakeholders - Key Contacts">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        Internal Stakeholders
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="stakeholder-grid">
+                        <div class="stakeholder-card">
+                            <div class="stakeholder-avatar">KM</div>
+                            <div class="stakeholder-info">
+                                <div class="stakeholder-name">Keith McFarland</div>
+                                <div class="stakeholder-role">Chief Information Officer</div>
+                                <div class="stakeholder-area">Executive Sponsor - All Partners</div>
+                            </div>
+                            <button class="engage-btn" data-stakeholder="keith-mcfarland">Engage</button>
+                        </div>
+                        <div class="stakeholder-card">
+                            <div class="stakeholder-avatar">KH</div>
+                            <div class="stakeholder-info">
+                                <div class="stakeholder-name">Kyle Hogan</div>
+                                <div class="stakeholder-role">Principal Product Manager</div>
+                                <div class="stakeholder-area">Partnership Strategy & Execution</div>
+                            </div>
+                            <button class="engage-btn" data-stakeholder="kyle-hogan">Engage</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        Partner Alliance Managers (PAMs)
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="stakeholder-grid">
+                        <div class="stakeholder-card" style="opacity: 0.6; border-style: dashed;">
+                            <div class="stakeholder-avatar" style="background: linear-gradient(135deg, #FF9900, #FF6600);">?</div>
+                            <div class="stakeholder-info">
+                                <div class="stakeholder-name">AWS PAM</div>
+                                <div class="stakeholder-role">To be identified</div>
+                                <div class="stakeholder-area">AWS Partner Network</div>
+                            </div>
+                        </div>
+                        <div class="stakeholder-card" style="opacity: 0.6; border-style: dashed;">
+                            <div class="stakeholder-avatar" style="background: linear-gradient(135deg, #FF3621, #E62212);">?</div>
+                            <div class="stakeholder-info">
+                                <div class="stakeholder-name">Databricks PAM</div>
+                                <div class="stakeholder-role">To be identified</div>
+                                <div class="stakeholder-area">Databricks Partner Program</div>
+                            </div>
+                        </div>
+                        <div class="stakeholder-card" style="opacity: 0.6; border-style: dashed;">
+                            <div class="stakeholder-avatar" style="background: linear-gradient(135deg, #00A1E0, #0070D2);">?</div>
+                            <div class="stakeholder-info">
+                                <div class="stakeholder-name">Salesforce PAM</div>
+                                <div class="stakeholder-role">To be identified</div>
+                                <div class="stakeholder-area">Salesforce Partner Program</div>
+                            </div>
+                        </div>
+                        <div class="stakeholder-card" style="opacity: 0.6; border-style: dashed;">
+                            <div class="stakeholder-avatar" style="background: linear-gradient(135deg, #29B5E8, #1A8BC5);">?</div>
+                            <div class="stakeholder-info">
+                                <div class="stakeholder-name">Snowflake PAM</div>
+                                <div class="stakeholder-role">To be identified</div>
+                                <div class="stakeholder-area">Snowflake Partner Network</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Tab -->
+        <section class="tab-panel print-section" id="resources" data-tab-title="Resources - Partner Portals & References">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                        Partner Portals
+                    </h2>
+                    <span class="badge badge-info">Quick Access</span>
+                </div>
+                <div class="card-body">
+                    <div class="partner-grid">
+                        <!-- AWS Resources -->
+                        <div class="partner-card resource-card">
+                            <div class="partner-header">
+                                <div class="partner-logo aws">
+                                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <text x="3" y="14" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">aws</text>
+                                        <path d="M4 19 Q16 25 28 19" stroke="#FF9900" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                        <path d="M24 17 L28 19 L25 22" stroke="#FF9900" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="partner-info">
+                                    <h3>Amazon Web Services</h3>
+                                    <span class="partner-tier">Partner Network Resources</span>
+                                </div>
+                            </div>
+                            <div class="partner-body">
+                                <ul class="resource-list">
+                                    <li class="resource-item">
+                                        <a href="https://partnercentral.awspartner.com/" target="_blank" rel="noopener" class="resource-link resource-link-primary">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>AWS Partner Central</span>
+                                            <span class="resource-badge login-required">Login Required</span>
+                                        </a>
+                                        <p class="resource-description">Main partner portal for deal registration, training, and program management</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://aws.amazon.com/partners/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>AWS Partner Network (APN)</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Public info about partnership tiers and benefits</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://aws.amazon.com/partners/programs/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>APN Program Info</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Details on specializations and competency programs</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://aws.amazon.com/training/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>AWS Training & Certification</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Exam prep, learning paths, and certification scheduling</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Databricks Resources -->
+                        <div class="partner-card resource-card">
+                            <div class="partner-header">
+                                <div class="partner-logo databricks">
+                                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 3 L28 10 L16 17 L4 10 Z" fill="white"/>
+                                        <path d="M4 14 L16 21 L28 14 L28 17 L16 24 L4 17 Z" fill="white" fill-opacity="0.8"/>
+                                        <path d="M4 21 L16 28 L28 21 L28 24 L16 31 L4 24 Z" fill="white" fill-opacity="0.6"/>
+                                    </svg>
+                                </div>
+                                <div class="partner-info">
+                                    <h3>Databricks</h3>
+                                    <span class="partner-tier">Partner Network Resources</span>
+                                </div>
+                            </div>
+                            <div class="partner-body">
+                                <ul class="resource-list">
+                                    <li class="resource-item">
+                                        <a href="https://partners.databricks.com/" target="_blank" rel="noopener" class="resource-link resource-link-primary">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Databricks Partner Portal</span>
+                                            <span class="resource-badge login-required">Login Required</span>
+                                        </a>
+                                        <p class="resource-description">Central hub for partner resources, deal registration, and program tracking</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://www.databricks.com/partners" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Databricks Partner Network</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Overview of partner program tiers and benefits</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://www.databricks.com/learn/training" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Databricks Academy (Training)</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Free and paid training courses, learning paths</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://www.databricks.com/learn/certification" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Databricks Certifications</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Certification paths, exam guides, and scheduling</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Salesforce Resources -->
+                        <div class="partner-card resource-card">
+                            <div class="partner-header">
+                                <div class="partner-logo salesforce">
+                                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.3 9.1c1.1-1.2 2.7-1.9 4.4-1.9 2.3 0 4.3 1.3 5.4 3.2 0.8-0.3 1.6-0.5 2.5-0.5 3.5 0 6.4 2.9 6.4 6.4s-2.9 6.4-6.4 6.4H8.8c-2.9 0-5.3-2.4-5.3-5.3 0-2.6 1.9-4.8 4.4-5.2 0.3-1.9 1.5-3.6 3.2-4.5 0.7-0.4 1.4-0.6 2.2-0.6z" fill="white"/>
+</svg>
+                                </div>
+                                <div class="partner-info">
+                                    <h3>Salesforce</h3>
+                                    <span class="partner-tier">Partner Network Resources</span>
+                                </div>
+                            </div>
+                            <div class="partner-body">
+                                <ul class="resource-list">
+                                    <li class="resource-item">
+                                        <a href="https://partners.salesforce.com/" target="_blank" rel="noopener" class="resource-link resource-link-primary">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Salesforce Partner Community</span>
+                                            <span class="resource-badge login-required">Login Required</span>
+                                        </a>
+                                        <p class="resource-description">Partner portal for deal registration, resources, and program management</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://www.salesforce.com/partners/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Salesforce Partner Program</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Program overview, tier requirements, and benefits</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://trailhead.salesforce.com/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Trailhead (Training)</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Free gamified learning platform with badges and superbadges</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://trailhead.salesforce.com/credentials" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Salesforce Certifications</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Certification paths, exam guides, and maintenance requirements</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://www.salesforce.com/partners/appexchange/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>AppExchange Partner Program</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">ISV partnership and app marketplace information</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Snowflake Resources -->
+                        <div class="partner-card resource-card">
+                            <div class="partner-header">
+                                <div class="partner-logo snowflake">
+                                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 4v24M4 16h24M7.5 7.5l17 17M24.5 7.5l-17 17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <path d="M14 4h4M14 28h4M4 14v4M28 14v4M6.1 8.9l2.8 2.8M23.1 6.1l-2.8 2.8M6.1 23.1l2.8-2.8M23.1 25.9l-2.8-2.8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+</svg>
+                                </div>
+                                <div class="partner-info">
+                                    <h3>Snowflake</h3>
+                                    <span class="partner-tier">Partner Network Resources</span>
+                                </div>
+                            </div>
+                            <div class="partner-body">
+                                <ul class="resource-list">
+                                    <li class="resource-item">
+                                        <a href="https://partners.snowflake.com/" target="_blank" rel="noopener" class="resource-link resource-link-primary">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Snowflake Partner Portal</span>
+                                            <span class="resource-badge login-required">Login Required</span>
+                                        </a>
+                                        <p class="resource-description">Main partner hub for resources, deal registration, and program tracking</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://www.snowflake.com/partners/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Snowflake Partner Network (SPN)</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Overview of partnership tiers and benefits</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://learn.snowflake.com/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>Snowflake University (Training)</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">Hands-on workshops, learning paths, and on-demand courses</p>
+                                    </li>
+                                    <li class="resource-item">
+                                        <a href="https://www.snowflake.com/certifications/" target="_blank" rel="noopener" class="resource-link">
+                                            <svg class="external-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>SnowPro Certifications</span>
+                                            <span class="resource-badge public">Public</span>
+                                        </a>
+                                        <p class="resource-description">SnowPro Core, Advanced, and specialty certification paths</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Reference Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        Quick Reference Guide
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="reference-grid">
+                        <div class="reference-item">
+                            <div class="reference-header">
+                                <svg width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                                <h4>Portal Access Types</h4>
+                            </div>
+                            <div class="reference-content">
+                                <p><span class="resource-badge login-required">Login Required</span> Partner portals require company credentials. Contact your PAM if you need access.</p>
+                                <p><span class="resource-badge public">Public</span> These resources are publicly accessible - great for initial research and sharing with team members.</p>
+                            </div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-header">
+                                <svg width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                </svg>
+                                <h4>Bookmark Your Portals</h4>
+                            </div>
+                            <div class="reference-content">
+                                <p>You'll access partner portals weekly (or daily during busy periods). Bookmark them now:</p>
+                                <ul class="tip-list">
+                                    <li>AWS Partner Central for deal registration</li>
+                                    <li>Each partner's training site for certification prep</li>
+                                    <li>Your PAM's contact info for quick questions</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-header">
+                                <svg width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                <h4>What Each Portal Offers</h4>
+                            </div>
+                            <div class="reference-content">
+                                <ul class="tip-list">
+                                    <li><strong>Deal Registration:</strong> Log opportunities to protect margins and track revenue</li>
+                                    <li><strong>Training:</strong> Free courses, learning paths, and exam prep materials</li>
+                                    <li><strong>Marketing:</strong> Co-branded assets, case study templates, logos</li>
+                                    <li><strong>Support:</strong> Technical resources, architecture guidance, PAM contacts</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-header">
+                                <svg width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                                <h4>Time-Saving Tips</h4>
+                            </div>
+                            <div class="reference-content">
+                                <ul class="tip-list">
+                                    <li>Set up SSO where available to avoid login friction</li>
+                                    <li>Subscribe to partner newsletters for program updates</li>
+                                    <li>Check certification expiration dates quarterly</li>
+                                    <li>Register deals early - don't wait until close</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Partnership advancement goals for calendar year 2026</p>
+        <p class="footer-note">Data persists in your browser's local storage</p>
+    </footer>
+
+    <script>
+        // Initialize last updated timestamp
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        // Tab functionality with URL routing
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        // Map tab IDs to URL-friendly slugs
+        const tabSlugs = {
+            'overview': 'overview',
+            'certifications': 'certifications',
+            'requirements': 'tier-requirements',
+            'workback': 'roadmap',
+            'risks': 'risks',
+            'stakeholders': 'stakeholders',
+            'resources': 'resources'
+        };
+
+        // Reverse map for slug to tab ID
+        const slugToTab = Object.fromEntries(
+            Object.entries(tabSlugs).map(([k, v]) => [v, k])
+        );
+
+        function activateTab(tabId) {
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('active'));
+            const activeTab = document.querySelector(`.tab[data-tab="${tabId}"]`);
+            if (activeTab) activeTab.classList.add('active');
+            
+            // Update active panel
+            panels.forEach(p => p.classList.remove('active'));
+            const activePanel = document.getElementById(tabId);
+            if (activePanel) activePanel.classList.add('active');
+        }
+
+        function setTabFromHash() {
+            const hash = window.location.hash.slice(1); // Remove the #
+            const tabId = slugToTab[hash] || 'overview';
+            activateTab(tabId);
+        }
+
+        // Handle tab clicks
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                const slug = tabSlugs[tabId] || tabId;
+                
+                // Update URL without triggering hashchange
+                history.pushState(null, '', `#${slug}`);
+                
+                activateTab(tabId);
+            });
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('hashchange', setTabFromHash);
+
+        // Set initial tab from URL on page load
+        setTabFromHash();
+
+        // Local Storage Management
+        const STORAGE_KEY = 'esimplicity-partnership-tracker';
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : { checkboxes: {}, stakeholders: {} };
+            } catch (e) {
+                console.error('Error loading state:', e);
+                return { checkboxes: {}, stakeholders: {} };
+            }
+        }
+
+        function saveState(state) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {
+                console.error('Error saving state:', e);
+            }
+        }
+
+        // Initialize checkbox states
+        const state = loadState();
+
+        // Checkbox functionality
+        const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+        
+        checkboxes.forEach(checkbox => {
+            const key = checkbox.dataset.key;
+            
+            // Load saved state
+            if (state.checkboxes[key]) {
+                checkbox.checked = true;
+                checkbox.closest('.checklist-item').classList.add('completed');
+            }
+            
+            // Save on change
+            checkbox.addEventListener('change', () => {
+                state.checkboxes[key] = checkbox.checked;
+                saveState(state);
+                
+                checkbox.closest('.checklist-item').classList.toggle('completed', checkbox.checked);
+                updateProgress();
+            });
+        });
+
+        // Progress calculation
+        function updateProgress() {
+            const partners = ['aws', 'databricks', 'salesforce', 'snowflake'];
+            
+            partners.forEach(partner => {
+                const checklist = document.querySelector(`.checklist[data-partner="${partner}"]`);
+                if (!checklist) return;
+                
+                const items = checklist.querySelectorAll('input[type="checkbox"]');
+                const checked = checklist.querySelectorAll('input[type="checkbox"]:checked');
+                const percentage = items.length ? Math.round((checked.length / items.length) * 100) : 0;
+                
+                // Update progress bar
+                const progressFill = document.querySelector(`.progress-fill[data-partner="${partner}"]`);
+                const progressValue = document.querySelector(`.progress-value[data-partner="${partner}"]`);
+                
+                if (progressFill) {
+                    progressFill.style.width = `${percentage}%`;
+                }
+                if (progressValue) {
+                    progressValue.textContent = `${percentage}%`;
+                }
+            });
+        }
+
+        // Initial progress calculation
+        updateProgress();
+
+        // Stakeholder engagement buttons
+        const engageButtons = document.querySelectorAll('.engage-btn');
+        
+        engageButtons.forEach(btn => {
+            const key = btn.dataset.stakeholder;
+            
+            // Load saved state
+            if (state.stakeholders[key]) {
+                btn.classList.add('engaged');
+                btn.textContent = 'Engaged';
+            }
+            
+            // Toggle on click
+            btn.addEventListener('click', () => {
+                const isEngaged = btn.classList.toggle('engaged');
+                btn.textContent = isEngaged ? 'Engaged' : 'Engage';
+                state.stakeholders[key] = isEngaged;
+                saveState(state);
+            });
+        });
+
+        // Export PDF function
+        function exportPDF() {
+            // Show all panels for printing
+            const originalActiveTab = document.querySelector('.tab.active');
+            
+            // Create print instruction alert
+            const printInstructions = `
+To save as PDF:
+1. In the print dialog, select "Save as PDF" as the destination
+2. Choose your preferred settings
+3. Click "Save"
+
+The print view will show all sections of the report.
+            `;
+            
+            alert(printInstructions);
+            window.print();
+        }
+
+        // Add keyboard navigation for tabs
+        document.querySelector('.tabs').addEventListener('keydown', (e) => {
+            const currentTab = document.activeElement;
+            if (!currentTab.classList.contains('tab')) return;
+            
+            let nextTab;
+            if (e.key === 'ArrowRight') {
+                nextTab = currentTab.nextElementSibling || document.querySelector('.tab');
+            } else if (e.key === 'ArrowLeft') {
+                nextTab = currentTab.previousElementSibling || document.querySelector('.tab:last-child');
+            }
+            
+            if (nextTab && nextTab.classList.contains('tab')) {
+                nextTab.focus();
+                nextTab.click();
+            }
+        });
+
+        // Make tabs focusable
+        tabs.forEach(tab => {
+            tab.setAttribute('tabindex', '0');
+            tab.setAttribute('role', 'tab');
+        });
+
+        // Certification tracking
+        function initCertTracking() {
+            const inputs = document.querySelectorAll('.cert-current-input');
+            
+            // Load saved values
+            inputs.forEach(input => {
+                const key = input.dataset.certKey;
+                const saved = localStorage.getItem('cert-' + key);
+                if (saved !== null) {
+                    input.value = saved;
+                }
+            });
+            
+            // Calculate all gaps on load
+            updateAllCertGaps();
+            
+            // Add change listeners
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const key = this.dataset.certKey;
+                    localStorage.setItem('cert-' + key, this.value);
+                    updateCertGap(this);
+                });
+                
+                input.addEventListener('input', function() {
+                    updateCertGap(this);
+                });
+            });
+        }
+        
+        function updateCertGap(input) {
+            const row = input.closest('tr');
+            const required = parseInt(row.cells[2].textContent);
+            const current = parseInt(input.value) || 0;
+            const gap = current - required;
+            
+            const gapCell = row.querySelector('.cert-gap');
+            const priorityCell = row.querySelector('.cert-priority');
+            
+            if (gap >= 0) {
+                gapCell.textContent = '✓';
+                gapCell.className = 'cert-gap zero';
+                priorityCell.innerHTML = '<span class="badge badge-success">Complete</span>';
+            } else {
+                gapCell.textContent = gap;
+                gapCell.className = 'cert-gap positive';
+                
+                // Set priority based on gap size
+                const absGap = Math.abs(gap);
+                if (absGap >= 4) {
+                    priorityCell.innerHTML = '<span class="badge badge-high">High</span>';
+                } else if (absGap >= 2) {
+                    priorityCell.innerHTML = '<span class="badge badge-medium">Medium</span>';
+                } else {
+                    priorityCell.innerHTML = '<span class="badge badge-low">Low</span>';
+                }
+            }
+        }
+        
+        function updateAllCertGaps() {
+            document.querySelectorAll('.cert-current-input').forEach(input => {
+                updateCertGap(input);
+            });
+        }
+
+        // Initialize certification tracking
+        initCertTracking();
+    </script>
+</body>
+</html>
