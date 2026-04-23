@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <!-- Glow filter for nodes -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Purple backdrop for visibility on light backgrounds -->
+  <circle cx="50" cy="45" r="42" fill="#6B2D8B" opacity="0.15"/>
+  
+  <!-- 
+    VERSION 1: Stronger depth through opacity
+    - Back vertices (upper-left, upper-right, center-back) at 60% opacity
+    - Front vertices (center-front, middle-left, middle-right, top) at 100% opacity
+    - Lines connecting to back vertices: 1.5px
+    - Front lines: 2.5px
+  -->
+  
+  <!-- EDGES - Isometric cube structure -->
+  <g id="edges" stroke="#FFFFFF" fill="none">
+    <!-- Top pyramid edges - top is front, so thick lines down -->
+    <line x1="50" y1="10" x2="23" y2="25.5" stroke-width="1.5" opacity="0.6"/>
+    <line x1="50" y1="10" x2="77" y2="25.5" stroke-width="1.5" opacity="0.6"/>
+    <line x1="50" y1="10" x2="50" y2="41" stroke-width="2.5" opacity="1"/>
+    
+    <!-- Upper horizontal connections (to back vertices, thinner) -->
+    <line x1="23" y1="25.5" x2="50" y2="41" stroke-width="1.5" opacity="0.6"/>
+    <line x1="77" y1="25.5" x2="50" y2="41" stroke-width="1.5" opacity="0.6"/>
+    
+    <!-- Vertical edges (left and right - to back area, thinner) -->
+    <line x1="23" y1="25.5" x2="23" y2="56.5" stroke-width="1.5" opacity="0.5"/>
+    <line x1="77" y1="25.5" x2="77" y2="56.5" stroke-width="1.5" opacity="0.5"/>
+    
+    <!-- Middle cross connections (front-facing, thicker) -->
+    <line x1="50" y1="41" x2="23" y2="56.5" stroke-width="2.5" opacity="1"/>
+    <line x1="50" y1="41" x2="77" y2="56.5" stroke-width="2.5" opacity="1"/>
+    <line x1="50" y1="41" x2="50" y2="72" stroke-width="1.5" opacity="0.6"/>
+    
+    <!-- Bottom horizontal connections (to back vertex, thinner) -->
+    <line x1="23" y1="56.5" x2="50" y2="72" stroke-width="1.5" opacity="0.6"/>
+    <line x1="77" y1="56.5" x2="50" y2="72" stroke-width="1.5" opacity="0.6"/>
+  </g>
+  
+  <!-- NODES - 7 vertices with glow -->
+  <g id="nodes">
+    <!-- Top vertex (front) -->
+    <circle cx="50" cy="10" r="4.5" fill="#FFFFFF" opacity="1" filter="url(#glow)"/>
+    
+    <!-- Upper left and right (back) -->
+    <circle cx="23" cy="25.5" r="3" fill="#FFFFFF" opacity="0.6" filter="url(#glow)"/>
+    <circle cx="77" cy="25.5" r="3" fill="#FFFFFF" opacity="0.6" filter="url(#glow)"/>
+    
+    <!-- Center front (most prominent) -->
+    <circle cx="50" cy="41" r="5.5" fill="#FFFFFF" opacity="1" filter="url(#glow)"/>
+    
+    <!-- Middle left and right (front) -->
+    <circle cx="23" cy="56.5" r="4" fill="#FFFFFF" opacity="1" filter="url(#glow)"/>
+    <circle cx="77" cy="56.5" r="4" fill="#FFFFFF" opacity="1" filter="url(#glow)"/>
+    
+    <!-- Center back -->
+    <circle cx="50" cy="72" r="3" fill="#FFFFFF" opacity="0.6" filter="url(#glow)"/>
+  </g>
+</svg>

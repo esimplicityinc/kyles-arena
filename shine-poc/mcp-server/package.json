@@ -1,0 +1,25 @@
+{
+  "name": "shine-mcp-servers",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "shine-orchestrator-mcp": "./orchestrator.js",
+    "shine-sharepoint-mcp": "./sharepoint-server.js",
+    "shine-github-mcp": "./github-server.js",
+    "shine-jira-mcp": "./jira-server.js",
+    "shine-confluence-mcp": "./confluence-server.js"
+  },
+  "scripts": {
+    "orchestrator": "node orchestrator.js",
+    "sharepoint": "node sharepoint-server.js",
+    "github": "node github-server.js",
+    "jira": "node jira-server.js",
+    "confluence": "node confluence-server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "dotenv": "^16.4.1",
+    "node-fetch": "^3.3.2"
+  }
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHINE Logo Variations Preview</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 1.25rem;
+      color: #444;
+      margin: 2rem 0 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ddd;
+    }
+    
+    .section-title:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .logo-card {
+      text-align: center;
+    }
+    
+    .logo-container {
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+    
+    .logo-container.white {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .logo-container.purple {
+      background: linear-gradient(135deg, #6B2D8B 0%, #4a1d61 100%);
+      box-shadow: 0 2px 8px rgba(107, 45, 139, 0.3);
+    }
+    
+    .logo-container img {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .version-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+    
+    .version-desc {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
+    }
+    
+    .comparison-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 2px solid #ddd;
+    }
+    
+    .side-by-side {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    
+    .comparison-card {
+      text-align: center;
+    }
+    
+    .comparison-card .logo-container {
+      width: 200px;
+      height: 200px;
+    }
+    
+    .comparison-card .logo-container img {
+      width: 160px;
+      height: 160px;
+    }
+    
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 500px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>SHINE Logo Variations</h1>
+  <p class="subtitle">Compare different depth treatment approaches for the isometric cube logo</p>
+  
+  <h2 class="section-title">On White Background</h2>
+  <div class="grid">
+    <div class="logo-card">
+      <div class="logo-container white">
+        <img src="shine-logo-v1.svg" alt="Version 1">
+      </div>
+      <div class="version-name">V1: Opacity Depth</div>
+      <div class="version-desc">Back vertices 60%, front 100%.<br>Thinner back lines, thicker front.</div>
+    </div>
+    
+    <div class="logo-card">
+      <div class="logo-container white">
+        <img src="shine-logo-v2.svg" alt="Version 2">
+      </div>
+      <div class="version-name">V2: Gradient Faces</div>
+      <div class="version-desc">Semi-transparent purple fills<br>on the 3 visible cube faces.</div>
+    </div>
+    
+    <div class="logo-card">
+      <div class="logo-container white">
+        <img src="shine-logo-v3.svg" alt="Version 3">
+      </div>
+      <div class="version-name">V3: Shadow/Glow</div>
+      <div class="version-desc">Drop shadow beneath structure.<br>Strong glow front, soft glow back.</div>
+    </div>
+    
+    <div class="logo-card">
+      <div class="logo-container white">
+        <img src="shine-logo-v4.svg" alt="Version 4">
+      </div>
+      <div class="version-name">V4: Line Thickness</div>
+      <div class="version-desc">Horizontal 2.5px, vertical 2px,<br>diagonal 1.5px. Uniform dots.</div>
+    </div>
+  </div>
+  
+  <h2 class="section-title">On Purple Background (Welcome Screen)</h2>
+  <div class="grid">
+    <div class="logo-card">
+      <div class="logo-container purple">
+        <img src="shine-logo-v1.svg" alt="Version 1">
+      </div>
+      <div class="version-name">V1: Opacity Depth</div>
+    </div>
+    
+    <div class="logo-card">
+      <div class="logo-container purple">
+        <img src="shine-logo-v2.svg" alt="Version 2">
+      </div>
+      <div class="version-name">V2: Gradient Faces</div>
+    </div>
+    
+    <div class="logo-card">
+      <div class="logo-container purple">
+        <img src="shine-logo-v3.svg" alt="Version 3">
+      </div>
+      <div class="version-name">V3: Shadow/Glow</div>
+    </div>
+    
+    <div class="logo-card">
+      <div class="logo-container purple">
+        <img src="shine-logo-v4.svg" alt="Version 4">
+      </div>
+      <div class="version-name">V4: Line Thickness</div>
+    </div>
+  </div>
+  
+  <div class="comparison-section">
+    <h2 class="section-title" style="border-top: none;">Original vs New (Large)</h2>
+    <div class="side-by-side">
+      <div class="comparison-card">
+        <div class="logo-container purple">
+          <img src="shine-logo.svg" alt="Original">
+        </div>
+        <div class="version-name">Original</div>
+      </div>
+      <div class="comparison-card">
+        <div class="logo-container purple">
+          <img src="shine-logo-v1.svg" alt="V1">
+        </div>
+        <div class="version-name">V1</div>
+      </div>
+      <div class="comparison-card">
+        <div class="logo-container purple">
+          <img src="shine-logo-v2.svg" alt="V2">
+        </div>
+        <div class="version-name">V2</div>
+      </div>
+      <div class="comparison-card">
+        <div class="logo-container purple">
+          <img src="shine-logo-v3.svg" alt="V3">
+        </div>
+        <div class="version-name">V3</div>
+      </div>
+      <div class="comparison-card">
+        <div class="logo-container purple">
+          <img src="shine-logo-v4.svg" alt="V4">
+        </div>
+        <div class="version-name">V4</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

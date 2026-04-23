@@ -1,0 +1,593 @@
+/* ==========================================================================
+   SHINE Analytics Dashboard Styles
+   Using eSimplicity Brand Colors
+   ========================================================================== */
+
+.analytics-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FDFAFF 0%, #FFFFFF 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.analytics-header {
+  background: linear-gradient(135deg, var(--color-deep-purple) 0%, var(--color-primary-purple) 100%);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px -1px rgba(50, 26, 77, 0.1), 0 2px 4px -1px rgba(50, 26, 77, 0.06);
+}
+
+.analytics-header-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.analytics-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.analytics-back-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.analytics-back-link:hover {
+  opacity: 0.9;
+}
+
+.analytics-logo-img {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.analytics-logo-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.05em;
+}
+
+.analytics-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  padding-left: 12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.analytics-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Toolbar
+   ========================================================================== */
+
+.analytics-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 24px;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-pale-lavender);
+}
+
+/* ==========================================================================
+   Time Range Selector
+   ========================================================================== */
+
+.time-range-selector {
+  display: flex;
+  background: var(--color-white);
+  border: 1px solid var(--color-lavender);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.time-range-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--color-lavender);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-deep-purple);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.time-range-btn:last-child {
+  border-right: none;
+}
+
+.time-range-btn:hover:not(.active) {
+  background: var(--color-pale-lavender);
+}
+
+.time-range-btn.active {
+  background: var(--color-primary-purple);
+  color: var(--color-white);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.analytics-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.analytics-btn-primary {
+  background: linear-gradient(135deg, var(--color-primary-purple) 0%, var(--color-bright-purple) 100%);
+  color: #FFFFFF;
+}
+
+.analytics-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(63, 5, 121, 0.3);
+}
+
+.analytics-btn-secondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
+.analytics-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.analytics-btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #FCA5A5;
+}
+
+.analytics-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+/* ==========================================================================
+   Main Content
+   ========================================================================== */
+
+.analytics-main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.analytics-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #6B5B7A;
+  font-size: 1rem;
+}
+
+/* ==========================================================================
+   Empty State
+   ========================================================================== */
+
+.analytics-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.analytics-empty-icon {
+  color: var(--color-lavender);
+  margin-bottom: 24px;
+}
+
+.analytics-empty h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-deep-purple);
+  margin: 0 0 8px 0;
+}
+
+.analytics-empty p {
+  font-size: 1rem;
+  color: #6B5B7A;
+  margin: 0 0 24px 0;
+}
+
+/* ==========================================================================
+   Sections
+   ========================================================================== */
+
+.analytics-section {
+  margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   Metric Cards Grid
+   ========================================================================== */
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.metric-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-pale-lavender);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  transition: all 0.2s ease;
+}
+
+.metric-card:hover {
+  border-color: var(--color-lavender);
+  box-shadow: 0 4px 6px -1px rgba(50, 26, 77, 0.1);
+}
+
+.metric-card-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, rgba(63, 5, 121, 0.1) 0%, rgba(166, 98, 255, 0.1) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-bright-purple);
+  flex-shrink: 0;
+}
+
+.metric-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.metric-card-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6B5B7A;
+  margin: 0 0 4px 0;
+}
+
+.metric-card-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-deep-purple);
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+}
+
+.metric-card-subtitle {
+  font-size: 0.75rem;
+  color: #A89BB5;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Analytics Cards
+   ========================================================================== */
+
+.analytics-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.analytics-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-pale-lavender);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.analytics-card-full {
+  grid-column: 1 / -1;
+}
+
+.analytics-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-deep-purple);
+  margin: 0 0 16px 0;
+}
+
+.analytics-card-title svg {
+  color: var(--color-bright-purple);
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
+.analytics-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.analytics-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #F3F0F5;
+}
+
+.analytics-list-item:last-child {
+  border-bottom: none;
+}
+
+.analytics-list-rank {
+  width: 24px;
+  height: 24px;
+  background: var(--color-pale-lavender);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary-purple);
+  flex-shrink: 0;
+}
+
+.analytics-list-text {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--color-deep-purple);
+  min-width: 0;
+}
+
+.analytics-list-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.analytics-list-count {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-bright-purple);
+  background: rgba(166, 98, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.analytics-list-warning .analytics-list-rank {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.analytics-list-warning .analytics-list-count {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.analytics-empty-text {
+  font-size: 0.875rem;
+  color: #A89BB5;
+  text-align: center;
+  padding: 24px 0;
+  margin: 0;
+}
+
+.analytics-success-text {
+  color: #16A34A;
+}
+
+/* ==========================================================================
+   Source Bars
+   ========================================================================== */
+
+.source-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.source-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.source-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.source-bar-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-deep-purple);
+  text-transform: capitalize;
+}
+
+.source-bar-percent {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-bright-purple);
+}
+
+.source-bar-track {
+  height: 8px;
+  background: #F3F0F5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.source-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary-purple) 0%, var(--color-bright-purple) 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* ==========================================================================
+   Stats Grid
+   ========================================================================== */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  background: #FDFAFF;
+  border-radius: 8px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #6B5B7A;
+}
+
+.stat-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-deep-purple);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .analytics-header-content {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .analytics-header {
+    height: auto;
+    padding: 12px 16px;
+  }
+  
+  .analytics-main {
+    padding: 16px;
+  }
+  
+  .analytics-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .metric-card {
+    padding: 16px;
+  }
+  
+  .metric-card-value {
+    font-size: 1.5rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .time-range-selector {
+    order: 3;
+    width: 100%;
+  }
+  
+  .time-range-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .analytics-logo-text {
+    display: none;
+  }
+  
+  .analytics-title {
+    border-left: none;
+    padding-left: 0;
+  }
+  
+  .analytics-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .analytics-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metric-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

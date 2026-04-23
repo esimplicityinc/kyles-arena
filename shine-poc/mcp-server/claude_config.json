@@ -1,0 +1,54 @@
+{
+  "mcpServers": {
+    "shine-orchestrator": {
+      "command": "node",
+      "args": ["/Users/kyle.hogan/Projects/content-portal/shine-poc/mcp-server/orchestrator.js"],
+      "env": {
+        "VITE_MS_CLIENT_ID": "e89b9d8f-9da9-4a19-882c-07ae5083cbef",
+        "VITE_MS_TENANT_ID": "549158f4-f089-4bb2-89f0-91330fc0b3d9",
+        "VITE_MS_CLIENT_SECRET": "YOUR_MS_CLIENT_SECRET_HERE",
+        "VITE_GITHUB_TOKEN": "YOUR_GITHUB_TOKEN_HERE",
+        "VITE_GITHUB_ORG": "esimplicityinc",
+        "VITE_JIRA_EMAIL": "YOUR_JIRA_EMAIL_HERE",
+        "VITE_JIRA_API_TOKEN": "YOUR_JIRA_API_TOKEN_HERE",
+        "VITE_JIRA_BASE_URL": "https://esimplicity.atlassian.net",
+        "VITE_CONFLUENCE_BASE_URL": "https://esimplicity.atlassian.net/wiki"
+      }
+    },
+    "shine-sharepoint": {
+      "command": "node",
+      "args": ["/Users/kyle.hogan/Projects/content-portal/shine-poc/mcp-server/sharepoint-server.js"],
+      "env": {
+        "VITE_MS_CLIENT_ID": "e89b9d8f-9da9-4a19-882c-07ae5083cbef",
+        "VITE_MS_TENANT_ID": "549158f4-f089-4bb2-89f0-91330fc0b3d9",
+        "VITE_MS_CLIENT_SECRET": "YOUR_MS_CLIENT_SECRET_HERE"
+      }
+    },
+    "shine-github": {
+      "command": "node",
+      "args": ["/Users/kyle.hogan/Projects/content-portal/shine-poc/mcp-server/github-server.js"],
+      "env": {
+        "VITE_GITHUB_TOKEN": "YOUR_GITHUB_TOKEN_HERE",
+        "VITE_GITHUB_ORG": "esimplicityinc"
+      }
+    },
+    "shine-jira": {
+      "command": "node",
+      "args": ["/Users/kyle.hogan/Projects/content-portal/shine-poc/mcp-server/jira-server.js"],
+      "env": {
+        "VITE_JIRA_EMAIL": "YOUR_JIRA_EMAIL_HERE",
+        "VITE_JIRA_API_TOKEN": "YOUR_JIRA_API_TOKEN_HERE",
+        "VITE_JIRA_BASE_URL": "https://esimplicity.atlassian.net"
+      }
+    },
+    "shine-confluence": {
+      "command": "node",
+      "args": ["/Users/kyle.hogan/Projects/content-portal/shine-poc/mcp-server/confluence-server.js"],
+      "env": {
+        "VITE_JIRA_EMAIL": "YOUR_JIRA_EMAIL_HERE",
+        "VITE_JIRA_API_TOKEN": "YOUR_JIRA_API_TOKEN_HERE",
+        "VITE_CONFLUENCE_BASE_URL": "https://esimplicity.atlassian.net/wiki"
+      }
+    }
+  }
+}
