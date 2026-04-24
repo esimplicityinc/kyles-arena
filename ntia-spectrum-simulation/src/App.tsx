@@ -7,9 +7,15 @@ import { AgentWorkflowPanel } from "./components/AgentWorkflowPanel";
 import { InterferenceFindingsCard } from "./components/InterferenceFindingsCard";
 import { SimulationOutputPanel } from "./components/SimulationOutputPanel";
 import { RecommendationsPanel } from "./components/RecommendationsPanel";
+import { SpectrumVisualization } from "./components/SpectrumVisualization";
+import { LinkBudgetCalculator } from "./components/LinkBudgetCalculator";
+import { AntennaPatternViewer } from "./components/AntennaPatternViewer";
+import { PropagationModel } from "./components/PropagationModel";
+import { GeographicMap } from "./components/GeographicMap";
+import { IntermediateCalculations } from "./components/IntermediateCalculations";
 import "./App.css";
 
-type TabId = "overview" | "telemetry" | "analysis" | "output";
+type TabId = "overview" | "telemetry" | "spectrum" | "analysis" | "tools" | "output";
 
 function App() {
   const [agentSteps, setAgentSteps] = useState<AgentStep[]>(
@@ -18,22 +24,21 @@ function App() {
   const [analysisRunning, setAnalysisRunning] = useState(false);
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("overview");
+  const [selectedSector, setSelectedSector] = useState("Sector_A");
+  const [isAnimating, setIsAnimating] = useState(true);
 
   const runAnalysis = async () => {
     setAnalysisRunning(true);
 
     for (let i = 0; i < agentSteps.length; i++) {
-      // Set current step to running
       setAgentSteps((prev) =>
         prev.map((step, idx) =>
           idx === i ? { ...step, status: "running" as const } : step
         )
       );
 
-      // Wait 1400ms
       await new Promise((resolve) => setTimeout(resolve, 1400));
 
-      // Set current step to complete
       setAgentSteps((prev) =>
         prev.map((step, idx) =>
           idx === i ? { ...step, status: "complete" as const } : step
@@ -68,7 +73,9 @@ function App() {
         {(
           [
             { id: "overview", label: "Overview" },
+            { id: "spectrum", label: "Spectrum" },
             { id: "telemetry", label: "Telemetry" },
+            { id: "tools", label: "RF Tools" },
             { id: "analysis", label: "Analysis" },
             { id: "output", label: "Output" },
           ] as { id: TabId; label: string }[]
@@ -129,6 +136,42 @@ function App() {
                 </div>
               </div>
             )}
+            
+            {/* Geographic Map */}
+            <GeographicMap analysisComplete={analysisComplete} />
+          </div>
+        )}
+
+        {/* Spectrum Tab - NEW */}
+        {activeTab === "spectrum" && (
+          <div className="tab-content">
+            <div className="spectrum-header">
+              <h2>Real-Time Spectrum Analysis</h2>
+              <div className="spectrum-controls">
+                <select 
+                  value={selectedSector} 
+                  onChange={(e) => setSelectedSector(e.target.value)}
+                  className="sector-select"
+                >
+                  <option value="Sector_A">Sector A (2450 MHz)</option>
+                  <option value="Sector_B">Sector B (5180 MHz)</option>
+                  <option value="Sector_C">Sector C (900 MHz)</option>
+                </select>
+                <label className="animate-toggle">
+                  <input 
+                    type="checkbox" 
+                    checked={isAnimating} 
+                    onChange={(e) => setIsAnimating(e.target.checked)} 
+                  />
+                  Live Update
+                </label>
+              </div>
+            </div>
+            
+            <SpectrumVisualization 
+              selectedSector={selectedSector} 
+              isAnimating={isAnimating} 
+            />
           </div>
         )}
 
@@ -139,21 +182,37 @@ function App() {
           </div>
         )}
 
+        {/* RF Tools Tab - NEW */}
+        {activeTab === "tools" && (
+          <div className="tab-content tools-layout">
+            <div className="tools-grid">
+              <LinkBudgetCalculator />
+              <PropagationModel />
+              <AntennaPatternViewer />
+            </div>
+          </div>
+        )}
+
         {/* Analysis Tab */}
         {activeTab === "analysis" && (
-          <div className="tab-content analysis-layout">
-            <div className="analysis-left">
-              <AgentWorkflowPanel
-                agentSteps={agentSteps}
-                analysisRunning={analysisRunning}
-                analysisComplete={analysisComplete}
-                onRunAnalysis={runAnalysis}
-                onReset={resetDemo}
-              />
+          <div className="tab-content">
+            <div className="analysis-layout">
+              <div className="analysis-left">
+                <AgentWorkflowPanel
+                  agentSteps={agentSteps}
+                  analysisRunning={analysisRunning}
+                  analysisComplete={analysisComplete}
+                  onRunAnalysis={runAnalysis}
+                  onReset={resetDemo}
+                />
+              </div>
+              <div className="analysis-right">
+                <InterferenceFindingsCard analysisComplete={analysisComplete} />
+              </div>
             </div>
-            <div className="analysis-right">
-              <InterferenceFindingsCard analysisComplete={analysisComplete} />
-            </div>
+            
+            {/* Intermediate Calculations */}
+            <IntermediateCalculations analysisComplete={analysisComplete} />
           </div>
         )}
 
