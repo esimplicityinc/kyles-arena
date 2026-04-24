@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+.venv/
+
+# Logs
+*.log
+streamlit.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# Environment variables
+.env
+.env.local
