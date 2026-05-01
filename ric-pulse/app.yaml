@@ -6,15 +6,26 @@ command:
   - "8000"
   - --server.address
   - "0.0.0.0"
+  - --server.headless
+  - "true"
+  - --server.enableCORS
+  - "false"
+  - --server.enableXsrfProtection
+  - "false"
 
 env:
+  # Jira integration
+  - name: JIRA_EMAIL
+    valueFrom: secret/ric-pulse/jira-email
   - name: JIRA_API_TOKEN
-    valueFrom: secret/ric-pulse/jira-token
-  - name: JIRA_SERVER
+    valueFrom: secret/ric-pulse/jira-api-token
+  - name: JIRA_BASE_URL
     value: "https://esimplicity.atlassian.net"
-  - name: MS_GRAPH_CLIENT_ID
-    valueFrom: secret/ric-pulse/graph-client-id
-  - name: MS_GRAPH_CLIENT_SECRET
-    valueFrom: secret/ric-pulse/graph-client-secret
-  - name: MS_GRAPH_TENANT_ID
-    valueFrom: secret/ric-pulse/graph-tenant-id
+  - name: JIRA_PROJECT_KEY
+    value: "RIC"
+
+  # Outlook calendar (device flow — no secret needed at deploy time)
+  - name: OUTLOOK_CLIENT_ID
+    valueFrom: secret/ric-pulse/outlook-client-id
+  - name: OUTLOOK_TENANT_ID
+    valueFrom: secret/ric-pulse/outlook-tenant-id
