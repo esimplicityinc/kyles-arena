@@ -36,9 +36,10 @@ JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
 PROJECT_KEY = "RIC"
 BOARD_URL   = "https://esimplicity.atlassian.net/jira/software/projects/RIC/boards/918"
 
-ACTIVE_STATUSES  = {"In Progress", "Blocked", "Ready for Work", "Always On", "Reviewing"}
-QUEUED_STATUSES  = {"To Do"}
-DONE_STATUSES    = {"Done"}
+ACTIVE_STATUSES        = {"In Progress", "Blocked", "Always On", "Reviewing"}
+READY_FOR_WORK_STATUSES = {"Ready for Work"}
+QUEUED_STATUSES        = {"To Do"}
+DONE_STATUSES          = {"Done"}
 DONE_LOOKBACK_DAYS = 30
 
 PRIORITY_ORDER = {
@@ -313,18 +314,21 @@ def get_quarter(date_obj):
 # ---------------------------------------------------------------------------
 
 def categorize_issues(issues):
-    """Split issues into active, queued, and done lists."""
+    """Split issues into in_progress, ready_for_work, queued, and done lists."""
     cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=DONE_LOOKBACK_DAYS)
-    active  = []
-    queued  = []
-    done    = []
+    in_progress    = []
+    ready_for_work = []
+    queued         = []
+    done           = []
 
     for issue in issues:
         fields = issue.get("fields", {})
         status_name = get_text(fields.get("status"), "")
 
         if status_name in ACTIVE_STATUSES:
-            active.append(issue)
+            in_progress.append(issue)
+        elif status_name in READY_FOR_WORK_STATUSES:
+            ready_for_work.append(issue)
         elif status_name in QUEUED_STATUSES:
             queued.append(issue)
         elif status_name in DONE_STATUSES:
@@ -342,10 +346,10 @@ def categorize_issues(issues):
             else:
                 done.append(issue)
 
-    # Sort active by priority
-    active.sort(key=priority_sort_key)
+    # Sort in_progress by priority
+    in_progress.sort(key=priority_sort_key)
 
-    return active, queued, done
+    return in_progress, ready_for_work, queued, done
 
 
 # ---------------------------------------------------------------------------
@@ -572,23 +576,30 @@ def has_past_due_queued(queued_issues):
 # Full HTML document generator
 # ---------------------------------------------------------------------------
 
-def generate_html(active, queued, done, report_date, week_date_str, quarter_str):
+def generate_html(active, ready_for_work, queued, done, report_date, week_date_str, quarter_str):
     """Build and return the complete HTML report string."""
     today_str = report_date.strftime("%B %-d, %Y")
     year_str  = str(report_date.year)
 
-    n_active  = len(active)
-    n_queued  = len(queued)
-    n_done    = len(done)
+    n_active        = len(active)
+    n_ready_for_work = len(ready_for_work)
+    n_queued        = len(queued)
+    n_done          = len(done)
     n_blocked = sum(
         1 for i in active
         if get_text(i.get("fields", {}).get("status"), "") == "Blocked"
     )
 
-    # Active cards
+    # Active (In Progress) cards
     active_cards_html = "\n".join(
         render_active_card(issue, idx + 1)
         for idx, issue in enumerate(active)
+    )
+
+    # Ready for Work cards
+    rfw_cards_html = "\n".join(
+        render_active_card(issue, idx + 1)
+        for idx, issue in enumerate(ready_for_work)
     )
 
     # Queued rows
@@ -607,6 +618,8 @@ def generate_html(active, queued, done, report_date, week_date_str, quarter_str)
     # Empty state placeholders
     if not active:
         active_cards_html = '<p style="color:var(--color-gray-500);padding:var(--space-6) 0;">No active initiatives this week.</p>'
+    if not ready_for_work:
+        rfw_cards_html = '<p style="color:var(--color-gray-500);padding:var(--space-6) 0;">No initiatives currently ready for work.</p>'
     if not queued:
         queued_rows_html = '<tr><td colspan="5" style="color:var(--color-gray-500);text-align:center;padding:var(--space-6);">No queued initiatives.</td></tr>'
     if not done:
@@ -731,6 +744,14 @@ def generate_html(active, queued, done, report_date, week_date_str, quarter_str)
       border-color: var(--color-primary);
     }}
 
+    /* Section intro text (used under Ready for Work heading) */
+    .section__intro {{
+      color: var(--color-gray-500);
+      font-size: 0.9rem;
+      margin-top: calc(-1 * var(--space-4));
+      margin-bottom: var(--space-6);
+    }}
+
     /* Print tweaks */
     @media print {{
       .initiative-card {{ page-break-inside: avoid; }}
@@ -829,16 +850,31 @@ def generate_html(active, queued, done, report_date, week_date_str, quarter_str)
       </section>
 
       <!-- ================================================================
-           ACTIVE INITIATIVES
+           IN PROGRESS
            ================================================================ -->
       <section class="section" aria-labelledby="active-heading">
         <div class="section__header">
-          <h2 class="section__title" id="active-heading">Active Initiatives</h2>
+          <h2 class="section__title" id="active-heading">In Progress</h2>
           <span class="section__count">{n_active}</span>
         </div>
 
         <div class="initiative-grid">
           {active_cards_html}
+        </div><!-- /.initiative-grid -->
+      </section>
+
+      <!-- ================================================================
+           READY FOR WORK
+           ================================================================ -->
+      <section class="section" aria-labelledby="ready-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="ready-heading">Ready for Work</h2>
+          <span class="section__count">{n_ready_for_work}</span>
+        </div>
+        <p class="section__intro">These initiatives are scoped, approved, and awaiting resource availability to begin.</p>
+
+        <div class="initiative-grid">
+          {rfw_cards_html}
         </div><!-- /.initiative-grid -->
       </section>
 
@@ -1145,19 +1181,20 @@ def main():
 
     # Categorize
     print("Categorizing issues …")
-    active, queued, done = categorize_issues(raw_issues)
+    active, ready_for_work, queued, done = categorize_issues(raw_issues)
     n_blocked = sum(
         1 for i in active
         if get_text(i.get("fields", {}).get("status"), "") == "Blocked"
     )
-    print(f"  Active:  {len(active)} (blocked: {n_blocked})")
-    print(f"  Queued:  {len(queued)}")
-    print(f"  Done:    {len(done)}")
+    print(f"  In Progress:    {len(active)} (blocked: {n_blocked})")
+    print(f"  Ready for Work: {len(ready_for_work)}")
+    print(f"  Queued:         {len(queued)}")
+    print(f"  Done:           {len(done)}")
     print()
 
     # Generate HTML
     print("Generating HTML report …")
-    html = generate_html(active, queued, done, report_date, week_str, quarter_str)
+    html = generate_html(active, ready_for_work, queued, done, report_date, week_str, quarter_str)
 
     with open(output_path, "w", encoding="utf-8") as fh:
         fh.write(html)

@@ -117,6 +117,14 @@
       border-color: var(--color-primary);
     }
 
+    /* Section intro text (used under Ready for Work heading) */
+    .section__intro {
+      color: var(--color-gray-500);
+      font-size: 0.9rem;
+      margin-top: calc(-1 * var(--space-4));
+      margin-bottom: var(--space-6);
+    }
+
     /* Print tweaks */
     @media print {
       .initiative-card { page-break-inside: avoid; }
@@ -215,12 +223,12 @@
       </section>
 
       <!-- ================================================================
-           ACTIVE INITIATIVES
+           IN PROGRESS
            ================================================================ -->
       <section class="section" aria-labelledby="active-heading">
         <div class="section__header">
-          <h2 class="section__title" id="active-heading">Active Initiatives</h2>
-          <span class="section__count">10</span>
+          <h2 class="section__title" id="active-heading">In Progress</h2>
+          <span class="section__count">9</span>
         </div>
 
         <div class="initiative-grid">
@@ -387,31 +395,6 @@
             </div>
           </article>
 
-          <!-- 8. NMSC – Spectrum Management (Past Due / Ready) -->
-          <article class="initiative-card initiative-card--pastdue" aria-labelledby="init-8-title">
-            <div class="initiative-card__header">
-              <span class="initiative-num" aria-hidden="true">8</span>
-              <div class="initiative-card__badges">
-                <span class="badge badge--medium">🟡 Medium</span>
-                <span class="badge badge--program">Program – DNS</span>
-                <span class="badge badge--ready">Ready for Work</span>
-                <span class="pastdue-alert">⚠️ Past Due</span>
-              </div>
-            </div>
-            <h3 class="initiative-card__title" id="init-8-title">NMSC – Spectrum Management NTIA Reports Site</h3>
-            <div class="initiative-card__meta">
-              <span class="initiative-card__meta-item"><strong>Owner</strong> Thomas Mason</span>
-              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Jon Lanenga</span>
-              <span class="initiative-card__meta-item"><strong>Originally Due</strong> April 3, 2026</span>
-            </div>
-            <p class="initiative-card__body">
-              A web tool to automate ingestion, parsing, and tracking of NTIA daily spectrum management reports — replacing a fully manual review process and enabling historical tracking of regulatory spectrum actions.
-            </p>
-            <div class="initiative-card__update">
-              <strong>Update:</strong> Scoped, approved, and ready — but has not yet started and is past its original due date. A conversation with the sponsor about timeline is recommended.
-            </div>
-          </article>
-
           <!-- 9. RIC Exploration & Experimentation -->
           <article class="initiative-card" aria-labelledby="init-9-title">
             <div class="initiative-card__header">
@@ -448,6 +431,46 @@
             <p class="initiative-card__body">
               Ongoing internal initiative to continuously improve how the RIC team delivers — engineering practices, tooling, and workflow efficiency.
             </p>
+          </article>
+
+        </div><!-- /.initiative-grid -->
+      </section>
+
+      <!-- ================================================================
+           READY FOR WORK
+           ================================================================ -->
+      <section class="section" aria-labelledby="ready-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="ready-heading">Ready for Work</h2>
+          <span class="section__count">1</span>
+        </div>
+        <p class="section__intro">These initiatives are scoped, approved, and awaiting resource availability to begin.</p>
+
+        <div class="initiative-grid">
+
+          <!-- 1. NMSC – Spectrum Management (Past Due / Ready) -->
+          <article class="initiative-card" aria-labelledby="init-rfw-1-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">1</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Medium</span>
+                <span class="badge badge--program">Program – DNS</span>
+                <span class="badge badge--ready">Ready for Work</span>
+                <span class="pastdue-alert">⚠️ Past Due</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-rfw-1-title">NMSC – Spectrum Management NTIA Reports Site</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Thomas Mason</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Jon Lanenga</span>
+              <span class="initiative-card__meta-item"><strong>Originally Due</strong> April 3, 2026</span>
+            </div>
+            <p class="initiative-card__body">
+              A web tool to automate ingestion, parsing, and tracking of NTIA daily spectrum management reports — replacing a fully manual review process and enabling historical tracking of regulatory spectrum actions.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> Scoped, approved, and ready — but has not yet started and is past its original due date. A conversation with the sponsor about timeline is recommended.
+            </div>
           </article>
 
         </div><!-- /.initiative-grid -->
