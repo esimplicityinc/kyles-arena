@@ -39,6 +39,8 @@ jobs:
           cp -r esim-databricks-day _site/
           # Copy Vite build output
           cp -r ntia-spectrum-simulation/dist _site/ntia-spectrum-simulation
+          # Copy RIC Reports site
+          cp -r ric-reports _site/ric-reports
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

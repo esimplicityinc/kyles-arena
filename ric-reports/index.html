@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RIC – Rapid Innovation Center weekly executive reports from eSimplicity." />
+  <title>RIC Weekly Reports | eSimplicity Rapid Innovation Center</title>
+  <link rel="stylesheet" href="reports/shared.css" />
+  <style>
+    /* Index-only styles */
+    .index-hero {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1a0f8e 100%);
+      color: var(--color-white);
+      padding: var(--space-16) var(--space-6) var(--space-12);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .index-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(217,220,248,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .index-hero__inner {
+      position: relative;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .index-hero__logo-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+    }
+    .index-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.35);
+      color: var(--color-white);
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .index-hero__org {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+    .index-hero__title {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: var(--space-4);
+    }
+    .index-hero__tagline {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+      max-width: 480px;
+      margin: 0 auto var(--space-6);
+      line-height: 1.5;
+    }
+    .index-hero__divider {
+      width: 48px;
+      height: 3px;
+      background: rgba(255,255,255,0.35);
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+
+    /* Index nav (no back link) */
+    .index-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-height);
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-gray-200);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+    }
+    .index-nav__inner {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .index-nav__left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .index-nav__badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-md);
+    }
+    .index-nav__title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--color-black);
+    }
+    .index-nav__subtitle {
+      font-size: 0.8rem;
+      color: var(--color-gray-500);
+    }
+    .index-nav__right {
+      font-size: 0.8rem;
+      color: var(--color-gray-400);
+    }
+
+    /* Latest report section */
+    .latest-section {
+      margin-top: var(--space-10);
+    }
+    .latest-section__label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+    .latest-section__label-text {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      background: var(--color-very-light);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+    }
+    .latest-section__label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--color-gray-200);
+    }
+
+    /* Featured card enhancements */
+    .featured-card {
+      background: var(--color-white);
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-primary);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(ellipse at top right, var(--color-very-light) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .featured-card:hover {
+      box-shadow: 0 8px 32px rgba(50,35,189,0.22);
+      transform: translateY(-3px);
+      text-decoration: none;
+    }
+    .featured-card__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+    .featured-card__new-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--color-primary);
+      color: var(--color-white);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+    }
+    .featured-card__title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--color-black);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--space-3);
+    }
+    .featured-card__meta {
+      display: flex;
+      gap: var(--space-5);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+    }
+    .featured-card__meta-item {
+      font-size: 0.85rem;
+      color: var(--color-gray-500);
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+    .featured-card__summary {
+      font-size: 0.9rem;
+      color: var(--color-gray-700);
+      line-height: 1.65;
+      margin-bottom: var(--space-6);
+    }
+    .featured-card__pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+    }
+    .featured-card__pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+    }
+    .featured-card__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: var(--space-3) var(--space-6);
+      border-radius: var(--radius-lg);
+      transition: background 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: var(--shadow-primary);
+    }
+    .featured-card__cta:hover {
+      background: var(--color-primary-hover);
+      text-decoration: none;
+    }
+    .featured-card__cta-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.15s ease;
+    }
+    .featured-card:hover .featured-card__cta-arrow {
+      transform: translateX(3px);
+    }
+
+    /* Stats strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .stat-item {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      text-align: center;
+    }
+    .stat-item__value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+    .stat-item__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-gray-500);
+      letter-spacing: 0.02em;
+    }
+
+    /* Archive section */
+    .archive-section {
+      margin-top: var(--space-10);
+    }
+    .archive-empty {
+      background: var(--color-white);
+      border: 1px dashed var(--color-gray-300);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      text-align: center;
+      color: var(--color-gray-500);
+      font-size: 0.9rem;
+    }
+
+    /* About strip */
+    .about-strip {
+      margin-top: var(--space-10);
+      background: var(--color-green);
+      color: var(--color-white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
+    @media (max-width: 640px) {
+      .about-strip { grid-template-columns: 1fr; gap: var(--space-5); }
+    }
+    .about-strip__title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: var(--space-2);
+    }
+    .about-strip__text {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.65;
+    }
+    .about-strip__divider {
+      width: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+    @media (max-width: 640px) {
+      .about-strip__divider { width: 100%; height: 1px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="index-nav" role="navigation" aria-label="Site navigation">
+    <div class="index-nav__inner">
+      <div class="index-nav__left">
+        <span class="index-nav__badge" aria-hidden="true">RIC</span>
+        <div>
+          <div class="index-nav__title">Rapid Innovation Center</div>
+          <div class="index-nav__subtitle">eSimplicity</div>
+        </div>
+      </div>
+      <div class="index-nav__right">Executive Reports</div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="index-hero" role="banner">
+    <div class="index-hero__inner">
+      <div class="index-hero__logo-wrap">
+        <div class="index-hero__badge" aria-label="RIC logo">RIC</div>
+        <div class="index-hero__org">eSimplicity</div>
+      </div>
+      <h1 class="index-hero__title">Rapid Innovation Center</h1>
+      <p class="index-hero__tagline">Weekly executive reports on RIC initiative status, capacity, and progress.</p>
+      <div class="index-hero__divider" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <div class="page-container">
+
+      <!-- Stats -->
+      <div class="stats-strip" role="region" aria-label="Report statistics">
+        <div class="stat-item">
+          <div class="stat-item__value">1</div>
+          <div class="stat-item__label">Reports Published</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">10</div>
+          <div class="stat-item__label">Active Initiatives</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">9</div>
+          <div class="stat-item__label">Queued Requests</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">6</div>
+          <div class="stat-item__label">Completed This Cycle</div>
+        </div>
+      </div>
+
+      <!-- Latest Report -->
+      <section class="latest-section" aria-labelledby="latest-heading">
+        <div class="latest-section__label">
+          <span class="latest-section__label-text" id="latest-heading">Latest Report</span>
+          <div class="latest-section__label-line" aria-hidden="true"></div>
+        </div>
+
+        <a href="reports/2026-05-05.html" class="featured-card" aria-label="View report: RIC Weekly Report – Week of May 5, 2026">
+          <div class="featured-card__eyebrow">
+            <span class="featured-card__new-badge">New</span>
+          </div>
+          <h2 class="featured-card__title">Week of May 5, 2026</h2>
+          <div class="featured-card__meta">
+            <span class="featured-card__meta-item">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 7h14" stroke="currentColor" stroke-width="1.5"/><path d="M5 1v4M11 1v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              May 5, 2026
+            </span>
+            <span class="featured-card__meta-item">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Q2 2026
+            </span>
+            <span class="featured-card__meta-item">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 1.5C5 1.5 2.5 4 2.5 7c0 4 5.5 7.5 5.5 7.5s5.5-3.5 5.5-7.5c0-3-2.5-5.5-5.5-5.5z" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="7" r="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+              eSimplicity RIC
+            </span>
+          </div>
+          <p class="featured-card__summary">
+            10 active initiatives across BD/Growth, Program, and Corporate tracks. Team is operating at full capacity — 1 blocked initiative requiring leadership attention, 9 items queued, and 6 deliverables completed this cycle.
+          </p>
+          <div class="featured-card__pills">
+            <span class="featured-card__pill">10 Active</span>
+            <span class="featured-card__pill">1 Blocked</span>
+            <span class="featured-card__pill">9 Queued</span>
+            <span class="featured-card__pill">6 Completed</span>
+            <span class="featured-card__pill">Full Capacity</span>
+          </div>
+          <span class="featured-card__cta">
+            Read Full Report
+            <span class="featured-card__cta-arrow" aria-hidden="true">→</span>
+          </span>
+        </a>
+      </section>
+
+      <!-- Archive -->
+      <section class="archive-section" aria-labelledby="archive-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="archive-heading">All Reports</h2>
+          <span class="section__count">1 report</span>
+        </div>
+
+        <div class="archive-list">
+          <a href="reports/2026-05-05.html" class="archive-item">
+            <div class="archive-item__left">
+              <div class="archive-item__dot" aria-hidden="true"></div>
+              <div>
+                <div class="archive-item__title">RIC Weekly Report – Week of May 5, 2026</div>
+                <div class="archive-item__date">Published May 5, 2026 &nbsp;·&nbsp; Q2 2026</div>
+              </div>
+            </div>
+            <span class="archive-item__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <!-- Placeholder for future reports -->
+        <p style="margin-top: var(--space-4); font-size: 0.8rem; color: var(--color-gray-400); text-align: center;">
+          New reports are published weekly. Previous reports remain archived here.
+        </p>
+      </section>
+
+      <!-- About strip -->
+      <div class="about-strip" role="region" aria-label="About RIC">
+        <div>
+          <div class="about-strip__title">About the RIC</div>
+          <p class="about-strip__text">
+            The Rapid Innovation Center is eSimplicity's internal team dedicated to accelerating delivery through AI, automation, and emerging technology — across BD, program work, and corporate operations.
+          </p>
+        </div>
+        <div class="about-strip__divider" aria-hidden="true"></div>
+        <div>
+          <div class="about-strip__title">These Reports</div>
+          <p class="about-strip__text">
+            Weekly executive-level visibility into RIC initiatives: what's in flight, what's blocked, what's queued, and what's been completed. Designed to inform leadership prioritization decisions.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <span class="site-footer__badge" aria-hidden="true">RIC</span>
+        <span class="site-footer__name">eSimplicity Rapid Innovation Center</span>
+      </div>
+      <p class="site-footer__copy">© 2026 eSimplicity. Internal use only.</p>
+      <p class="site-footer__note">
+        Questions about RIC initiatives or this report site? Reach out to your RIC point of contact.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
