@@ -24,10 +24,9 @@
   </header>
 
   <div class="container">
-    <!-- eSimplicity Attendees -->
-    <section class="attendees">
-      <h1 class="page-title">eSimplicity Attendees</h1>
-      
+    <!-- Page Header -->
+    <div class="attendees-header">
+      <h1 class="page-title">Attendees</h1>
       <div class="status-legend">
         <div class="legend-item">
           <span class="legend-dot green"></span>
@@ -42,150 +41,158 @@
           <span>Unconfirmed</span>
         </div>
       </div>
+    </div>
 
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>AnhThu Nguyen</td>
-            <td>CEO</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Nam Nguyen</td>
-            <td>COO</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Keith McFarland</td>
-            <td>CIO</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Aaron West</td>
-            <td>Chief Architect</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Ian Lowrie</td>
-            <td>Director & GM, Civilian Services</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Christopher Worley</td>
-            <td>VP, Growth</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Rich Smith</td>
-            <td>VP, GM - Defense and National Security</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Don Chipley</td>
-            <td>Business Development Director, Army</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Kyle Hogan</td>
-            <td>Principal Product Manager</td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Ed Benjamin</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Alisha Hutson</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Derek Cruikshank</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Chris Dillinger</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>David Green</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Raymond Ling</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>James Shulgold</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Mack Currie</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Don Fergusson</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Dan Miller</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Tommy Mason</td>
-            <td></td>
-            <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Side-by-side tables -->
+    <div class="attendees-grid">
 
-      <div class="section-callout">
-        <div class="callout-label">Databricks Attendees — TBD</div>
-        <p class="callout-body">
-          Confirm with Travis once dates are locked. We want account reps and tech 
-          leads across the agencies — not just the CMS relationship. The goal is coverage 
-          across DoW, DHS, HHS/CMS and OpDivs. Nam's note: don't rush the date. Better 
-          to have the right participants and strong stories on both sides.
-        </p>
+      <!-- eSimplicity column -->
+      <div class="attendees-column">
+        <div class="attendees-column-header esim-column-header">
+          eSimplicity
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AnhThu Nguyen</td>
+              <td>CEO</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Nam Nguyen</td>
+              <td>COO</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Keith McFarland</td>
+              <td>CIO</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Aaron West</td>
+              <td>Chief Architect</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Ian Lowrie</td>
+              <td>Director, Client Solutions</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Christopher Worley</td>
+              <td>Growth VP, Defense, and National Security</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Rich Smith</td>
+              <td>VP, GM - Defense and National Security</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Don Chipley</td>
+              <td>Business Development Director, Army</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Kyle Hogan</td>
+              <td>Principal Product Manager</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Edouard Benjamin</td>
+              <td>Senior Vice President Health &amp; Civilian</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Alisha Hutson</td>
+              <td>Senior Director, Portfolio Management</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Derek Cruikshank</td>
+              <td>Data Architecture Director</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Chris Dellinger</td>
+              <td>Solution Architecture Director</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>David Greene</td>
+              <td>Chief Architect</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Raymond Ling</td>
+              <td>Principal Architect</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>James Shulgold</td>
+              <td>Program Director</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Mack Curry</td>
+              <td>Senior Director Defense and Intelligence</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Don Fergusson</td>
+              <td>Senior Program Manager</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Daniel Miller</td>
+              <td>Director of Product Management</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+            <tr>
+              <td>Tommy Mason</td>
+              <td>Principal Software Engineer</td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </section>
+
+      <!-- Databricks column -->
+      <div class="attendees-column">
+        <div class="attendees-column-header databricks-column-header">
+          Databricks
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Travis Gibbons</td>
+              <td></td>
+              <td><span class="status-pill status-tbc" data-status="tbc" onclick="cycleStatus(this)">TBC</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="section-callout" style="margin-top: 16px;">
+          <p class="callout-body">
+            Additional Databricks attendees TBD — confirm with Travis once dates are locked. Goal is coverage across DoW, DHS, HHS/CMS and OpDivs.
+          </p>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- Footer -->
