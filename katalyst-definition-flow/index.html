@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Initiative to Delivery — Katalyst Taxonomy Flow</title>
+<style>
+  :root {
+    --blue:        #3223BD;
+    --blue-light:  #D9DCF8;
+    --blue-mid:    #5B4FD4;
+    --green:       #1A7A3F;
+    --green-light: #E8F7EE;
+    --green-mid:   #b2dfc0;
+    --amber:       #B45309;
+    --amber-light: #FEF3C7;
+    --amber-mid:   #FCD34D;
+    --gray-bg:     #F3F4F8;
+    --gray-border: #E0E2EF;
+    --gray-tag:    #888;
+    --white:       #fff;
+    --text-dark:   #1C1C2E;
+    --text-mid:    #444;
+    --schema-bg:   #0F1117;
+    --schema-text: #A5B4FC;
+    --schema-key:  #6EE7B7;
+    --schema-val:  #FCA5A5;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #FAFBFF;
+    margin: 0;
+    padding: 28px 20px 40px;
+    min-width: 900px;
+  }
+
+  /* ── Title block ── */
+  .page-title {
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .page-title h1 {
+    color: var(--blue);
+    font-size: 20px;
+    margin: 0 0 4px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+  .page-subtitle {
+    font-size: 11.5px;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .page-subtitle code {
+    background: var(--schema-bg);
+    color: var(--schema-key);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 10.5px;
+  }
+
+  /* ── Main flow row ── */
+  .flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  /* ── Columns ── */
+  .stage     { flex: 1; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--gray-border); }
+  .stage-go  { flex: 0.85; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--green-mid); }
+
+  /* ── Stage headers ── */
+  .stage-header {
+    background: var(--blue);
+    color: var(--white);
+    padding: 11px 8px 9px;
+    text-align: center;
+  }
+  .stage-header-go {
+    background: var(--green);
+    color: var(--white);
+    padding: 11px 8px 9px;
+    text-align: center;
+  }
+  .stage-num   { font-size: 10px; font-weight: 700; color: var(--blue-light); margin-bottom: 1px; }
+  .stage-title { font-size: 13px; font-weight: 800; }
+  .stage-artifact {
+    font-size: 9.5px;
+    color: var(--blue-light);
+    font-family: monospace;
+    margin-top: 3px;
+    opacity: 0.85;
+  }
+  .stage-artifact-go { font-size: 9.5px; color: #b7f0cd; font-family: monospace; margin-top: 3px; opacity: 0.85; }
+
+  /* ── Stage bodies ── */
+  .stage-body {
+    background: var(--gray-bg);
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: 7px;
+    padding: 8px 10px;
+    cursor: default;
+    transition: box-shadow .15s, border-color .15s;
+  }
+  .card:hover { box-shadow: 0 3px 10px rgba(50,35,189,.12); border-color: var(--blue-light); }
+
+  .card-go {
+    background: var(--green-light);
+    border: 1px solid var(--green-mid);
+    border-radius: 7px;
+    padding: 8px 10px;
+    cursor: default;
+    transition: box-shadow .15s;
+  }
+  .card-go:hover { box-shadow: 0 3px 10px rgba(26,122,63,.12); }
+
+  .card-title    { font-size: 11px; font-weight: 700; color: var(--blue);  margin-bottom: 2px; }
+  .card-title-go { font-size: 11px; font-weight: 700; color: var(--green); margin-bottom: 2px; }
+  .card-body     { font-size: 10px; color: var(--text-mid); line-height: 1.45; }
+
+  /* ── Schema pill ── */
+  .schema-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: var(--schema-bg);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 5px;
+    font-size: 9px;
+    font-family: monospace;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .sp-key  { color: var(--schema-key); }
+  .sp-sep  { color: #666; }
+  .sp-val  { color: var(--schema-text); }
+  .sp-path { color: var(--amber-mid); }
+
+  /* ── Schema block (multi-line) ── */
+  .schema-block {
+    background: var(--schema-bg);
+    border-radius: 5px;
+    padding: 5px 7px;
+    margin-top: 5px;
+    font-size: 8.8px;
+    font-family: monospace;
+    line-height: 1.6;
+    color: var(--schema-text);
+  }
+  .sb-key  { color: var(--schema-key); }
+  .sb-str  { color: #FDA4AF; }
+  .sb-path { color: var(--amber-mid); }
+  .sb-type { color: #93C5FD; }
+  .sb-comment { color: #555; font-style: italic; }
+
+  /* ── Arrows & gate ── */
+  .arrow {
+    display: flex;
+    align-items: center;
+    padding-top: 72px;
+    flex-shrink: 0;
+    width: 26px;
+    justify-content: center;
+  }
+  .arrow svg { width: 26px; }
+
+  .gate {
+    display: flex;
+    align-items: center;
+    padding-top: 72px;
+    flex-shrink: 0;
+    width: 38px;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .gate-label {
+    background: var(--green);
+    color: var(--white);
+    font-size: 8.5px;
+    font-weight: 800;
+    border-radius: 4px;
+    padding: 2px 5px;
+    letter-spacing: .5px;
+  }
+
+  /* ── Bottom tag ── */
+  .stage-tag {
+    text-align: center;
+    font-size: 9px;
+    color: var(--gray-tag);
+    margin: 5px 0 4px;
+    font-style: italic;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 18px;
+    background: var(--gray-bg);
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-dark);
+    line-height: 1.5;
+  }
+  .footer strong { color: var(--blue); }
+
+  /* ── Schema legend strip ── */
+  .legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: #555;
+  }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 2px;
+  }
+
+  /* ── Separator line between card-body and schema ── */
+  .schema-divider {
+    border: none;
+    border-top: 1px dashed #dde;
+    margin: 5px 0 0;
+  }
+
+  /* ── Tooltip on hover ── */
+  .card[data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    background: #111;
+    color: #e2e8f0;
+    font-size: 9.5px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 100;
+    margin-top: 2px;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>Initiative to Delivery — Definition Process</h1>
+</div>
+<p class="page-subtitle">
+  Every box maps to a real Katalyst taxonomy artifact &nbsp;·&nbsp;
+  <code>katalyst.taxonomy/v1alpha</code> &nbsp;+&nbsp;
+  <code>katalyst-domain-mapper</code>
+</p>
+
+<!-- Schema color legend -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#0F1117; border:1px solid #555;"></div>
+    Schema anchor
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#6EE7B7;"></div>
+    YAML field / key
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#A5B4FC;"></div>
+    Schema value / type
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#FCD34D;"></div>
+    File path
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#FDA4AF;"></div>
+    String literal
+  </div>
+</div>
+
+<div class="flow">
+
+  <!-- ══════════════════════════════════════════
+       STAGE 01 — Road Item (Jira Initiative)
+  ══════════════════════════════════════════ -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num">01</div>
+      <div class="stage-title">Jira Initiative</div>
+      <div class="stage-artifact">RoadItem · ROAD-001</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="card">
+        <div class="card-title">Summary</div>
+        <div class="card-body">What we are building and why — plain English</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">title:</span> <span class="sb-str">"&lt;plain-text title&gt;"</span><br/>
+          <span class="sb-key">status:</span> <span class="sb-type">proposed</span><br/>
+          <span class="sb-path">delivery-framework/roads/ROAD-001.yaml</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Acceptance Criteria</div>
+        <div class="card-body">High-level conditions of satisfaction from the requester</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-comment"># → flows into UserStory</span><br/>
+          <span class="sb-key">acceptanceCriteria:</span> <span class="sb-type">string[]</span><br/>
+          <span class="sb-path">delivery-framework/user-stories/US-*.yaml</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Sponsor &amp; Impact</div>
+        <div class="card-body">Owner, priority, target date, impact statement</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">owner:</span> <span class="sb-str">"email"</span><br/>
+          <span class="sb-key">priority:</span> <span class="sb-type">critical|high|medium|low</span><br/>
+          <span class="sb-key">phase:</span> <span class="sb-type">0|1|2|3</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Data &amp; Constraints</div>
+        <div class="card-body">Known inputs, dependencies, and technical limits</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">dependsOn:</span> <span class="sb-type">ROAD-ddd[]</span><br/>
+          <span class="sb-key">blockedBy:</span> <span class="sb-type">ROAD-ddd[]</span><br/>
+          <span class="sb-key">tags:</span> <span class="sb-type">string[]</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="stage-tag">Input</div>
+  </div>
+
+  <!-- Arrow -->
+  <div class="arrow">
+    <svg viewBox="0 0 28 20"><polygon points="2,6 2,14 22,14 22,20 28,10 22,0 22,6" fill="#3223BD"/></svg>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       STAGE 02 — UserType · UT-001
+  ══════════════════════════════════════════ -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num">02</div>
+      <div class="stage-title">User Types</div>
+      <div class="stage-artifact">UserType · UT-001</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="card">
+        <div class="card-title">Who uses this?</div>
+        <div class="card-body">Name each user type and their role in the system</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">id:</span> <span class="sb-str">"UT-001"</span><br/>
+          <span class="sb-key">name:</span> <span class="sb-str">"&lt;kebab-case&gt;"</span><br/>
+          <span class="sb-key">type:</span> <span class="sb-type">human|bot|system|external_api</span><br/>
+          <span class="sb-path">delivery-framework/user-types/UT-001.yaml</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">What do they do?</div>
+        <div class="card-body">Primary actions and decisions each type is responsible for</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">archetype:</span> <span class="sb-type">creator|operator|administrator<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|consumer|integrator</span><br/>
+          <span class="sb-key">goals:</span> <span class="sb-type">string[]</span><br/>
+          <span class="sb-key">behaviors:</span> <span class="sb-type">string[]</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Access &amp; Permissions</div>
+        <div class="card-body">What each user type can and cannot do in the system</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">typicalCapabilities:</span> <span class="sb-type">CAP-ddd[]</span><br/>
+          <span class="sb-comment"># → links to TaxAgent permissions</span><br/>
+          <span class="sb-key">technicalProfile.integrationType:</span><br/>
+          &nbsp;&nbsp;<span class="sb-type">web_ui|api|sdk|webhook|cli</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Priority User</div>
+        <div class="card-body">Which user type drives the Phase 1 build decisions</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">status:</span> <span class="sb-type">approved</span><br/>
+          <span class="sb-key">painPoints:</span> <span class="sb-type">string[]</span><br/>
+          <span class="sb-comment"># relatedStories → US-ddd[]</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="stage-tag">Who</div>
+  </div>
+
+  <!-- Arrow -->
+  <div class="arrow">
+    <svg viewBox="0 0 28 20"><polygon points="2,6 2,14 22,14 22,20 28,10 22,0 22,6" fill="#3223BD"/></svg>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       STAGE 03 — UserStory + Capability
+  ══════════════════════════════════════════ -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num">03</div>
+      <div class="stage-title">User Needs</div>
+      <div class="stage-artifact">UserStory · US-001 &amp; Capability · CAP-001</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="card">
+        <div class="card-title">Jobs to Be Done</div>
+        <div class="card-body">What each user is actually trying to accomplish</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">id:</span> <span class="sb-str">"US-001"</span><br/>
+          <span class="sb-key">title:</span> <span class="sb-str">"As a [UT] I want…"</span><br/>
+          <span class="sb-key">userType:</span> <span class="sb-type">UT-ddd</span><br/>
+          <span class="sb-path">delivery-framework/user-stories/US-001.yaml</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Pain Points</div>
+        <div class="card-body">Current friction this initiative must resolve</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-comment"># sourced from UserType</span><br/>
+          <span class="sb-key">painPoints:</span> <span class="sb-type">string[]</span><br/>
+          <span class="sb-comment"># drives NFR thresholds</span><br/>
+          <span class="sb-path">delivery-framework/nfr/NFR-PERF-001.yaml</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Success Looks Like</div>
+        <div class="card-body">Measurable outcome from the user's perspective</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">id:</span> <span class="sb-str">"CAP-001"</span><br/>
+          <span class="sb-key">category:</span> <span class="sb-type">Business|Technical|Security<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Observability|Communication</span><br/>
+          <span class="sb-key">status:</span> <span class="sb-type">planned|stable|deprecated</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Out of Scope</div>
+        <div class="card-body">Needs explicitly not addressed in this initiative</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">useCases:</span> <span class="sb-type">UC-ddd[]</span><br/>
+          <span class="sb-comment"># RoadItem.tags → ["out-of-scope"]</span><br/>
+          <span class="sb-key">status:</span> <span class="sb-type">draft</span> <span class="sb-comment"># not approved</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="stage-tag">Why</div>
+  </div>
+
+  <!-- Arrow -->
+  <div class="arrow">
+    <svg viewBox="0 0 28 20"><polygon points="2,6 2,14 22,14 22,20 28,10 22,0 22,6" fill="#3223BD"/></svg>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       STAGE 04 — BDD / ADR / NFR governance
+  ══════════════════════════════════════════ -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num">04</div>
+      <div class="stage-title">BDD Specs</div>
+      <div class="stage-artifact">BddGovernance + ADR + NFR on RoadItem</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="card">
+        <div class="card-title">Features</div>
+        <div class="card-body">Named capabilities grouped by user type and need</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">capabilities:</span> <span class="sb-type">CAP-ddd[] (min 1)</span><br/>
+          <span class="sb-comment"># Feature files per capability</span><br/>
+          <span class="sb-key">bdd.featureFiles:</span> <span class="sb-type">string[]</span><br/>
+          <span class="sb-path">delivery-framework/capabilities/CAP-001.yaml</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Gherkin Scenarios</div>
+        <div class="card-body">Given / When / Then for every testable behavior</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">bdd.scenarios:</span> <span class="sb-type">int</span><br/>
+          <span class="sb-key">bdd.status:</span> <span class="sb-type">draft|active|approved</span><br/>
+          <span class="sb-key">bdd.passing:</span> <span class="sb-type">int</span><br/>
+          <span class="sb-comment"># acceptanceCriteria[] on US-ddd</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Phase Tags</div>
+        <div class="card-body">Phase 1 / Phase 2 clearly marked on every scenario</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">phase:</span> <span class="sb-type">0|1|2|3</span><br/>
+          <span class="sb-comment"># 0=Foundation 1=Core 2=Advanced 3=Future</span><br/>
+          <span class="sb-key">tags:</span> <span class="sb-type">["phase-1", "phase-2"]</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Definition of Done</div>
+        <div class="card-body">Acceptance criteria per scenario — the build gate</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">adrs.validated:</span> <span class="sb-type">true</span><br/>
+          <span class="sb-key">bdd.status:</span> <span class="sb-type">approved</span><br/>
+          <span class="sb-key">nfrs.status:</span> <span class="sb-type">pass</span><br/>
+          <span class="sb-key">status→</span> <span class="sb-type">bdd_complete</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="stage-tag">What (testable)</div>
+  </div>
+
+  <!-- GO gate -->
+  <div class="gate">
+    <svg viewBox="0 0 28 20" width="28"><polygon points="2,6 2,14 22,14 22,20 28,10 22,0 22,6" fill="#1A7A3F"/></svg>
+    <div class="gate-label">GO</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       STAGE 05 — Start Work (Taxonomy execution)
+  ══════════════════════════════════════════ -->
+  <div class="stage-go">
+    <div class="stage-header-go">
+      <div class="stage-num">05</div>
+      <div class="stage-title">Start Work</div>
+      <div class="stage-artifact-go">TaxonomyNode → Stack → Layer</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="card-go">
+        <div class="card-title-go">Architect</div>
+        <div class="card-body">Design decisions and technical approach</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">id:</span> <span class="sb-str">"ADR-001"</span><br/>
+          <span class="sb-key">category:</span> <span class="sb-type">architecture|infrastructure<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|security|performance</span><br/>
+          <span class="sb-path">delivery-framework/adr/ADR-001.yaml</span>
+        </div>
+      </div>
+
+      <div class="card-go">
+        <div class="card-title-go">Engineering</div>
+        <div class="card-body">Build to spec, test to Gherkin scenarios</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">kind:</span> <span class="sb-type">TaxonomyNode</span><br/>
+          <span class="sb-key">taxonomyNodeType:</span> <span class="sb-type">stack|layer</span><br/>
+          <span class="sb-key">status→</span> <span class="sb-type">implementing</span><br/>
+          <span class="sb-path">.global/taxonomy/canonical/</span>
+        </div>
+      </div>
+
+      <div class="card-go">
+        <div class="card-title-go">QA / Testing</div>
+        <div class="card-body">Scenarios become automated acceptance tests</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">bdd.testResults.total:</span> <span class="sb-type">int</span><br/>
+          <span class="sb-key">bdd.testResults.passed:</span> <span class="sb-type">int</span><br/>
+          <span class="sb-key">bdd.testResults.coverage:</span> <span class="sb-str">"100%"</span><br/>
+          <span class="sb-key">status→</span> <span class="sb-type">nfr_validating</span>
+        </div>
+      </div>
+
+      <div class="card-go">
+        <div class="card-title-go">Pilot &amp; Review</div>
+        <div class="card-body">Validate against Definition of Done</div>
+        <hr class="schema-divider"/>
+        <div class="schema-block">
+          <span class="sb-key">nfrs.status:</span> <span class="sb-type">pass</span><br/>
+          <span class="sb-key">status→</span> <span class="sb-type">complete</span><br/>
+          <span class="sb-key">ChangeEntry:</span> <span class="sb-str">"CHANGE-001"</span><br/>
+          <span class="sb-path">delivery-framework/changes/</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="stage-tag">Build</div>
+  </div>
+
+</div><!-- end .flow -->
+
+<!-- ── State machine strip ── -->
+<div style="margin-top:16px; background:var(--schema-bg); border-radius:8px; padding:12px 18px; overflow-x:auto;">
+  <div style="font-size:9.5px; color:#888; margin-bottom:6px; font-family:monospace; text-transform:uppercase; letter-spacing:.5px;">RoadItem State Machine</div>
+  <div style="display:flex; align-items:center; gap:6px; flex-wrap:nowrap; font-family:monospace; font-size:10px;">
+    <span style="background:#1e293b; color:#A5B4FC; padding:3px 8px; border-radius:4px; border:1px solid #334155;">proposed</span>
+    <span style="color:#555;">→</span>
+    <span style="background:#1e293b; color:#6EE7B7; padding:3px 8px; border-radius:4px; border:1px solid #334155;">adr_validated</span>
+    <span style="color:#555;">→</span>
+    <span style="background:#1e293b; color:#6EE7B7; padding:3px 8px; border-radius:4px; border:1px solid #334155;">bdd_pending</span>
+    <span style="color:#555;">→</span>
+    <span style="background:#1e293b; color:#6EE7B7; padding:3px 8px; border-radius:4px; border:1px solid #334155;">bdd_complete</span>
+    <span style="color:#FCD34D; font-size:14px; font-weight:700;">⬤ GO</span>
+    <span style="color:#555;">→</span>
+    <span style="background:#1e293b; color:#FCA5A5; padding:3px 8px; border-radius:4px; border:1px solid #334155;">implementing</span>
+    <span style="color:#555;">→</span>
+    <span style="background:#1e293b; color:#FCA5A5; padding:3px 8px; border-radius:4px; border:1px solid #334155;">nfr_validating</span>
+    <span style="color:#555;">→</span>
+    <span style="background:#166534; color:#86efac; padding:3px 8px; border-radius:4px; border:1px solid #166534; font-weight:700;">complete ✓</span>
+  </div>
+  <div style="font-size:8.5px; color:#555; margin-top:5px; font-family:monospace;">
+    nfr_validating ↔ nfr_blocked (loop until resolved) &nbsp;·&nbsp; Source: <span style="color:var(--amber-mid)">packages/foe-schemas/src/taxonomy/extensions/road-item.ts</span>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<div class="footer">
+  <strong>Definition Gate:</strong> A Jira initiative is not ready to build until
+  <code style="background:#eef;padding:1px 4px;border-radius:3px;color:var(--blue);">UserTypes</code>,
+  <code style="background:#eef;padding:1px 4px;border-radius:3px;color:var(--blue);">UserStories</code>,
+  <code style="background:#eef;padding:1px 4px;border-radius:3px;color:var(--blue);">Capabilities</code>, and
+  <code style="background:#eef;padding:1px 4px;border-radius:3px;color:var(--blue);">BDD Specs</code>
+  are <strong>status: approved</strong> and <strong>adrs.validated: true</strong>. The GO arrow fires when
+  <code style="background:#eef;padding:1px 4px;border-radius:3px;color:var(--blue);">RoadItem.status = bdd_complete</code>.
+</div>
+
+</body>
+</html>

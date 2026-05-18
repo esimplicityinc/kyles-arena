@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RIC Weekly Executive Report – Week of May 11, 2026. Status of all active RIC initiatives, queued work, and recently completed deliverables." />
+  <title>RIC Weekly Report | May 11, 2026</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* Report-page-only styles */
+
+    /* Capacity banner strip */
+    .capacity-banner {
+      background: var(--color-warning-bg);
+      border: 2px solid var(--color-warning-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+      margin-top: var(--space-8);
+    }
+    .capacity-banner__icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+    .capacity-banner__body {}
+    .capacity-banner__title {
+      font-size: 0.875rem;
+      font-weight: 800;
+      color: var(--color-warning-text);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-2);
+    }
+    .capacity-banner__text {
+      font-size: 0.9rem;
+      color: var(--color-warning-text);
+      line-height: 1.65;
+    }
+
+    /* Stats strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .stat-item {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      text-align: center;
+    }
+    .stat-item__value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+    .stat-item__label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--color-gray-500);
+      letter-spacing: 0.02em;
+    }
+    .stat-item--alert .stat-item__value {
+      color: var(--color-blocked);
+    }
+
+    /* Board card */
+    .board-section {
+      margin-top: var(--space-8);
+    }
+
+    /* Number badge on initiative */
+    .initiative-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: var(--color-gray-100);
+      color: var(--color-gray-500);
+      font-size: 0.7rem;
+      font-weight: 800;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-right: var(--space-1);
+    }
+
+    /* Blocked alert within card */
+    .blocked-alert {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-blocked);
+      background: var(--color-blocked-bg);
+      border: 1px solid var(--color-blocked-border);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+
+    /* Past due indicator */
+    .pastdue-alert {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-medium);
+      background: var(--color-medium-bg);
+      border: 1px solid var(--color-medium-border);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+
+    /* Due soon indicator */
+    .duesoon-alert {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-high);
+      background: var(--color-high-bg);
+      border: 1px solid var(--color-high-border);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+
+    /* New this week badge */
+    .new-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--color-white);
+      background: var(--color-primary);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Done badge in table */
+    .done-cell {
+      color: var(--color-done);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    /* Column status pills inside board card */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+      border: 1px solid var(--color-gray-200);
+    }
+    .status-pill--new {
+      background: var(--color-primary);
+      color: var(--color-white);
+      border-color: var(--color-primary);
+    }
+
+    /* Section intro text */
+    .section__intro {
+      color: var(--color-gray-500);
+      font-size: 0.9rem;
+      margin-top: calc(-1 * var(--space-4));
+      margin-bottom: var(--space-6);
+    }
+
+    /* Print tweaks */
+    @media print {
+      .initiative-card { page-break-inside: avoid; }
+      .section { page-break-before: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navigation -->
+  <nav class="site-nav" role="navigation" aria-label="Report navigation">
+    <div class="site-nav__inner">
+      <a href="../index.html" class="site-nav__back" aria-label="Back to all reports">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Reports
+      </a>
+      <div class="site-nav__brand">
+        <span class="site-nav__badge" aria-hidden="true">RIC</span>
+        <span class="site-nav__title">Weekly Report &nbsp;·&nbsp; May 11, 2026</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Report Hero -->
+  <header class="report-hero" role="banner">
+    <div class="report-hero__inner">
+      <p class="report-hero__eyebrow">eSimplicity &nbsp;·&nbsp; Rapid Innovation Center</p>
+      <h1 class="report-hero__title">RIC Weekly Executive Report</h1>
+      <p class="report-hero__date">Week of May 11, 2026 &nbsp;·&nbsp; Q2 2026</p>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <div class="page-container">
+
+      <!-- ================================================================
+           SUMMARY STATS
+           ================================================================ -->
+      <div class="stats-strip" role="region" aria-label="This week's summary statistics">
+        <div class="stat-item">
+          <div class="stat-item__value">10</div>
+          <div class="stat-item__label">Active Initiatives</div>
+        </div>
+        <div class="stat-item stat-item--alert">
+          <div class="stat-item__value">1</div>
+          <div class="stat-item__label">Blocked</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">5</div>
+          <div class="stat-item__label">Queued Requests</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">4</div>
+          <div class="stat-item__label">Completed This Period</div>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           CAPACITY NOTICE
+           ================================================================ -->
+      <div class="capacity-banner" role="alert" aria-live="polite">
+        <span class="capacity-banner__icon" aria-hidden="true">⚠️</span>
+        <div class="capacity-banner__body">
+          <div class="capacity-banner__title">Capacity Notice — Full Capacity</div>
+          <p class="capacity-banner__text">
+            The RIC team is operating at full capacity this week. All active resources are committed to the initiatives below.
+            New requests entering the pipeline will need to be weighed against existing commitments — something will need to
+            move to make room. One initiative is actively blocked pending security approval, and a past-due item requires a status
+            decision this week. Leadership attention is requested on both.
+          </p>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           BOARD ACCESS
+           ================================================================ -->
+      <section class="board-section" aria-labelledby="board-heading">
+        <div class="board-card">
+          <div>
+            <h2 class="board-card__title" id="board-heading">📊 Live Initiative Tracking — RIC Jira Board</h2>
+            <p class="board-card__desc">
+              The RIC board tracks all initiatives by category and workflow stage. Scan by status column to see what's moving, what's waiting, and what needs attention:
+            </p>
+            <div class="board-card__legend">
+              <div class="board-card__legend-item">🏢 <strong>BD / Growth</strong> — opportunities supporting business development and capture efforts</div>
+              <div class="board-card__legend-item">💼 <strong>Program</strong> — innovation work happening directly on existing contracts</div>
+              <div class="board-card__legend-item">🏛️ <strong>Corporate / Internal</strong> — improvements benefiting eSimplicity operations and staff</div>
+            </div>
+            <div class="board-card__columns">
+              <div class="board-card__columns-title">Active status columns</div>
+              <div class="board-card__col-list">
+                <span class="status-pill status-pill--new">In Progress</span>
+                <span class="status-pill status-pill--new">Discovery</span>
+                <span class="status-pill status-pill--new">Reviewing</span>
+                <span class="status-pill status-pill--new">Blocked</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <a
+              href="https://esimplicity.atlassian.net/jira/software/projects/RIC/boards/918"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="board-card__link-btn"
+              aria-label="Open Customer Initiatives Board in Jira (opens in new tab)"
+            >
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Customer Initiatives Board → View Live</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           BLOCKED
+           ================================================================ -->
+      <section class="section" aria-labelledby="blocked-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="blocked-heading">⛔ Blocked</h2>
+          <span class="section__count">1</span>
+        </div>
+
+        <div class="initiative-grid">
+
+          <!-- RIC-261 – Create Apex Package – T-MSIS -->
+          <article class="initiative-card initiative-card--blocked" aria-labelledby="init-blocked-1-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">1</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--critical">🔴 Critical</span>
+                <span class="badge badge--program">Program – Health</span>
+                <span class="blocked-alert">⛔ BLOCKED</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-blocked-1-title">RIC-261 — Create Apex Package – T-MSIS</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Kyle Hogan</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> May 31, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Labels</strong> Health, Program</span>
+            </div>
+            <p class="initiative-card__body">
+              Packaging and deploying the full Apex AI agent suite to T-MSIS users at CMS — bringing a coordinated set of AI capabilities directly onto the program team's environment. The work itself is ready; the blocker is a pending security approval to load the agents onto the CMS VDI environment. This initiative is directly tied to RIC-417 (the parallel CIO Growth VDI effort), which Keith McFarland is driving as a workaround track while T-MSIS approval remains pending.
+            </p>
+            <div class="initiative-card__update initiative-card__update--blocked">
+              <strong>⛔ BLOCKED:</strong> Cannot move forward without security clearance to load agents onto the CMS VDI environment. Resolution is required to meet the May 31 deadline. Leadership escalation is recommended if approval has not been received by end of week.
+            </div>
+          </article>
+
+        </div><!-- /.initiative-grid -->
+      </section>
+
+      <!-- ================================================================
+           IN PROGRESS
+           ================================================================ -->
+      <section class="section" aria-labelledby="active-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="active-heading">In Progress</h2>
+          <span class="section__count">6</span>
+        </div>
+
+        <div class="initiative-grid">
+
+          <!-- RIC-206 – Growth Opportunities Report/Dashboard -->
+          <article class="initiative-card" aria-labelledby="init-1-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">1</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--critical">🔴 Critical</span>
+                <span class="badge badge--bd">BD / Growth</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-1-title">RIC-206 — Growth Opportunities Report / Dashboard</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Lada Semicheva</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Carrie Yang-Johnson</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> July 15, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> 7 / 10</span>
+            </div>
+            <p class="initiative-card__body">
+              An AI agent is being built to automatically monitor 20–100 government opportunity postings per day across GovWin IQ, GSA eBuy, Seaport NxG, and FedConnect — assigning fit ratings to each based on keywords, socioeconomic set-asides, and response timelines. The goal is to dramatically reduce the manual triage burden currently borne by the Growth team, allowing them to focus on qualified opportunities rather than raw volume.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> Development is actively underway. This is a high-visibility BD initiative with direct impact on the efficiency of our opportunity pipeline.
+            </div>
+          </article>
+
+          <!-- RIC-417 – Create Apex Package – CIO Growth (NEW) -->
+          <article class="initiative-card" aria-labelledby="init-2-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">2</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--bd">BD / Growth</span>
+                <span class="badge badge--in-progress">In Progress</span>
+                <span class="new-badge">🆕 New This Week</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-2-title">RIC-417 — Create Apex Package – CIO Growth</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Kyle Hogan</span>
+              <span class="initiative-card__meta-item"><strong>Labels</strong> BD / Growth</span>
+            </div>
+            <p class="initiative-card__body">
+              This new initiative expands the Apex AI agent rollout to the Growth team, coordinating with ITOps to load six agents — Apex, Plan, Build, apex-proposal, apex-storyboards, and apex-prop-shred — onto the VDI image. Keith McFarland is driving this effort as a parallel track, moving forward on the Growth team deployment while the T-MSIS security approval (RIC-261) remains pending. Kicking off this week.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> New this week. Initiated as a parallel workstream to maintain Apex deployment momentum while T-MSIS access is resolved through separate channels.
+            </div>
+          </article>
+
+          <!-- RIC-204 – NHLBI – Agent for Evaluating Apps for Copilot Readiness -->
+          <article class="initiative-card" aria-labelledby="init-3-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">3</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--program">Program – Health</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-3-title">RIC-204 — NHLBI – Agent for Evaluating Apps for Copilot Readiness</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Ben Higgins</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> May 31, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Labels</strong> Health, Program</span>
+            </div>
+            <p class="initiative-card__body">
+              Building AI agents to automate NHLBI's application modernization prioritization framework — ingesting application profiles, level-of-effort estimates, and strategic objectives to produce ranked recommendations for their ITAC board. This capability replaces a labor-intensive manual analysis process and gives NHLBI a defensible, data-driven input for their next modernization cycle.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> Actively in progress. End-of-May deadline is approaching — on track.
+            </div>
+          </article>
+
+          <!-- RIC-194 – T-MSIS – Security Automation w/ AI -->
+          <article class="initiative-card" aria-labelledby="init-4-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">4</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--program">Program – Health</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-4-title">RIC-194 — T-MSIS – Security Automation w/ AI</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Matt Wartell</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> David Greene</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> June 15, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> 4 / 10</span>
+            </div>
+            <p class="initiative-card__body">
+              Prototyping AI-assisted workflows for T-MSIS security documentation — including drafting and reviewing Security Impact Assessments (SIAs) and improving error detection in state data submissions. This supports a CMS stakeholder request for three new AI initiatives before September 30, directly strengthening the program's recompete position ahead of the upcoming contract period.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> In progress. This initiative contributes directly to recompete positioning and is proceeding on schedule.
+            </div>
+          </article>
+
+          <!-- RIC-389 – Health BU PMR Report Automation Testing (Due Soon) -->
+          <article class="initiative-card initiative-card--pastdue" aria-labelledby="init-5-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">5</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Medium</span>
+                <span class="badge badge--corp">Corporate / Health</span>
+                <span class="badge badge--in-progress">In Progress</span>
+                <span class="duesoon-alert">⚠️ Due May 15</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-5-title">RIC-389 — Health BU PMR Report Automation Testing</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Kyle Hogan</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Rachel Harrison</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> May 15, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> 10 / 10</span>
+            </div>
+            <p class="initiative-card__body">
+              MVP development of the Health BU Program Management Hub PowerApp is complete — the application now fully replaces the manual PMR reporting process that HBU leadership has been relying on. The initiative is currently in UAT testing and requires sign-off from one to two testers before it can go live. With a deadline of May 15, this needs immediate attention from available testers.
+            </p>
+            <div class="initiative-card__update">
+              <strong>⚠️ Due in 3 days:</strong> MVP is complete and ready for UAT sign-off. One to two testers are needed to review and approve before go-live. Please coordinate with Rachel Harrison to assign testers immediately.
+            </div>
+          </article>
+
+          <!-- RIC-144 – Spectrum Management NTIA Reports Site -->
+          <article class="initiative-card" aria-labelledby="init-6-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">6</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Medium</span>
+                <span class="badge badge--program">Program – DNS</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-6-title">RIC-144 — Spectrum Management NTIA Reports Site</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Thomas Mason</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Jon Lanenga</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> June 15, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> 9 / 10</span>
+            </div>
+            <p class="initiative-card__body">
+              A web application is being built to automatically ingest and parse NTIA's daily spectrum management reports — structuring agenda items, remarks, and decision codes into a searchable, queryable database. This eliminates significant manual review effort for the NMSC team and creates a repeatable capability for tracking regulatory spectrum actions over time — an investment that compounds in value with every passing week.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> Development is underway. On track for the June 15 deadline.
+            </div>
+          </article>
+
+        </div><!-- /.initiative-grid -->
+      </section>
+
+      <!-- ================================================================
+           DISCOVERY
+           ================================================================ -->
+      <section class="section" aria-labelledby="discovery-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="discovery-heading">Discovery</h2>
+          <span class="section__count">2</span>
+        </div>
+        <p class="section__intro">These initiatives are in active scoping or early exploration — not yet in full development.</p>
+
+        <div class="initiative-grid">
+
+          <!-- RIC-365 – NIWDC – AI Agents for Doctrine Review -->
+          <article class="initiative-card" aria-labelledby="init-disc-1-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">1</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Low</span>
+                <span class="badge badge--program">Program – DNS</span>
+                <span class="badge badge--ready">Discovery</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-disc-1-title">RIC-365 — NIWDC – AI Agents for Doctrine Review</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Unassigned</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Don Fergusson</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> May 29, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> 9 / 10</span>
+            </div>
+            <p class="initiative-card__body">
+              An embedded eSimplicity team at NIWDC has already built six AI agents on the GenAI.mil platform that are actively accelerating doctrine review and CONOPS editing — one of the NIWDC Commander's top stated priorities for 2026. This initiative brings the RIC in to refine those existing agents and explore replicating the capability across other DNS customers. The foundation is already in place; the opportunity is to scale it.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> In discovery. Needs assignment before the May 29 target date. High-impact opportunity with an existing foothold on the platform.
+            </div>
+          </article>
+
+          <!-- RIC-316 – T-MSIS – Test Automation -->
+          <article class="initiative-card" aria-labelledby="init-disc-2-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">2</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Low</span>
+                <span class="badge badge--program">Program – Health</span>
+                <span class="badge badge--ready">Discovery</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-disc-2-title">RIC-316 — T-MSIS – Test Automation</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Unassigned</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> July 31, 2026</span>
+              <span class="initiative-card__meta-item"><strong>Labels</strong> Health, Program</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> 10 / 10</span>
+            </div>
+            <p class="initiative-card__body">
+              An exploratory initiative to identify how AI can improve the efficiency and accuracy of T-MSIS data validation workflows. This carries the highest impact score in the entire RIC queue — a 10 out of 10 — reflecting the scale of potential improvement to a critical data quality process that currently requires substantial manual intervention.
+            </p>
+            <div class="initiative-card__update">
+              <strong>Update:</strong> Awaiting assignment and kickoff scoping. Highest-impact item in the queue — consider prioritizing assignment.
+            </div>
+          </article>
+
+        </div><!-- /.initiative-grid -->
+      </section>
+
+      <!-- ================================================================
+           REVIEWING
+           ================================================================ -->
+      <section class="section" aria-labelledby="reviewing-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="reviewing-heading">Reviewing</h2>
+          <span class="section__count">1</span>
+        </div>
+        <p class="section__intro">Work product has been delivered and is pending stakeholder review, presentation, or sign-off.</p>
+
+        <div class="initiative-grid">
+
+          <!-- RIC-268 – IDR – Research POC / White Paper (PAST DUE) -->
+          <article class="initiative-card initiative-card--pastdue" aria-labelledby="init-rev-1-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">1</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--blocker">🔴 Blocker</span>
+                <span class="badge badge--bd">BD / Growth</span>
+                <span class="badge badge--program">Health</span>
+                <span class="pastdue-alert">⚠️ PAST DUE</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-rev-1-title">RIC-268 — IDR – Research POC / White Paper</h3>
+            <div class="initiative-card__meta">
+              <span class="initiative-card__meta-item"><strong>Owner</strong> Thomas Mason</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Alisha Hutson</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> May 11, 2026 (past due)</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> 10 / 10</span>
+            </div>
+            <p class="initiative-card__body">
+              This initiative evaluates how CMS's Integrated Data Repository program could leverage the TMS and Snowflake architecture for automated onboarding and user provisioning — mirroring the approach taken for MESH. Findings are being prepared for a CMS stakeholder presentation led by Alisha Hutson. This is a strategic early-capture opportunity with a perfect impact score, making timely resolution critical.
+            </p>
+            <div class="initiative-card__update initiative-card__update--blocked">
+              <strong>⚠️ PAST DUE — Action needed:</strong> Delivery date was May 11. A status update from Thomas Mason is needed immediately to confirm deliverable status and reset timeline expectations with the sponsor before the CMS stakeholder presentation window closes.
+            </div>
+          </article>
+
+        </div><!-- /.initiative-grid -->
+      </section>
+
+      <!-- ================================================================
+           QUEUED INITIATIVES
+           ================================================================ -->
+      <section class="section" aria-labelledby="queued-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="queued-heading">Queued Initiatives</h2>
+          <span class="section__count">5</span>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table" aria-label="Queued initiatives table">
+            <thead>
+              <tr>
+                <th scope="col">Initiative</th>
+                <th scope="col">Category</th>
+                <th scope="col">Sponsor</th>
+                <th scope="col">Target / Deadline</th>
+                <th scope="col">Impact</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Health BU – Power Automate / Data Ingest Consult</strong> <br><small>RIC-369 — Needs assignment</small></td>
+                <td><span class="badge badge--corp">Corporate / Health</span></td>
+                <td>Rachel Harrison</td>
+                <td><span class="warn">May 22, 2026 ⚠️</span></td>
+                <td>9 / 10</td>
+              </tr>
+              <tr>
+                <td><strong>eSimplicity Quality Management</strong> <br><small>RIC-133 — Needs assignment</small></td>
+                <td><span class="badge badge--corp">Corporate</span></td>
+                <td>Rachel Harrison</td>
+                <td>—</td>
+                <td>9 / 10</td>
+              </tr>
+              <tr>
+                <td><strong>T-MSIS – Report Automation</strong> <br><small>RIC-153</small></td>
+                <td><span class="badge badge--program">Program – Health</span></td>
+                <td>James Shulgold</td>
+                <td>—</td>
+                <td>8 / 10</td>
+              </tr>
+              <tr>
+                <td><strong>LCAT Compliance Tool</strong> <br><small>RIC-145</small></td>
+                <td><span class="badge badge--corp">Corporate</span></td>
+                <td>Kelly Bryson</td>
+                <td>—</td>
+                <td>5 / 10</td>
+              </tr>
+              <tr>
+                <td><strong>MACFin POC</strong> <br><small>RIC-88 — Customer confirmed</small></td>
+                <td><span class="badge badge--program">Program – Health</span></td>
+                <td>Tinu (CMCS)</td>
+                <td>TBD</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-note">
+          ⚠️ RIC-369 (Health BU Power Automate Consult) is due May 22 — needs assignment this week. RIC-133, RIC-153, and RIC-145 are awaiting capacity to begin.
+        </div>
+      </section>
+
+      <!-- ================================================================
+           RECENTLY COMPLETED
+           ================================================================ -->
+      <section class="section" aria-labelledby="completed-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="completed-heading">Recently Completed</h2>
+          <span class="section__count">4</span>
+        </div>
+        <p class="section__intro">Deliverables completed in the last 14 days (Apr 28 – May 11, 2026).</p>
+
+        <div class="data-table-wrapper">
+          <table class="data-table" aria-label="Recently completed initiatives table">
+            <thead>
+              <tr>
+                <th scope="col">Initiative</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Delivered</th>
+                <th scope="col">What Was Delivered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>RIC-171 — New Mexico RFP Demo</strong><br><span class="badge badge--bd">BD / Growth</span></td>
+                <td>Aaron West</td>
+                <td>May 12, 2026</td>
+                <td><span class="done-cell">✅ Delivered a fully working downselect demo for the State of New Mexico — showcasing AI-assisted document extraction, OCR classification, human-in-the-loop validation, and a structured data layer for water rights records.</span></td>
+              </tr>
+              <tr>
+                <td><strong>RIC-329 — DBX Apps POC – Use Case 4</strong><br><span class="badge badge--program">Program – Health</span></td>
+                <td>Matt Wartell</td>
+                <td>~May 8, 2026</td>
+                <td><span class="done-cell">✅ Proved out Databricks' Automatic App Deployment capability — evaluated Genie, AgentBricks, and custom templates for non-technical QDAS users. Delivered a live demo and one-page write-up.</span></td>
+              </tr>
+              <tr>
+                <td><strong>RIC-164 — DBX Apps POC – Use Case 3</strong><br><span class="badge badge--program">Program – Health</span></td>
+                <td>Lada Semicheva</td>
+                <td>~May 1, 2026</td>
+                <td><span class="done-cell">✅ Successfully ran the CCSQ Portal application inside Databricks Apps using a microservices architecture and DBX Lakebase for storage. Delivered a one-page write-up on production viability.</span></td>
+              </tr>
+              <tr>
+                <td><strong>RIC-193 — SBA OIG – AI Innovation for Recompete</strong><br><span class="badge badge--program">Program – Civilian</span></td>
+                <td>Kyle Hogan</td>
+                <td>~Apr 30, 2026</td>
+                <td><span class="done-cell">✅ Built and demoed an AI prototype that lets OIG fraud investigators query data in plain English — replacing manual SQL requests to data scientists. Delivered ahead of the June 14 contract end date to support recompete positioning.</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           FOOTER NOTE
+           ================================================================ -->
+      <div class="slack-footer" role="note">
+        <strong>Questions or new requests?</strong> Questions about prioritization, capacity, or a specific initiative? Reach out to your RIC point of contact or submit new requests through the intake process — all new asks are reviewed against current capacity before scheduling begins.
+      </div>
+
+    </div><!-- /.page-container -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <span class="site-footer__badge" aria-hidden="true">RIC</span>
+        <span class="site-footer__name">eSimplicity Rapid Innovation Center</span>
+      </div>
+      <p class="site-footer__copy">© 2026 eSimplicity. Internal use only. &nbsp;·&nbsp; Report generated May 11, 2026.</p>
+      <p class="site-footer__note">
+        This report reflects status as of the week of May 11, 2026.
+        For the most current initiative status, visit the <a href="https://esimplicity.atlassian.net/jira/software/projects/RIC/boards/918" target="_blank" rel="noopener noreferrer">RIC Jira Board</a>.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
