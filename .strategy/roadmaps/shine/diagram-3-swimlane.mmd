@@ -1,0 +1,46 @@
+flowchart LR
+    classDef done fill:#22c55e,color:#fff,stroke:#16a34a
+    classDef active fill:#f59e0b,color:#fff,stroke:#d97706
+    classDef mvp fill:#6366f1,color:#fff,stroke:#4f46e5
+    classDef phase1 fill:#3b82f6,color:#fff,stroke:#2563eb
+    classDef phase2 fill:#8b5cf6,color:#fff,stroke:#7c3aed
+    classDef phase3 fill:#ec4899,color:#fff,stroke:#db2777
+    classDef pipeline fill:#14b8a6,color:#fff,stroke:#0d9488
+    classDef converge fill:#f97316,color:#fff,stroke:#ea580c
+
+    subgraph TRACK1["🤖  Track 1 — AI Chat & Knowledge Sources"]
+        direction LR
+        M1["M1\nFoundation ✅"]:::done
+        M2["M2\nSecure Access ✅"]:::done
+        M3["M3\nChat Interface 🔜"]:::active
+        M4["M4\nSharePoint"]:::mvp
+        M5["M5\nBeta Fix"]:::phase1
+        M6["M6\nGitHub"]:::phase1
+        M7["M7\nJira"]:::phase1
+        M8["M8\nSlack"]:::phase1
+        M9["M9\nConfluence"]:::phase1
+        M1-->M2-->M3-->M4-->M5-->M6-->M7-->M8-->M9
+    end
+
+    subgraph TRACK2["📈  Track 2 — Growth Opportunities Pipeline"]
+        direction LR
+        SP["Spike\nRIC-357 🔄"]:::pipeline
+        IP["Ingestion\nPipeline"]:::pipeline
+        DN["Data\nNormalization"]:::pipeline
+        SP-->IP-->DN
+    end
+
+    subgraph PHASE2["🔀  Convergence — Phase 2"]
+        direction LR
+        M10["M10\nGrowth Portal"]:::converge
+        M11["M11\nAnalytics"]:::phase2
+        M10-->M11
+    end
+
+    subgraph PHASE3["🤖  Phase 3 — Agents"]
+        M12["M12\nUser Agents"]:::phase3
+    end
+
+    M9 -->|Phase 1 complete| M10
+    DN -->|Pipeline ready| M10
+    M11 --> M12
