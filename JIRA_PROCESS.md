@@ -131,6 +131,9 @@ A comment is required any time:
 - A field is updated (assignee, priority, epic link, etc.)
 - Work is completed or paused
 - An issue is closed or cancelled
+- **You are actively working on a ticket — once per business day, every day**
+
+**Daily update rule:** If a ticket is in `In Progress` and you worked on it today, you must leave a comment before the end of the day. This keeps the team informed, surfaces blockers early, and eliminates the need to chase people for status updates. A ticket with no comment in 3+ business days is considered stale and will be flagged.
 
 **Comment format:**
 
@@ -142,8 +145,9 @@ A comment is required any time:
 [Any next steps, blockers, or follow-up items — if applicable]
 ```
 
-**Good examples:**
+**Good daily update examples:**
 - "Completed the API integration for the reporting endpoint. All unit tests passing. Moving to Reviewing for code review."
+- "Made progress on the auth middleware — core logic is working, still need to wire up the token refresh flow. On track."
 - "Blocked on access to the staging environment. Waiting on DevOps to provision credentials before we can proceed."
 - "Reassigned to Sarah — Kyle is out this week and this needs to move forward."
 
@@ -152,6 +156,7 @@ A comment is required any time:
 - "updated"
 - "moved to in progress"
 - "see PR"
+- No comment at all on a day you worked the ticket
 
 ---
 
@@ -226,6 +231,7 @@ Closing this issue. [Any notes for future reference — optional.]
 | Approve and transition to Reviewed | TL / Reviewer |
 | Link GitHub PR to ticket | Developer (when PR is opened) |
 | Write status change comments | Whoever makes the change |
+| Write daily progress comment on active tickets | Developer (every business day) |
 | Write closure comment | Developer (assignee) |
 | Close (transition to Done) | Developer (assignee) |
 | Cancel a ticket | PM |
@@ -238,9 +244,10 @@ These are the team's flow health rules. If a ticket is violating one, it should 
 
 | Situation | Rule |
 |-----------|------|
+| Ticket in `In Progress` | Developer must leave a comment every business day they work the ticket |
 | Ticket in `Blocked` | Developer must add a comment immediately explaining the blocker and what is needed |
 | Ticket in `Blocked` | Does NOT count toward WIP limit — developer may pull new work |
-| Ticket in `In Progress` with no activity for 3+ business days | Flagged as stale — developer must update with current status |
+| Ticket in `In Progress` with no comment for 3+ business days | Flagged as stale — developer must update with current status |
 | Ticket in `Reviewing` with no reviewer engaged | Developer flags the TL directly |
 | Developer at WIP limit | Must finish or escalate existing work before pulling new tickets |
 
