@@ -1210,6 +1210,23 @@
         "skill": true
       }
     },
+    "jira-auditor": {
+      "description": "Audits Jira tickets to verify the team is following the process defined in JIRA_PROCESS.md. Checks required fields, comment quality on transitions, closure comments, GitHub PR linking, and ticket health (stale In Progress, missing assignees, etc.). Use when you want to audit a sprint, a project, a specific person's tickets, or a single issue for process compliance.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/jira-auditor.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": false,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": false,
+        "skill": true
+      }
+    },
     "kata-forge-security": {
       "description": "Security Reviewer persona. Threat modeling, access control analysis, compliance review. Loads katalyst-xray-scan-auth skill.",
       "mode": "primary",

@@ -14,7 +14,7 @@ This skill defines the team standard for all Jira operations — creation, updat
 
 These apply to every Jira operation, no matter what:
 
-1. **Epic or parent is required.** Every Story, Task, Bug, and Sub-task must be linked to an Epic or parent issue before creation is complete. Initiatives and Epics are the only types exempt.
+1. **Epic or parent is required.** Every Story, Task, Bug, and Sub-task must be linked to an Epic or parent issue before creation is complete. Epics must be linked to a parent Initiative. Only Initiatives are exempt from the parent requirement.
 2. **Priority is required.** Every issue must have a priority set. Never leave it at default without confirming with the user.
 3. **Assignee is required.** Every issue must be assigned to someone. If the user doesn't specify, ask. Do not create or close unassigned issues.
 4. **Every update gets a comment.** Any time a status changes, a field is updated, or work is done on an issue, a human-readable comment must be added explaining what changed and why.
@@ -33,7 +33,8 @@ Initiative  (strategic-level, long-running programs)
 ```
 
 - Sub-tasks use type name `Sub-task` (with hyphen) in the API
-- Initiatives and Epics do not require a parent
+- Initiatives are the only type exempt from requiring a parent
+- Epics **must** be linked to a parent Initiative
 - Everything else **must** have an Epic or parent
 
 ---
@@ -77,7 +78,7 @@ Use these definitions when deciding what type to create or when advising the use
 | Description | ✅ Required | ✅ Required | ✅ Required | ✅ Required |
 | Priority | ✅ Required | ✅ Required | ✅ Required | ✅ Required |
 | Assignee | ✅ Required | ✅ Required | ✅ Required | ✅ Required |
-| Epic / Parent | ❌ Exempt | ❌ Exempt | ✅ Required | ✅ Required |
+| Epic / Parent | ❌ Exempt | ✅ Required | ✅ Required | ✅ Required |
 | Labels | Recommended | Recommended | Recommended | Optional |
 | User Story | Optional | Optional | ✅ Required | Optional |
 | Context | ✅ Required | ✅ Required | ✅ Required | Recommended |
@@ -297,7 +298,7 @@ Ask the user:
 1. **Project key** — Never assume. Always ask.
 2. **Issue type** — Initiative, Epic, Story, Task, Bug, or Sub-task
 3. **Summary** — Clear, concise title
-4. **Epic or parent** — Required for Story, Task, Bug, Sub-task. Ask: "What epic or parent does this belong to?"
+4. **Epic or parent** — Required for Epic, Story, Task, Bug, Sub-task. Ask: "What epic, initiative, or parent does this belong to?"
 5. **Priority** — Ask: "What priority should this be? (Highest, High, Medium, Low, Lowest)"
 6. **Assignee** — Ask: "Who should this be assigned to?"
 7. **Description details** — Use the appropriate template for the issue type

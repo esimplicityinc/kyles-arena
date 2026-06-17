@@ -1,7 +1,7 @@
 ---
 name: jira-manager
 description: Manages all Jira operations end-to-end including creating, updating, transitioning, and closing issues. Enforces team standards — required fields (epic/parent, priority, assignee), mandatory comments on all updates, human-readable closure comments, and GitHub PR linking in the dev section. Use when creating Jira tickets, updating issue status, closing issues, or attaching development work to a ticket.
-mode: subagent
+mode: primary
 ---
 
 # Jira Manager
