@@ -1,0 +1,1243 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "jira": {
+      "type": "local",
+      "command": ["uvx", "mcp-atlassian"],
+      "enabled": true,
+      "env": {
+        "JIRA_URL": "https://esimplicity.atlassian.net",
+        "JIRA_USERNAME": "kyle.hogan@esimplicity.com",
+        "JIRA_API_TOKEN": "$JIRA_API_TOKEN"
+      }
+    },
+    "shine-jira": {
+      "type": "local",
+      "command": ["node", "/Users/kyle.hogan/Projects/kyles-arena/shine-poc/mcp-server/jira-server.js"],
+      "enabled": false,
+      "env": {
+        "VITE_JIRA_EMAIL": "kyle.hogan@esimplicity.com",
+        "VITE_JIRA_API_TOKEN": "$JIRA_API_TOKEN",
+        "VITE_JIRA_BASE_URL": "https://esimplicity.atlassian.net"
+      }
+    },
+    "shine-confluence": {
+      "type": "local",
+      "command": ["node", "/Users/kyle.hogan/Projects/kyles-arena/shine-poc/mcp-server/confluence-server.js"],
+      "enabled": true,
+      "env": {
+        "VITE_JIRA_EMAIL": "kyle.hogan@esimplicity.com",
+        "VITE_JIRA_API_TOKEN": "$JIRA_API_TOKEN",
+        "VITE_CONFLUENCE_BASE_URL": "https://esimplicity.atlassian.net/wiki"
+      }
+    },
+    "shine-github": {
+      "type": "local",
+      "command": ["node", "/Users/kyle.hogan/Projects/kyles-arena/shine-poc/mcp-server/github-server.js"],
+      "enabled": true,
+      "env": {
+        "VITE_GITHUB_TOKEN": "YOUR_GITHUB_TOKEN_HERE",
+        "VITE_GITHUB_ORG": "esimplicityinc"
+      }
+    },
+    "shine-sharepoint": {
+      "type": "local",
+      "command": ["node", "/Users/kyle.hogan/Projects/kyles-arena/shine-poc/mcp-server/sharepoint-server.js"],
+      "enabled": true,
+      "env": {
+        "VITE_MS_CLIENT_ID": "e89b9d8f-9da9-4a19-882c-07ae5083cbef",
+        "VITE_MS_TENANT_ID": "549158f4-f089-4bb2-89f0-91330fc0b3d9",
+        "VITE_MS_CLIENT_SECRET": "YOUR_MS_CLIENT_SECRET_HERE"
+      }
+    }
+  },
+  "agent": {
+    "kata-xray-expert": {
+      "description": "Unified X-Ray entry point. Routes taxonomy design requests across all kata-xray-* consultants (user types, user stories, capabilities, systems, DDD, specs, ADRs, NFRs). Start here for any discovery or design artifact work.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-expert.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-user-type": {
+      "description": "Persona consultant. Guides structured discovery of user types through interviews and codebase scanning. Produces persona YAML artifacts via kata-tax-writer.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-user-type.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-user-story": {
+      "description": "User story consultant. Creates and governs user stories (US-XXX) linking user types to capabilities through acceptance criteria.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-user-story.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-capability": {
+      "description": "Capability consultant. Guides structured capability discovery through interviews and codebase scanning. Produces capability YAML artifacts via kata-tax-writer.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-capability.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-system": {
+      "description": "System landscape consultant. Defines systems (self-referential nesting), stacks, and layers. NOT for WHY decisions (use kata-xray-adr) or quality targets (use kata-xray-nfr).",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-system.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-ddd": {
+      "description": "DDD consultant. Bounded contexts, aggregates, domain events, and ubiquitous language through interviews and codebase scanning.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-ddd.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-spec": {
+      "description": "BDD spec consultant. Maps user stories and capabilities to executable BDD feature files, analyzes coverage gaps, and audits feature quality.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-spec.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-adr": {
+      "description": "ADR consultant. Documents architecture decisions through interviews and codebase scanning. Produces ADR YAML artifacts via kata-tax-writer.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-adr.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-xray-nfr": {
+      "description": "NFR consultant. Defines non-functional requirements with measurable thresholds through interviews and codebase scanning.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-xray-nfr.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge": {
+      "description": "Master lifecycle orchestrator. Routes work across all Forge stage agents (design, orchestrate, implement, QA, commit, deploy, release, operate, feedback) and builder families.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-design": {
+      "description": "Design stage coordinator. Orchestrates discovery and design artifact creation across X-Ray consultants and taxonomy builders.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-design.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-orchestrate": {
+      "description": "Orchestrate stage coordinator. Plans and sequences work across multiple agents and taxonomy operations.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-orchestrate.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-review": {
+      "description": "Review stage coordinator. Pre-implementation practice compliance, architecture alignment, and early security posture assessment.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-review.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-implement": {
+      "description": "Implementation stage coordinator. Drives taxonomy node creation, plugin building, and layer type generation.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-implement.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-qa": {
+      "description": "QA stage coordinator. Runs validation, linting, testing, and quality checks across taxonomy artifacts.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-qa.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-commit": {
+      "description": "Commit stage coordinator. Manages git staging, commit message generation, and pre-commit validation.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-commit.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-deploy": {
+      "description": "Deploy stage coordinator. Manages deployment pipeline generation, environment promotion, and infrastructure provisioning.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-deploy.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-verify": {
+      "description": "Verify stage coordinator. Post-deployment validation — smoke tests, NFR verification, runtime security scanning, verification gate.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-verify.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-release": {
+      "description": "Release stage coordinator. Manages versioning, changelog generation, release tagging, and artifact publishing.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-release.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-operate": {
+      "description": "Operate stage coordinator. Manages runtime operations, monitoring setup, incident response, and operational taxonomy.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-operate.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-forge-feedback": {
+      "description": "Feedback stage coordinator. Collects metrics, retrospective data, and improvement signals to feed back into the design cycle.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-feedback.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-forge-*": "allow",
+          "kata-tax-writer": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "kata-tax-build-taxonomy": {
+      "description": "Taxonomy node builder orchestrator. Creates canonical taxonomy nodes (systems, stacks, layers, organizations, teams, environments) through an interactive wizard.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-tax-build-taxonomy.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "question": true,
+        "task": true
+      },
+      "permission": {
+        "task": {
+          "kata-tax-build-taxonomy-scribe": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-tax-build-extension": {
+      "description": "Extension builder orchestrator. Creates Katalyst extensions (Actions, Capabilities, Tools, Extensions, CI/CD templates) through an interactive wizard.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-tax-build-extension.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "question": true,
+        "task": true
+      },
+      "permission": {
+        "task": {
+          "kata-tax-build-extension-scribe": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-tax-build-layer-type": {
+      "description": "Layer type builder orchestrator. Creates complete layer type template packages for new tech stacks (IaC, Kubernetes, container apps).",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-tax-build-layer-type.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "question": true,
+        "task": true
+      },
+      "permission": {
+        "task": {
+          "kata-tax-build-layer-type-scribe": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-tax-build-taxonomy-scribe": {
+      "description": "Taxonomy node scribe. Generates taxonomy node YAML files based on orchestrator requirements, dispatches to kata-tax-writer for file creation.",
+      "mode": "subagent",
+      "prompt": "{file:./.opencode/agents/kata-tax-build-taxonomy-scribe.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "task": true
+      },
+      "permission": {
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-tax-build-extension-scribe": {
+      "description": "Extension scribe. Generates extension YAML files with correct schemas, dispatches to kata-tax-writer for file creation.",
+      "mode": "subagent",
+      "prompt": "{file:./.opencode/agents/kata-tax-build-extension-scribe.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "task": true
+      },
+      "permission": {
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-tax-build-layer-type-scribe": {
+      "description": "Layer type scribe. Generates all artifacts for a new layer type (templates, CI/CD, docs, tests), dispatches to kata-tax-writer for file creation.",
+      "mode": "subagent",
+      "prompt": "{file:./.opencode/agents/kata-tax-build-layer-type-scribe.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "task": true
+      },
+      "permission": {
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-tax-writer": {
+      "description": "Centralized taxonomy artifact writer. The ONLY agent with write permissions. Receives structured creation/update requests, validates schemas, resolves paths, creates files, and optionally submits to API.",
+      "mode": "subagent",
+      "prompt": "{file:./.opencode/agents/kata-tax-writer.md}",
+      "temperature": 0.1,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "mkdir *": "allow",
+          "curl *": "allow",
+          "kata *": "allow",
+          "uv *": "allow",
+          "ls *": "allow"
+        },
+        "write": {
+          ".global/taxonomy/**": "allow",
+          ".global/environments/**": "allow",
+          "organizations/**": "allow",
+          "programs/**": "allow",
+          "projects/**": "allow",
+          "teams/**": "allow",
+          "team_members/**": "allow",
+          "practice_areas/**": "allow",
+          "practices/**": "allow",
+          "**/system.yaml": "allow",
+          "**/stack.yaml": "allow",
+          "**/layer.yaml": "allow",
+          "src/**": "allow",
+          "docs/**": "allow",
+          "tests/**": "allow",
+          "stack-tests/features/**": "allow",
+          "*": "deny"
+        }
+      }
+    },
+    "kata-tax-validator-fixer": {
+      "description": "Deep validation and automatic fixing of taxonomy issues. Checks schema, hierarchy, references, consistency, best practices, completeness. Dispatches kata-tax-writer for fixes.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-tax-validator-fixer.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "kata *": "allow",
+          "uv *": "allow",
+          "ls *": "allow",
+          "find *": "allow"
+        },
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-tax-dependency-analyzer": {
+      "description": "Dependency graph analysis, cycle detection, impact analysis for taxonomy nodes. Read-only with Mermaid diagram output.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-tax-dependency-analyzer.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "kata *": "allow",
+          "uv *": "allow",
+          "ls *": "allow"
+        }
+      }
+    },
+    "kata-tax-practice-auditor": {
+      "description": "Practice compliance auditor. Discovers adopted practices, loads practice skills, evaluates taxonomy and codebase against practice requirements, produces compliance reports.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-tax-practice-auditor.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge-product": {
+      "description": "Product Owner persona. Discovers and prioritizes user needs. Dispatches kata-xray-user-type, kata-xray-user-story, kata-xray-capability.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-product.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge-architect": {
+      "description": "System Architect persona. Designs system structure, domain model, and quality attributes. Dispatches kata-xray-system, kata-xray-ddd, kata-xray-adr, kata-xray-nfr.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-architect.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-*": "allow",
+          "kata-tax-dependency-analyzer": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge-pm": {
+      "description": "Project Manager persona. Analyzes dependencies, creates work packages, identifies risks, produces delivery plans.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-pm.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": false,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        }
+      }
+    },
+    "kata-forge-frontend": {
+      "description": "Frontend Developer persona. Designs UI components, routes, and interaction patterns from user stories. Loads project-specific framework skills.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-frontend.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge-backend": {
+      "description": "Backend Developer persona. Designs APIs, domain models, and data schemas from bounded contexts and aggregates. Loads project-specific framework skills.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-backend.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge-devops": {
+      "description": "DevOps Engineer persona. Builds operational infrastructure. Dispatches kata-tax-build-taxonomy, kata-tax-build-extension, kata-tax-build-layer-type.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-devops.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow",
+          "kata *": "allow",
+          "uv *": "allow"
+        },
+        "task": {
+          "kata-tax-build-*": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge-tester": {
+      "description": "Tester persona. Generates BDD features from acceptance criteria. Dispatches kata-xray-spec. Creates test plans with edge cases.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-tester.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-spec": "allow",
+          "kata-tax-writer": "allow"
+        }
+      }
+    },
+    "kata-forge-qa-lead": {
+      "description": "QA Lead persona. Owns quality gate decisions. Runs coverage analysis. Dispatches kata-tax-validator-fixer and kata-xray-spec.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-qa-lead.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-xray-spec": "allow",
+          "kata-tax-validator-fixer": "allow"
+        }
+      }
+    },
+    "jira-manager": {
+      "description": "Manages all Jira operations end-to-end including creating, updating, transitioning, and closing issues. Enforces team standards — required fields (epic/parent, priority, assignee), mandatory comments on all updates, human-readable closure comments, and GitHub PR linking in the dev section. Use when creating Jira tickets, updating issue status, closing issues, or attaching development work to a ticket.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/jira-manager.md}",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": false,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": false,
+        "skill": true
+      }
+    },
+    "kata-forge-security": {
+      "description": "Security Reviewer persona. Threat modeling, access control analysis, compliance review. Loads katalyst-xray-scan-auth skill.",
+      "mode": "primary",
+      "prompt": "{file:./.opencode/agents/kata-forge-security.md}",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "write": false,
+        "edit": false,
+        "question": true,
+        "task": true,
+        "skill": true
+      },
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "wc *": "allow",
+          "ls *": "allow"
+        },
+        "task": {
+          "kata-tax-writer": "allow"
+        }
+      }
+    }
+  }
+}
