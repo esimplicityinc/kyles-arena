@@ -37,8 +37,7 @@ PROJECT_KEY = "RIC"
 BOARD_URL   = "https://esimplicity.atlassian.net/jira/software/projects/RIC/boards/918"
 
 ACTIVE_STATUSES        = {"In Progress", "Blocked", "Always On", "Reviewing"}
-READY_FOR_WORK_STATUSES = {"Ready for Work"}
-QUEUED_STATUSES        = {"To Do"}
+QUEUED_STATUSES        = {"To Do", "Ready for Work", "Discovery", "On Hold"}
 DONE_STATUSES          = {"Done"}
 DONE_LOOKBACK_DAYS = 30
 
@@ -58,40 +57,61 @@ def jira_auth():
     return HTTPBasicAuth(JIRA_EMAIL, JIRA_API_TOKEN)
 
 
-def jira_get(path, params=None):
+def jira_post(path, payload):
     url = f"{JIRA_URL}/rest/api/3/{path.lstrip('/')}"
-    resp = requests.get(url, auth=jira_auth(), params=params, timeout=30)
+    resp = requests.post(
+        url,
+        auth=jira_auth(),
+        json=payload,
+        headers={"Accept": "application/json", "Content-Type": "application/json"},
+        timeout=30,
+    )
     resp.raise_for_status()
     return resp.json()
 
 
 def fetch_all_initiatives():
     """
-    Paginate through all RIC issues of type Initiative.
+    Paginate through all RIC issues of type Initiative (excluding Cancelled).
+    Uses POST /rest/api/3/search/jql with cursor-based pagination (nextPageToken).
     Returns a list of raw Jira issue dicts.
     """
     issues = []
-    start_at = 0
     page_size = 50
-    fields = (
-        "summary,status,priority,assignee,description,labels,"
-        "project,updated,created,issuetype"
+    fields = [
+        "summary", "status", "priority", "assignee", "description",
+        "labels", "project", "updated", "created", "issuetype",
+        "resolutiondate", "duedate", "comment",
+        "customfield_11392",  # Business Unit
+        "customfield_11458",  # Business Impact
+        "customfield_11491",  # Functional Area
+    ]
+    jql = (
+        f"project = {PROJECT_KEY} AND issuetype = Initiative "
+        f"AND status != Cancelled ORDER BY priority ASC, updated DESC"
     )
-    jql = f'project = {PROJECT_KEY} AND issuetype = Initiative ORDER BY updated DESC'
 
+    next_token = None
+    page_num = 0
     while True:
-        print(f"  Fetching issues {start_at}–{start_at + page_size - 1} …")
-        data = jira_get("search", params={
-            "jql":      jql,
-            "fields":   fields,
-            "startAt":  start_at,
+        payload = {
+            "jql":        jql,
+            "fields":     fields,
             "maxResults": page_size,
-        })
+        }
+        if next_token:
+            payload["nextPageToken"] = next_token
+
+        start_label = page_num * page_size
+        print(f"  Fetching issues {start_label}–{start_label + page_size - 1} …")
+        data = jira_post("search/jql", payload)
+
         batch = data.get("issues", [])
         issues.extend(batch)
-        total = data.get("total", 0)
-        start_at += len(batch)
-        if start_at >= total or not batch:
+        page_num += 1
+
+        next_token = data.get("nextPageToken")
+        if not next_token or not batch or data.get("isLast", False):
             break
 
     print(f"  Fetched {len(issues)} initiative(s) total.")
@@ -221,6 +241,33 @@ def parse_need_by_date_obj(date_str):
     return None
 
 
+def get_multi_select(field_value):
+    """Extract display values from a Jira multi-select custom field (list of dicts with 'value')."""
+    if field_value is None:
+        return ""
+    if isinstance(field_value, list):
+        return ", ".join(x.get("value", "") for x in field_value if x.get("value"))
+    if isinstance(field_value, dict):
+        return field_value.get("value", "")
+    return str(field_value)
+
+
+def get_latest_comment(fields):
+    """Return the most recent non-automated comment as a (date, author, text) tuple or None."""
+    comments = (fields.get("comment") or {}).get("comments", [])
+    for lc in reversed(comments):
+        body_text = extract_description_text(lc.get("body", {}))
+        # Skip automated audit comments
+        if body_text.strip().startswith("-- This ticket is currently"):
+            continue
+        date_str   = (lc.get("updated") or "")[:10]
+        author     = (lc.get("author") or {}).get("displayName", "")
+        text       = re.sub(r"[ \t]+", " ", body_text).strip()
+        if len(text) > 300:
+            text = text[:297] + "…"
+        return date_str, author, text
+    return None
+
 def get_category_tags(labels):
     """
     Given a list of label strings, return a list of (tag_key, display_name) tuples.
@@ -314,12 +361,11 @@ def get_quarter(date_obj):
 # ---------------------------------------------------------------------------
 
 def categorize_issues(issues):
-    """Split issues into in_progress, ready_for_work, queued, and done lists."""
+    """Split issues into in_progress, queued, and done lists."""
     cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=DONE_LOOKBACK_DAYS)
-    in_progress    = []
-    ready_for_work = []
-    queued         = []
-    done           = []
+    in_progress = []
+    queued      = []
+    done        = []
 
     for issue in issues:
         fields = issue.get("fields", {})
@@ -327,8 +373,6 @@ def categorize_issues(issues):
 
         if status_name in ACTIVE_STATUSES:
             in_progress.append(issue)
-        elif status_name in READY_FOR_WORK_STATUSES:
-            ready_for_work.append(issue)
         elif status_name in QUEUED_STATUSES:
             queued.append(issue)
         elif status_name in DONE_STATUSES:
@@ -346,10 +390,11 @@ def categorize_issues(issues):
             else:
                 done.append(issue)
 
-    # Sort in_progress by priority
+    # Sort in_progress by priority, then queued by priority
     in_progress.sort(key=priority_sort_key)
+    queued.sort(key=priority_sort_key)
 
-    return in_progress, ready_for_work, queued, done
+    return in_progress, queued, done
 
 
 # ---------------------------------------------------------------------------
@@ -400,23 +445,37 @@ def is_past_due(need_by_str):
 
 def render_active_card(issue, idx):
     """Render a single active initiative card."""
-    fields       = issue.get("fields", {})
-    summary      = h(get_text(fields.get("summary"), "Untitled Initiative"))
-    status_name  = get_text(fields.get("status"), "")
+    fields        = issue.get("fields", {})
+    summary       = h(get_text(fields.get("summary"), "Untitled Initiative"))
+    status_name   = get_text(fields.get("status"), "")
     priority_name = get_text(fields.get("priority"), "")
-    assignee     = get_text(fields.get("assignee"), None)
-    labels       = fields.get("labels") or []
-    desc_field   = fields.get("description")
-    issue_key    = h(issue.get("key", ""))
+    assignee      = get_text(fields.get("assignee"), None)
+    labels        = fields.get("labels") or []
+    desc_field    = fields.get("description")
+    issue_key     = h(issue.get("key", ""))
+
+    # Custom fields
+    bu   = get_multi_select(fields.get("customfield_11392"))  # Business Unit
+    bi   = get_multi_select(fields.get("customfield_11458"))  # Business Impact
+    fa   = get_multi_select(fields.get("customfield_11491"))  # Functional Area
 
     desc_text = extract_description_text(desc_field)
     sponsor   = parse_sponsor(desc_text)
-    need_by   = parse_need_by_date(desc_text)
+    # Use the real duedate field; fall back to parsing description only if absent
+    need_by_raw = fields.get("duedate")
+    if need_by_raw:
+        # Format YYYY-MM-DD → "Jun 25, 2026"
+        try:
+            d = datetime.datetime.strptime(need_by_raw, "%Y-%m-%d").date()
+            need_by = d.strftime("%b %-d, %Y")
+        except ValueError:
+            need_by = need_by_raw
+    else:
+        need_by = parse_need_by_date(desc_text)
     impact    = parse_impact(desc_text)
 
-    # Trim description for the card body (first 3 meaningful lines or 500 chars)
+    # Trim description for the card body
     desc_lines = [ln.strip() for ln in desc_text.splitlines() if ln.strip()]
-    # Skip lines that look like metadata fields we've already parsed
     meta_patterns = re.compile(
         r"(?i)^(sponsor|need\s*by|due|impact|requested\s*by|needbydate)[:\s]"
     )
@@ -451,14 +510,31 @@ def render_active_card(issue, idx):
     meta_parts = []
     if assignee:
         meta_parts.append(f'<span class="initiative-card__meta-item"><strong>Owner</strong> {h(assignee)}</span>')
+    if bu:
+        meta_parts.append(f'<span class="initiative-card__meta-item"><strong>Business Unit</strong> {h(bu)}</span>')
+    if bi:
+        # Shorten long business impact labels for display
+        bi_short = bi.split(" - ")[0] if " - " in bi else bi
+        meta_parts.append(f'<span class="initiative-card__meta-item"><strong>Impact</strong> {h(bi_short)}</span>')
+    if fa:
+        meta_parts.append(f'<span class="initiative-card__meta-item"><strong>Area</strong> {h(fa)}</span>')
     if sponsor:
         meta_parts.append(f'<span class="initiative-card__meta-item"><strong>Sponsor</strong> {h(sponsor)}</span>')
     if need_by:
         meta_parts.append(f'<span class="initiative-card__meta-item"><strong>Due</strong> {h(need_by)}</span>')
-    if impact:
-        meta_parts.append(f'<span class="initiative-card__meta-item"><strong>Impact</strong> {h(impact)}</span>')
 
     meta_html = "\n              ".join(meta_parts) if meta_parts else ""
+
+    # Latest comment as current state
+    comment_info = get_latest_comment(fields)
+    current_state_html = ""
+    if comment_info:
+        c_date, c_author, c_text = comment_info
+        current_state_html = f"""
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">{h(c_date)} · {h(c_author)}</span><br/>
+              {h(c_text)}
+            </div>"""
 
     # Update / body section
     if is_blocked:
@@ -490,6 +566,7 @@ def render_active_card(issue, idx):
             <h3 class="initiative-card__title" id="init-{idx}-title">{summary}</h3>
             {"<div class='initiative-card__meta'>" + meta_html + "</div>" if meta_html else ""}
             {body_section}
+            {current_state_html}
             <div class="{update_class}">
               {update_inner}
             </div>
@@ -504,9 +581,23 @@ def render_queued_row(issue):
     desc_field    = fields.get("description")
     desc_text     = extract_description_text(desc_field)
     sponsor       = parse_sponsor(desc_text)
-    need_by       = parse_need_by_date(desc_text)
-    impact        = parse_impact(desc_text)
+    # Use the real duedate field; fall back to parsing description only if absent
+    need_by_raw = fields.get("duedate")
+    if need_by_raw:
+        try:
+            d = datetime.datetime.strptime(need_by_raw, "%Y-%m-%d").date()
+            need_by = d.strftime("%b %-d, %Y")
+        except ValueError:
+            need_by = need_by_raw
+    else:
+        need_by = parse_need_by_date(desc_text)
     issue_key     = h(issue.get("key", ""))
+    status_name   = get_text(fields.get("status"), "")
+    priority_name = get_text(fields.get("priority"), "")
+
+    bu = get_multi_select(fields.get("customfield_11392"))
+    bi = get_multi_select(fields.get("customfield_11458"))
+    bi_short = bi.split(" - ")[0] if " - " in bi else bi
 
     tags       = get_category_tags(labels)
     cat_badges = " ".join(
@@ -521,15 +612,18 @@ def render_queued_row(issue):
     else:
         need_by_cell = "—"
 
-    impact_cell = h(impact) if impact else "—"
+    status_cell = render_status_badge(status_name)
+    priority_cell = render_priority_badge(priority_name) if priority_name else "—"
 
     return f"""
               <tr>
                 <td><strong><a href="{JIRA_URL}/browse/{issue_key}" target="_blank" rel="noopener noreferrer">{summary}</a></strong></td>
-                <td>{cat_badges}</td>
+                <td>{status_cell}</td>
+                <td>{priority_cell}</td>
+                <td>{h(bu) if bu else "—"}</td>
+                <td>{h(bi_short) if bi_short else "—"}</td>
                 <td>{sponsor_cell}</td>
                 <td>{need_by_cell}</td>
-                <td>{impact_cell}</td>
               </tr>"""
 
 
@@ -564,11 +658,19 @@ def has_past_due_queued(queued_issues):
     """Return True if any queued issue has a past-due Need By date."""
     for issue in queued_issues:
         fields     = issue.get("fields", {})
-        desc_field = fields.get("description")
-        desc_text  = extract_description_text(desc_field)
-        need_by    = parse_need_by_date(desc_text)
-        if need_by and is_past_due(need_by):
-            return True
+        need_by_raw = fields.get("duedate")
+        if need_by_raw:
+            try:
+                d = datetime.datetime.strptime(need_by_raw, "%Y-%m-%d").date()
+                if d < datetime.date.today():
+                    return True
+            except ValueError:
+                pass
+        else:
+            desc_text = extract_description_text(fields.get("description"))
+            need_by   = parse_need_by_date(desc_text)
+            if need_by and is_past_due(need_by):
+                return True
     return False
 
 
@@ -576,13 +678,12 @@ def has_past_due_queued(queued_issues):
 # Full HTML document generator
 # ---------------------------------------------------------------------------
 
-def generate_html(active, ready_for_work, queued, done, report_date, week_date_str, quarter_str):
+def generate_html(active, queued, done, report_date, week_date_str, quarter_str):
     """Build and return the complete HTML report string."""
     today_str = report_date.strftime("%B %-d, %Y")
     year_str  = str(report_date.year)
 
     n_active        = len(active)
-    n_ready_for_work = len(ready_for_work)
     n_queued        = len(queued)
     n_done          = len(done)
     n_blocked = sum(
@@ -594,12 +695,6 @@ def generate_html(active, ready_for_work, queued, done, report_date, week_date_s
     active_cards_html = "\n".join(
         render_active_card(issue, idx + 1)
         for idx, issue in enumerate(active)
-    )
-
-    # Ready for Work cards
-    rfw_cards_html = "\n".join(
-        render_active_card(issue, idx + 1)
-        for idx, issue in enumerate(ready_for_work)
     )
 
     # Queued rows
@@ -618,10 +713,8 @@ def generate_html(active, ready_for_work, queued, done, report_date, week_date_s
     # Empty state placeholders
     if not active:
         active_cards_html = '<p style="color:var(--color-gray-500);padding:var(--space-6) 0;">No active initiatives this week.</p>'
-    if not ready_for_work:
-        rfw_cards_html = '<p style="color:var(--color-gray-500);padding:var(--space-6) 0;">No initiatives currently ready for work.</p>'
     if not queued:
-        queued_rows_html = '<tr><td colspan="5" style="color:var(--color-gray-500);text-align:center;padding:var(--space-6);">No queued initiatives.</td></tr>'
+        queued_rows_html = '<tr><td colspan="7" style="color:var(--color-gray-500);text-align:center;padding:var(--space-6);">No queued initiatives.</td></tr>'
     if not done:
         done_rows_html = '<tr><td colspan="3" style="color:var(--color-gray-500);text-align:center;padding:var(--space-6);">No completed initiatives this cycle.</td></tr>'
 
@@ -864,26 +957,11 @@ def generate_html(active, ready_for_work, queued, done, report_date, week_date_s
       </section>
 
       <!-- ================================================================
-           READY FOR WORK
-           ================================================================ -->
-      <section class="section" aria-labelledby="ready-heading">
-        <div class="section__header">
-          <h2 class="section__title" id="ready-heading">Ready for Work</h2>
-          <span class="section__count">{n_ready_for_work}</span>
-        </div>
-        <p class="section__intro">These initiatives are scoped, approved, and awaiting resource availability to begin.</p>
-
-        <div class="initiative-grid">
-          {rfw_cards_html}
-        </div><!-- /.initiative-grid -->
-      </section>
-
-      <!-- ================================================================
            QUEUED INITIATIVES
            ================================================================ -->
       <section class="section" aria-labelledby="queued-heading">
         <div class="section__header">
-          <h2 class="section__title" id="queued-heading">Queued Initiatives</h2>
+          <h2 class="section__title" id="queued-heading">Queued / In Pipeline</h2>
           <span class="section__count">{n_queued}</span>
         </div>
 
@@ -892,10 +970,12 @@ def generate_html(active, ready_for_work, queued, done, report_date, week_date_s
             <thead>
               <tr>
                 <th scope="col">Initiative</th>
-                <th scope="col">Category</th>
+                <th scope="col">Status</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Business Unit</th>
+                <th scope="col">Business Impact</th>
                 <th scope="col">Sponsor / Owner</th>
                 <th scope="col">Need By</th>
-                <th scope="col">Impact</th>
               </tr>
             </thead>
             <tbody>
@@ -1181,20 +1261,19 @@ def main():
 
     # Categorize
     print("Categorizing issues …")
-    active, ready_for_work, queued, done = categorize_issues(raw_issues)
+    active, queued, done = categorize_issues(raw_issues)
     n_blocked = sum(
         1 for i in active
         if get_text(i.get("fields", {}).get("status"), "") == "Blocked"
     )
     print(f"  In Progress:    {len(active)} (blocked: {n_blocked})")
-    print(f"  Ready for Work: {len(ready_for_work)}")
     print(f"  Queued:         {len(queued)}")
     print(f"  Done:           {len(done)}")
     print()
 
     # Generate HTML
     print("Generating HTML report …")
-    html = generate_html(active, ready_for_work, queued, done, report_date, week_str, quarter_str)
+    html = generate_html(active, queued, done, report_date, week_str, quarter_str)
 
     with open(output_path, "w", encoding="utf-8") as fh:
         fh.write(html)

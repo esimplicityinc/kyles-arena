@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RIC Weekly Executive Report – Week of June 22, 2026. Status of all active RIC initiatives, queued work, and recently completed deliverables." />
+  <title>RIC Weekly Report | June 22, 2026</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* Report-page-only styles */
+
+    /* Capacity banner strip */
+    .capacity-banner {
+      background: var(--color-warning-bg);
+      border: 2px solid var(--color-warning-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+      margin-top: var(--space-8);
+    }
+    .capacity-banner__icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+    .capacity-banner__body {}
+    .capacity-banner__title {
+      font-size: 0.875rem;
+      font-weight: 800;
+      color: var(--color-warning-text);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-2);
+    }
+    .capacity-banner__text {
+      font-size: 0.9rem;
+      color: var(--color-warning-text);
+      line-height: 1.65;
+    }
+
+    /* Board card */
+    .board-section {
+      margin-top: var(--space-8);
+    }
+
+    /* Number badge on initiative */
+    .initiative-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: var(--color-gray-100);
+      color: var(--color-gray-500);
+      font-size: 0.7rem;
+      font-weight: 800;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-right: var(--space-1);
+    }
+
+    /* Blocked alert within card */
+    .blocked-alert {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-blocked);
+      background: var(--color-blocked-bg);
+      border: 1px solid var(--color-blocked-border);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+
+    /* Past due indicator */
+    .pastdue-alert {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-medium);
+      background: var(--color-medium-bg);
+      border: 1px solid var(--color-medium-border);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+
+    /* Done badge in table */
+    .done-cell {
+      color: var(--color-done);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    /* Column status pills inside board card */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+      border: 1px solid var(--color-gray-200);
+    }
+    .status-pill--new {
+      background: var(--color-primary);
+      color: var(--color-white);
+      border-color: var(--color-primary);
+    }
+
+    /* Section intro text (used under Ready for Work heading) */
+    .section__intro {
+      color: var(--color-gray-500);
+      font-size: 0.9rem;
+      margin-top: calc(-1 * var(--space-4));
+      margin-bottom: var(--space-6);
+    }
+
+    /* Print tweaks */
+    @media print {
+      .initiative-card { page-break-inside: avoid; }
+      .section { page-break-before: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navigation -->
+  <nav class="site-nav" role="navigation" aria-label="Report navigation">
+    <div class="site-nav__inner">
+      <a href="../index.html" class="site-nav__back" aria-label="Back to all reports">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Reports
+      </a>
+      <div class="site-nav__brand">
+        <span class="site-nav__badge" aria-hidden="true">RIC</span>
+        <span class="site-nav__title">Weekly Report &nbsp;·&nbsp; June 22, 2026</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Report Hero -->
+  <header class="report-hero" role="banner">
+    <div class="report-hero__inner">
+      <p class="report-hero__eyebrow">eSimplicity &nbsp;·&nbsp; Rapid Innovation Center</p>
+      <h1 class="report-hero__title">RIC Weekly Executive Report</h1>
+      <p class="report-hero__date">Week of June 22, 2026 &nbsp;·&nbsp; Q2 2026</p>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <div class="page-container">
+
+      <!-- ================================================================
+           CAPACITY NOTICE
+           ================================================================ -->
+      <div class="capacity-banner" role="alert" aria-live="polite">
+        <span class="capacity-banner__icon" aria-hidden="true">⚠️</span>
+        <div class="capacity-banner__body">
+          <div class="capacity-banner__title">Capacity Notice — Full Capacity</div>
+          <p class="capacity-banner__text">
+            The RIC team is currently operating at full capacity. All active resources are committed to the initiatives below.
+            Any new requests entering the pipeline will need to be weighed against existing commitments — something will need
+            to move to make room. We are being transparent upfront so leadership can make informed prioritization decisions
+            before new work is assigned.
+          </p>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           BOARD ACCESS
+           ================================================================ -->
+      <section class="board-section" aria-labelledby="board-heading">
+        <div class="board-card">
+          <div>
+            <h2 class="board-card__title" id="board-heading">📊 Improved Board Visibility — Now Available to You</h2>
+            <p class="board-card__desc">
+              We've made meaningful updates to how we track and display RIC initiative work. The board is now easy to scan by initiative category:
+            </p>
+            <div class="board-card__legend">
+              <div class="board-card__legend-item">🏢 <strong>BD / Growth</strong> — opportunities supporting business development and capture efforts</div>
+              <div class="board-card__legend-item">💼 <strong>Program</strong> — innovation work happening directly on existing contracts</div>
+              <div class="board-card__legend-item">🏛️ <strong>Corporate / Internal</strong> — improvements benefiting eSimplicity operations and staff</div>
+            </div>
+            <div class="board-card__columns">
+              <div class="board-card__columns-title">Status columns</div>
+              <div class="board-card__col-list">
+                <span class="status-pill status-pill--new">Ready for Work</span>
+                <span class="status-pill status-pill--new">Always On</span>
+                <span class="status-pill status-pill--new">Blocked</span>
+                <span class="status-pill status-pill--new">Reviewing</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <a
+              href="https://esimplicity.atlassian.net/jira/software/projects/RIC/boards/918"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="board-card__link-btn"
+              aria-label="Open Customer Initiatives Board in Jira (opens in new tab)"
+            >
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Customer Initiatives Board → View Live</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           IN PROGRESS
+           ================================================================ -->
+      <section class="section" aria-labelledby="active-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="active-heading">In Progress</h2>
+          <span class="section__count">12</span>
+        </div>
+
+        <div class="initiative-grid">
+          
+          <!-- RIC-558: Project Spectrum Strike Support -->
+          <article class="initiative-card" aria-labelledby="init-1-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">1</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--blocker">🔴 Blocker</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-1-title">Project Spectrum Strike Support</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Kyle Hogan</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> DNS</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> New Business</span>
+              <span class="initiative-card__meta-item"><strong>Area</strong> Growth</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jul 10, 2026</span></div>
+            
+            <p class="initiative-card__body">
+              Overview Project Spectrum Strike is a DIU (Defense Innovation Unit) spectrum opportunity that eSimplicity has been actively shaping. The RFP equivalent has dropped and the team has two weeks to submit 15 slides. No pricing is required for this initial round (of three total rounds).
+            </p>
+            
+            <div class="initiative-card__update">
+              <strong>Status:</strong> In Progress. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-558' target='_blank' rel='noopener noreferrer'>RIC-558</a>
+            </div>
+          </article>
+
+          <!-- RIC-522: SHINE Phase 1 -->
+          <article class="initiative-card" aria-labelledby="init-2-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">2</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--critical">🔴 Critical</span>
+                <span class="badge badge--always-on">🔵 Always On</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-2-title">SHINE Phase 1</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Kyle Hogan</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Corporate</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Internal Operations</span></div>
+            
+            <p class="initiative-card__body">
+              Implement SHINE Portal
+            </p>
+            
+            <div class="initiative-card__update">
+              <strong>Status:</strong> Always On. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-522' target='_blank' rel='noopener noreferrer'>RIC-522</a>
+            </div>
+          </article>
+
+          <!-- RIC-206: Growth Opportunities Report/Dashboard -->
+          <article class="initiative-card" aria-labelledby="init-3-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">3</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--critical">🔴 Critical</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-3-title">Growth Opportunities Report/Dashboard</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Thomas Mason</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Corporate</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Internal Operations</span>
+              <span class="initiative-card__meta-item"><strong>Area</strong> Growth</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Carrie Yang-Johnson</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jul 15, 2026</span></div>
+            
+            <p class="initiative-card__body">
+              Summary Create an agentic workflow to assess and conduct basic qualification of opportunities released daily from multiple sources. Context The Growth team currently tracks new requirements, market research, and government postings manually. Daily, they receive 20-100 postings from various sources, including GovWin IQ, GSA eBuy, Seaport NxG, and FedConnect. This manual process is time-consuming and prone to errors.
+            </p>
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-06-16 · Kyle Hogan</span><br/>
+              Tommy is going to take over this one and get the ingestion turned on. Stories have been created and assigned.
+            </div>
+            <div class="initiative-card__update">
+              <strong>Status:</strong> In Progress. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-206' target='_blank' rel='noopener noreferrer'>RIC-206</a>
+            </div>
+          </article>
+
+          <!-- RIC-710: Set-up a Periodic Brown-Bag Session for Technical AI Prompting -->
+          <article class="initiative-card" aria-labelledby="init-4-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">4</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-4-title">Set-up a Periodic Brown-Bag Session for Technical AI Prompting</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Ben Higgins</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Corporate</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Internal Operations</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jun 29, 2026</span></div>
+            
+            <p class="initiative-card__body">
+              We need to create an AI community for the technical engineers to leverage AI more efficiently and effectively. Hold a regular short &amp; lite session to communicate/educate the community to properly prompt and leverage AI tools to accelerate their work. Applies to all business units.
+            </p>
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-06-22 · Kyle Hogan</span><br/>
+              please take a look at this request from Keith and start thinking about how we could help
+            </div>
+            <div class="initiative-card__update">
+              <strong>Status:</strong> In Progress. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-710' target='_blank' rel='noopener noreferrer'>RIC-710</a>
+            </div>
+          </article>
+
+          <!-- RIC-15: RIC Exploration &amp; Experimentation -->
+          <article class="initiative-card" aria-labelledby="init-5-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">5</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--always-on">🔵 Always On</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-5-title">RIC Exploration &amp; Experimentation</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Thomas Mason</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Corporate</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Internal Operations</span></div>
+            
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-05-18 · Kyle Hogan</span><br/>
+              Flag added 
+Flagging due to SCIM work
+            </div>
+            <div class="initiative-card__update">
+              <strong>Status:</strong> Always On. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-15' target='_blank' rel='noopener noreferrer'>RIC-15</a>
+            </div>
+          </article>
+
+          <!-- RIC-194: T-MSIS - Security Automation w/ AI -->
+          <article class="initiative-card initiative-card--blocked" aria-labelledby="init-6-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">6</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--blocked">⛔ Blocked</span>
+                <span class="blocked-alert">⛔ BLOCKED</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-6-title">T-MSIS - Security Automation w/ AI</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Matt Wartell</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Health</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Client Experience</span>
+              <span class="initiative-card__meta-item"><strong>Area</strong> Program</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> David Greene</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jul 1, 2026</span></div>
+            
+            <p class="initiative-card__body">
+              Summary Consultation and prototyping for potential T-MSIS AI use cases are needed. The goal is to identify valuable opportunities for time savings using AI. Context The focus is on improving processes related to T-MSIS by leveraging AI. Ideas include drafting and reviewing various Security Impact Assessments (SIAs) and enhancing error detection in state submissions.
+            </p>
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-06-15 · Kyle Hogan</span><br/>
+              Moving the due date out to 7/1 - we are still blocked by T-MSIS here and following up to see how we can move this forward.
+            </div>
+            <div class="initiative-card__update initiative-card__update--blocked">
+              <strong>⛔ BLOCKED:</strong> This initiative is currently blocked. Intervention may be required to unblock progress.
+            </div>
+          </article>
+
+          <!-- RIC-365: NIWDC - AI Agents -->
+          <article class="initiative-card" aria-labelledby="init-7-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">7</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-7-title">NIWDC - AI Agents</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Ben Higgins</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> DNS</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Internal Operations</span>
+              <span class="initiative-card__meta-item"><strong>Area</strong> Program</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> / Lead</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jul 15, 2026</span></div>
+            
+            <p class="initiative-card__body">
+              Overview A three-person eSimplicity team embedded with the NIWDC CONOPS team has developed
+            </p>
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-05-27 · Kyle Hogan</span><br/>
+              - I would like to have a brainstorming session next week to discuss a path forward.
+            </div>
+            <div class="initiative-card__update">
+              <strong>Status:</strong> In Progress. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-365' target='_blank' rel='noopener noreferrer'>RIC-365</a>
+            </div>
+          </article>
+
+          <!-- RIC-652: RIC support for Army ATEC APEX -->
+          <article class="initiative-card" aria-labelledby="init-8-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">8</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--high">🟠 High</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-8-title">RIC support for Army ATEC APEX</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Aaron West</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> DNS</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> New Business</span>
+              <span class="initiative-card__meta-item"><strong>Area</strong> Growth</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jun 29, 2026</span></div>
+            
+            <p class="initiative-card__body">
+              I am requesting RIC support for an upcoming demonstration in support of the Army ATEC APEX initiative with Mr. Hall, Division Chief for Analytics and Artificial Intelligence. Request Details: Support Type: DEMO Support
+            </p>
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-06-10 · Kyle Hogan</span><br/>
+              This work item was created based on someone&#x27;s response to a Jira form.
+
+
+Email address: donald.chipley@esimplicity.com
+            </div>
+            <div class="initiative-card__update">
+              <strong>Status:</strong> In Progress. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-652' target='_blank' rel='noopener noreferrer'>RIC-652</a>
+            </div>
+          </article>
+
+          <!-- RIC-144: Spectrum Management NTIA Reports Site -->
+          <article class="initiative-card" aria-labelledby="init-9-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">9</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Medium</span>
+                <span class="badge badge--in-progress">In Progress</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-9-title">Spectrum Management NTIA Reports Site</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Matt Wartell</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> DNS</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Organic Growth</span>
+              <span class="initiative-card__meta-item"><strong>Area</strong> Program</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Jon Lanenga</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jul 1, 2026</span></div>
+            
+            <p class="initiative-card__body">
+               Title john.lanenga@esimplicity.com 
+            </p>
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-06-23 · Kyle Hogan</span><br/>
+              Flag removed 
+removing flag as this is back in progress
+            </div>
+            <div class="initiative-card__update">
+              <strong>Status:</strong> In Progress. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-144' target='_blank' rel='noopener noreferrer'>RIC-144</a>
+            </div>
+          </article>
+
+          <!-- RIC-9: CQP - Training Material Automation / AI Assistance -->
+          <article class="initiative-card" aria-labelledby="init-10-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">10</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Medium</span>
+                <span class="badge badge--in-progress">Reviewing</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-10-title">CQP - Training Material Automation / AI Assistance</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Ben Higgins</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Health</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Client Experience</span>
+              <span class="initiative-card__meta-item"><strong>Area</strong> Program</span>
+              <span class="initiative-card__meta-item"><strong>Sponsor</strong> Michael Pafumi</span>
+              <span class="initiative-card__meta-item"><strong>Due</strong> Jul 1, 2026</span></div>
+            
+            <p class="initiative-card__body">
+               Title rajesh.pandian@esimplicity.com 
+            </p>
+            
+            <div class="initiative-card__current-state">
+              <strong>Latest Update</strong> <span class="initiative-card__meta-item">2026-06-15 · Kyle Hogan</span><br/>
+              moving the due date to 7/1 as we are supporting other things and this is a lower priority
+            </div>
+            <div class="initiative-card__update">
+              <strong>Status:</strong> Reviewing. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-9' target='_blank' rel='noopener noreferrer'>RIC-9</a>
+            </div>
+          </article>
+
+          <!-- RIC-651: RIC O&amp;M -->
+          <article class="initiative-card" aria-labelledby="init-11-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">11</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟡 Medium</span>
+                <span class="badge badge--always-on">🔵 Always On</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-11-title">RIC O&amp;M</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Thomas Mason</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Corporate</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Internal Operations</span></div>
+            
+            <p class="initiative-card__body">
+              This initiative houses RIC O&amp;M efforts
+            </p>
+            
+            <div class="initiative-card__update">
+              <strong>Status:</strong> Always On. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-651' target='_blank' rel='noopener noreferrer'>RIC-651</a>
+            </div>
+          </article>
+
+          <!-- RIC-143: Flow Optimized Engineering -->
+          <article class="initiative-card" aria-labelledby="init-12-title">
+            <div class="initiative-card__header">
+              <span class="initiative-num" aria-hidden="true">12</span>
+              <div class="initiative-card__badges">
+                <span class="badge badge--medium">🟢 Low</span>
+                <span class="badge badge--always-on">🔵 Always On</span>
+              </div>
+            </div>
+            <h3 class="initiative-card__title" id="init-12-title">Flow Optimized Engineering</h3>
+            <div class='initiative-card__meta'><span class="initiative-card__meta-item"><strong>Owner</strong> Aaron West</span>
+              <span class="initiative-card__meta-item"><strong>Business Unit</strong> Corporate</span>
+              <span class="initiative-card__meta-item"><strong>Impact</strong> Internal Operations</span></div>
+            
+            
+            <div class="initiative-card__update">
+              <strong>Status:</strong> Always On. Issue: <a href='https://esimplicity.atlassian.net/browse/RIC-143' target='_blank' rel='noopener noreferrer'>RIC-143</a>
+            </div>
+          </article>
+        </div><!-- /.initiative-grid -->
+      </section>
+
+      <!-- ================================================================
+           QUEUED INITIATIVES
+           ================================================================ -->
+      <section class="section" aria-labelledby="queued-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="queued-heading">Queued / In Pipeline</h2>
+          <span class="section__count">9</span>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table" aria-label="Queued initiatives table">
+            <thead>
+              <tr>
+                <th scope="col">Initiative</th>
+                <th scope="col">Status</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Business Unit</th>
+                <th scope="col">Business Impact</th>
+                <th scope="col">Sponsor / Owner</th>
+                <th scope="col">Need By</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-677" target="_blank" rel="noopener noreferrer">NMSC AI Automation for Link XXI</a></strong></td>
+                <td><span class="badge badge--ready">Discovery</span></td>
+                <td><span class="badge badge--high">🟠 High</span></td>
+                <td>DNS</td>
+                <td>Internal Operations</td>
+                <td>—</td>
+                <td>Jul 9, 2026</td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-706" target="_blank" rel="noopener noreferrer">GCC-High and AI Foundry testing</a></strong></td>
+                <td><span class="badge badge--ready">Queued</span></td>
+                <td><span class="badge badge--medium">🟡 Medium</span></td>
+                <td>Corporate</td>
+                <td>Internal Operations</td>
+                <td>—</td>
+                <td>Jun 26, 2026</td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-316" target="_blank" rel="noopener noreferrer">T-MSIS - Test Automation</a></strong></td>
+                <td><span class="badge badge--ready">Discovery</span></td>
+                <td><span class="badge badge--medium">🟢 Low</span></td>
+                <td>Health</td>
+                <td>Internal Operations</td>
+                <td>—</td>
+                <td>Jul 31, 2026</td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-88" target="_blank" rel="noopener noreferrer">MACFin</a></strong></td>
+                <td><span class="badge badge--ready">On Hold</span></td>
+                <td><span class="badge badge--medium">🟢 Low</span></td>
+                <td>Health</td>
+                <td>New Business</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-431" target="_blank" rel="noopener noreferrer">NHLBI - Apex Agent Assistance</a></strong></td>
+                <td><span class="badge badge--ready">Discovery</span></td>
+                <td><span class="badge badge--medium">🟢 Low</span></td>
+                <td>Health</td>
+                <td>Client Experience</td>
+                <td>Meghan Norris (submitted on behalf of Maggie Kerr, NHLBI COR)</td>
+                <td><span class="warn">June 5, 2026 ⚠️</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-497" target="_blank" rel="noopener noreferrer">Agentic Workflow for Proposal Library</a></strong></td>
+                <td><span class="badge badge--ready">Discovery</span></td>
+                <td><span class="badge badge--medium">🟢 Low</span></td>
+                <td>Corporate</td>
+                <td>Internal Operations</td>
+                <td>Carrie Yang-Johnson</td>
+                <td>Jul 13, 2026</td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-542" target="_blank" rel="noopener noreferrer">SBA OIG - Prototype</a></strong></td>
+                <td><span class="badge badge--ready">On Hold</span></td>
+                <td><span class="badge badge--medium">🟢 Low</span></td>
+                <td>Civilian</td>
+                <td>Organic Growth</td>
+                <td>—</td>
+                <td>Aug 3, 2026</td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-590" target="_blank" rel="noopener noreferrer">AI-Powered Water Data Assistant Demo for USGS NWIS Migration</a></strong></td>
+                <td><span class="badge badge--ready">Discovery</span></td>
+                <td><span class="badge badge--medium">🟢 Low</span></td>
+                <td>Civilian</td>
+                <td>Organic Growth</td>
+                <td>Chris Halbrook</td>
+                <td>Jul 31, 2026</td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-603" target="_blank" rel="noopener noreferrer">LPDS SPCR Management &amp; Decision Support Portal</a></strong></td>
+                <td><span class="badge badge--ready">Queued</span></td>
+                <td><span class="badge badge--medium">🟢 Low</span></td>
+                <td>DNS</td>
+                <td>Internal Operations</td>
+                <td>—</td>
+                <td>Sep 17, 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="table-note">
+          ⚠️ Items marked with ⚠️ have passed their requested delivery date. A queue review is recommended to reset expectations with sponsors and ensure alignment.
+        </div>
+      </section>
+
+      <!-- ================================================================
+           RECENTLY COMPLETED
+           ================================================================ -->
+      <section class="section" aria-labelledby="completed-heading">
+        <div class="section__header">
+          <h2 class="section__title" id="completed-heading">Recently Completed</h2>
+          <span class="section__count">23</span>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table" aria-label="Recently completed initiatives table">
+            <thead>
+              <tr>
+                <th scope="col">Initiative</th>
+                <th scope="col">Category</th>
+                <th scope="col">Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-369" target="_blank" rel="noopener noreferrer">Health BU - Power Automate/Data Ingest Consult</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ May 22, 2026</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-624" target="_blank" rel="noopener noreferrer">SEC Whitepaper Assistance</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ 31-33</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-10" target="_blank" rel="noopener noreferrer">QDAS - AI Acceleration</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Help the QDAS program with any use cases and accelerate their use of AI on the program.</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-136" target="_blank" rel="noopener noreferrer">LPDS - AI Tools Consultation</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ The framework is a major undertaking that the team must accomplish. It is a key sticking point as a part of our ATO effo</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-171" target="_blank" rel="noopener noreferrer">New Mexico RFP Demo</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Sponsors: Ian Lowrie / Nick Crismali.</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-193" target="_blank" rel="noopener noreferrer">SBA OIG - AI Innovation for Recompete</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Recently appointed SBA Inspector General, William Kirk, is very bullish on A.I. and OIG engineers are actively exploring</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-207" target="_blank" rel="noopener noreferrer">Aberdeen APBI Demo Assistance</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ N/A</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-389" target="_blank" rel="noopener noreferrer">Assist Health BU with PMR Report Automation Testing</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ This is the full replacement for the PMR process and dashboard for Ed. The goal is to test the application:</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-329" target="_blank" rel="noopener noreferrer">DBX Apps POC - Use Case 4</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ A 1 page write up is created describing what was done, the impact, and the overall viability of productionalizing the pr</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-8" target="_blank" rel="noopener noreferrer">T-MSIS - AI Acceleration</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Work with T-MSIS and help achieve use cases. Ensure we get some testimonials and feedback.</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-102" target="_blank" rel="noopener noreferrer">QDAS - DBX Apps Research</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ The executive team met and decided this was a priority. This would improve pWIN on QDAS recompete.</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-164" target="_blank" rel="noopener noreferrer">DBX Apps POC - Use Case 3</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ A 1 page write up is created describing what was done, the impact, and the overall viability of productionalizing the pr</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-204" target="_blank" rel="noopener noreferrer">NHLBI - Build Agent for Evaluating Apps for Copilot</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Use of AI to execute the modernization prioritization framework we proposed (Sean can provide details), incorporating NH</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-340" target="_blank" rel="noopener noreferrer">SHINE MVP</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Implement SHINE Portal MVP</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-12" target="_blank" rel="noopener noreferrer">NMSC - Spectrum Analyst Agent</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Provide assistance to the BD/Growth team to enable more wins, enable innovation, accelerate delivery, etc.</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-75" target="_blank" rel="noopener noreferrer">DISA AES - RFP AI Assistance</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Impact Statement: DISA is a strategic customer, and this will demonstrate our ability to modernize spectrum analysis for</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-200" target="_blank" rel="noopener noreferrer">Nextgen Sim - Prima Marketing Support</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ 703-819-7896</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-205" target="_blank" rel="noopener noreferrer">CMS MESH - SalesForce/M365 Integration</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ N/A</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-261" target="_blank" rel="noopener noreferrer">Create Apex Package - T-MSIS</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Provide the apex agent to T-MSIS users</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-417" target="_blank" rel="noopener noreferrer">Create Apex Package - CIO Growth</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ Keith is concerned about the timeline for TMSIS adopting the agent and is looking for a schedule for exposing the agents</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-744" target="_blank" rel="noopener noreferrer">2-3 Pager of Databricks Modernization</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ I need 2-3 pages of White Paper Databricks technical recommendations for DataConnect &amp; TMSIS consolidated adoption beyon</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-201" target="_blank" rel="noopener noreferrer">CMS MESH - AI Write-up</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ The contractor shall conduct user research and usability testing to validate that AI-augmented features meaningfully imp</span></td>
+              </tr>
+
+              <tr>
+                <td><strong><a href="https://esimplicity.atlassian.net/browse/RIC-268" target="_blank" rel="noopener noreferrer">IDR - Research POC/White Paper</a></strong></td>
+                <td>—</td>
+                <td><span class="done-cell">✅ : Proving we can solve one of the biggest challenges for both IDR users and CMS in terms of manual overhead and delays i</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           FOOTER NOTE
+           ================================================================ -->
+      <div class="slack-footer" role="note">
+        <strong>Questions or new requests?</strong> Questions about prioritization, capacity, or a specific initiative? Reach out to your RIC point of contact or submit new requests through the intake process — all new asks are reviewed against current capacity before scheduling begins.
+      </div>
+
+    </div><!-- /.page-container -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <span class="site-footer__badge" aria-hidden="true">RIC</span>
+        <span class="site-footer__name">eSimplicity Rapid Innovation Center</span>
+      </div>
+      <p class="site-footer__copy">© 2026 eSimplicity. Internal use only. &nbsp;·&nbsp; Report generated June 22, 2026.</p>
+      <p class="site-footer__note">
+        This report reflects status as of the week of June 22, 2026.
+        For the most current initiative status, visit the <a href="https://esimplicity.atlassian.net/jira/software/projects/RIC/boards/918" target="_blank" rel="noopener noreferrer">RIC Jira Board</a>.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
