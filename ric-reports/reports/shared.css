@@ -754,6 +754,21 @@ img {
   margin-bottom: var(--space-4);
 }
 
+.initiative-card__current-state {
+  background: var(--color-primary-very-light, #EEEDFE);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.875rem;
+  color: var(--color-gray-700);
+  line-height: 1.55;
+  margin-bottom: var(--space-3);
+}
+
+.initiative-card__current-state strong {
+  color: var(--color-black);
+}
+
 .initiative-card__update {
   background: var(--color-gray-50);
   border-left: 3px solid var(--color-primary);

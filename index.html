@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapid Innovation Center — eSimplicity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --twilight:    #3223BD;
+    --twilight-dk: #261AA0;
+    --twilight-lt: #4A35D4;
+    --pale:        #D9DCF8;
+    --teal:        #00E5C3;
+    --black:       #1C1C1C;
+    --gray:        #F3F3F3;
+    --mid:         #6B6B8A;
+    --border:      #E8E8F0;
+    --white:       #FFFFFF;
+  }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--white); color: var(--black); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+  /* HERO */
+  .hero { background: var(--twilight); position: relative; overflow: hidden; padding: 80px 48px 88px; }
+  .hero::before { content: ''; position: absolute; top: -140px; right: -100px; width: 560px; height: 560px; border-radius: 50%; background: rgba(217,220,248,0.07); pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: -100px; left: 40%; width: 320px; height: 320px; border-radius: 50%; background: rgba(0,229,195,0.05); pointer-events: none; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: center; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.14); border-radius: 100px; padding: 6px 14px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pale); margin-bottom: 28px; }
+  .hero-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+  .hero h1 { font-size: clamp(38px, 5vw, 60px); font-weight: 900; color: var(--white); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 20px; }
+  .hero h1 em { font-style: normal; color: var(--teal); }
+  .hero-sub { font-size: 17px; color: rgba(217,220,248,0.8); line-height: 1.65; margin-bottom: 36px; max-width: 500px; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 9px; background: var(--teal); color: var(--black); font-size: 14px; font-weight: 700; padding: 15px 30px; border-radius: 9px; text-decoration: none; letter-spacing: 0.01em; transition: transform 0.15s, box-shadow 0.15s; }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,229,195,0.32); }
+  .identity-stack { display: flex; flex-direction: column; gap: 14px; }
+  .id-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 22px 26px; transition: background 0.2s; }
+  .id-card:hover { background: rgba(255,255,255,0.1); }
+  .id-card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .id-card-text { font-size: 13.5px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+
+  /* SECTION */
+  .section { padding: 72px 48px; max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--twilight); margin-bottom: 10px; }
+  .section-title { font-size: clamp(26px, 3vw, 38px); font-weight: 800; letter-spacing: -0.02em; color: var(--black); margin-bottom: 10px; line-height: 1.12; }
+  .section-sub { font-size: 15px; color: var(--mid); max-width: 580px; margin-bottom: 48px; line-height: 1.65; }
+
+  /* PILLARS */
+  .pillars-wrap { background: var(--gray); }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pillar { background: var(--white); border-radius: 16px; padding: 30px; border: 1px solid var(--border); transition: box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column; gap: 14px; }
+  .pillar:hover { box-shadow: 0 8px 32px rgba(50,35,189,0.1); transform: translateY(-3px); }
+  .pillar-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .pillar-icon.bd { background: rgba(50,35,189,0.1); }
+  .pillar-icon.prog { background: rgba(0,137,123,0.1); }
+  .pillar-icon.corp { background: rgba(106,53,176,0.1); }
+  .pillar h3 { font-size: 16px; font-weight: 700; color: var(--black); }
+  .pillar p { font-size: 13.5px; color: var(--mid); line-height: 1.6; flex: 1; }
+  .pillar ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+  .pillar ul li { font-size: 13px; color: var(--mid); padding-left: 15px; position: relative; line-height: 1.4; }
+  .pillar ul li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--twilight); opacity: 0.5; }
+
+  /* HOW WE WORK */
+  .how-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .how-card { border-radius: 14px; padding: 28px 30px; border: 1px solid var(--border); background: var(--white); transition: box-shadow 0.15s; }
+  .how-card:hover { box-shadow: 0 4px 20px rgba(50,35,189,0.08); }
+  .how-num { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: var(--twilight); opacity: 0.4; margin-bottom: 10px; }
+  .how-card h4 { font-size: 16px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+  .how-card p { font-size: 13.5px; color: var(--mid); line-height: 1.6; }
+
+  /* SHINE */
+  .shine-wrap { background: var(--twilight); padding: 72px 48px; position: relative; overflow: hidden; }
+  .shine-wrap::before { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; border-radius: 50%; background: rgba(217,220,248,0.06); pointer-events: none; }
+  .shine-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; }
+  .shine-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(0,229,195,0.12); border: 1px solid rgba(0,229,195,0.25); border-radius: 100px; padding: 6px 14px; font-size: 11px; font-weight: 700; color: var(--teal); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 20px; }
+  .shine-badge .dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; }
+  .shine-inner h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 900; color: var(--white); letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 16px; }
+  .shine-desc { font-size: 15px; color: rgba(217,220,248,0.8); line-height: 1.65; margin-bottom: 28px; max-width: 460px; }
+  .shine-features { display: flex; flex-direction: column; gap: 11px; }
+  .shine-feat { display: flex; align-items: flex-start; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.88); line-height: 1.45; }
+  .feat-check { width: 20px; height: 20px; border-radius: 6px; background: rgba(0,229,195,0.15); border: 1px solid rgba(0,229,195,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; color: var(--teal); margin-top: 1px; }
+  .shine-right { display: flex; flex-direction: column; gap: 14px; }
+  .shine-panel { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 22px 26px; }
+  .ba-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+  .ba-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 13px; }
+  .ba-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .ba-row:first-of-type { padding-top: 0; }
+  .ba-task { color: rgba(217,220,248,0.7); }
+  .ba-change { display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--white); white-space: nowrap; }
+  .ba-before { color: rgba(217,220,248,0.4); font-weight: 400; text-decoration: line-through; }
+  .ba-arrow { color: var(--teal); font-size: 12px; }
+  .ba-after { color: var(--teal); }
+  .shine-quote { font-size: 13.5px; color: rgba(217,220,248,0.75); line-height: 1.6; }
+  .shine-quote strong { display: block; color: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+
+  /* CTA */
+  .cta-section { padding: 72px 48px; background: var(--white); }
+  .cta-banner { max-width: 1100px; margin: 0 auto; background: linear-gradient(135deg, var(--twilight-dk) 0%, var(--twilight) 55%, var(--twilight-lt) 100%); border-radius: 20px; padding: 56px 60px; display: flex; align-items: center; justify-content: space-between; gap: 48px; position: relative; overflow: hidden; }
+  .cta-banner::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(0,229,195,0.07); pointer-events: none; }
+  .cta-banner::after { content: 'RIC'; position: absolute; right: 52px; bottom: -28px; font-size: 130px; font-weight: 900; color: rgba(255,255,255,0.035); letter-spacing: -0.04em; pointer-events: none; line-height: 1; }
+  .cta-text h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 10px; line-height: 1.2; }
+  .cta-text p { font-size: 15px; color: rgba(217,220,248,0.8); line-height: 1.6; max-width: 480px; }
+  .cta-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex-shrink: 0; position: relative; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 9px; background: var(--teal); color: var(--black); font-size: 15px; font-weight: 700; padding: 17px 34px; border-radius: 10px; text-decoration: none; white-space: nowrap; letter-spacing: 0.01em; transition: transform 0.15s, box-shadow 0.15s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,229,195,0.35); }
+  .cta-note { font-size: 12px; color: rgba(217,220,248,0.5); text-align: right; }
+
+  /* TOP NAV */
+  .top-nav { background: var(--black); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 48px; position: sticky; top: 0; z-index: 100; }
+  .top-nav-brand { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .top-nav-brand span { color: var(--pale); }
+  .top-nav-links { display: flex; gap: 28px; }
+  .top-nav-links a { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); text-decoration: none; letter-spacing: 0.02em; transition: color 0.15s; }
+  .top-nav-links a:hover { color: var(--teal); }
+  @media (max-width: 860px) { .top-nav { padding: 0 24px; } .top-nav-brand { display: none; } }
+
+  /* FOOTER */
+  .page-footer { background: var(--black); padding: 28px 48px; text-align: center; }
+  .page-footer p { font-size: 12px; color: rgba(255,255,255,0.3); }
+  .page-footer a { color: var(--pale); text-decoration: none; }
+  .page-footer a:hover { color: var(--teal); }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .hero-inner, .pillars, .how-grid, .shine-inner { grid-template-columns: 1fr; }
+    .cta-banner { flex-direction: column; align-items: flex-start; }
+    .cta-actions { align-items: flex-start; }
+    .hero, .section, .shine-wrap, .cta-section, .page-footer { padding-left: 24px; padding-right: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <span class="top-nav-brand">eSimplicity · <span>RIC</span></span>
+  <div class="top-nav-links">
+    <a href="ric-reports/index.html">Weekly Reports</a>
+    <a href="https://esimplicity.atlassian.net/jira/software/c/form/afd8ee66-e212-4939-a77a-24733dffed57" target="_blank" rel="noopener">Submit a Request</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span class="dot"></span> eSimplicity · Rapid Innovation Center</div>
+      <h1>Where Ideas<br>Become <em>Impact</em></h1>
+      <p class="hero-sub">The RIC is eSimplicity's in-house innovation team — built to move fast, prototype boldly, and deliver solutions that win business and strengthen programs. From demos and prototypes to agents and integrations, we build what teams need to compete and deliver.</p>
+      <a class="hero-cta" href="https://esimplicity.atlassian.net/jira/software/c/form/afd8ee66-e212-4939-a77a-24733dffed57" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Submit a Request
+      </a>
+    </div>
+    <div class="identity-stack">
+      <div class="id-card">
+        <div class="id-card-label">North Star</div>
+        <div class="id-card-text">Establish the RIC as eSimplicity's engine for winning new business and delivering program innovation — making rapid, practical solution-building a core capability that accelerates growth and strengthens every customer engagement.</div>
+      </div>
+      <div class="id-card">
+        <div class="id-card-label">Mission</div>
+        <div class="id-card-text">Partner with growth and program teams to rapidly prototype, test, and scale solutions — turning ideas into differentiators that win new business, strengthen recompetes, and deliver measurable value to customers.</div>
+      </div>
+      <div class="id-card">
+        <div class="id-card-label">Vision</div>
+        <div class="id-card-text">A culture where innovation is embedded, reusable, and institutionalized — where teams confidently experiment, learn quickly, and continuously strengthen delivery.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pillars-wrap">
+  <div class="section">
+    <div class="section-eyebrow">What We Do</div>
+    <div class="section-title">One team. Three lanes.</div>
+    <p class="section-sub">Any growth team, program, or corporate function can engage the RIC. We move fast, build real things, and leave reusable capabilities behind.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon bd">📈</div>
+        <h3>BD &amp; Growth</h3>
+        <p>We help growth teams compete and win — from rapid RFP demos to recompete positioning and partner POCs.</p>
+        <ul>
+          <li>RFP demos &amp; prototypes</li>
+          <li>Competitive write-ups &amp; positioning</li>
+          <li>Proposal acceleration tools</li>
+          <li>Recompete strategy support</li>
+          <li>Partner POCs — Databricks, AWS, Salesforce</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon prog">🚀</div>
+        <h3>Program Innovation</h3>
+        <p>We embed with active programs to accelerate delivery, automate toil, and build client-facing capabilities fast.</p>
+        <ul>
+          <li>AI acceleration on active contracts</li>
+          <li>Agent &amp; workflow automation</li>
+          <li>Test automation tooling</li>
+          <li>Client-facing prototypes</li>
+          <li>Data modernization POCs</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon corp">💡</div>
+        <h3>Corporate &amp; Internal</h3>
+        <p>We build the internal capabilities and platforms that make eSimplicity stronger — including SHINE.</p>
+        <ul>
+          <li>SHINE — Growth Intelligence Platform</li>
+          <li>Flow Optimized Engineering</li>
+          <li>Prima Delivery Platform</li>
+          <li>Internal tooling &amp; automation</li>
+          <li>AI literacy &amp; prompting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-eyebrow">How We Work</div>
+  <div class="section-title">Fast, focused, reusable.</div>
+  <p class="section-sub">We operate on a Kanban model with intake-driven prioritization. Every engagement is tracked, every output is documented, and everything we build is reusable.</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <h4>Submit a Request</h4>
+      <p>Use our intake form to tell us what you're working on, when you need it, and what success looks like. No idea is too early — bring us rough concepts, hard deadlines, or open-ended challenges.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <h4>We Size &amp; Assign</h4>
+      <p>Within one business day we'll respond with a plan — who's on it, what we'll build, and a realistic timeline. We'll tell you what we can do and what's out of scope.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <h4>We Build Fast</h4>
+      <p>We iterate in short cycles with frequent check-ins. You'll see real work early — demos, prototypes, drafts — not just status updates.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <h4>We Leave It Better</h4>
+      <p>Every engagement produces reusable assets. What we build for you makes the next team faster — and gets better every time we use it.</p>
+    </div>
+  </div>
+</div>
+
+<div class="shine-wrap">
+  <div class="shine-inner">
+    <div>
+      <div class="shine-badge"><span class="dot"></span> Now Live</div>
+      <h2>Meet SHINE</h2>
+      <p class="shine-desc">eSimplicity's Growth Intelligence Platform. Ask a question in plain language — SHINE surfaces past performance, proposals, capabilities, and opportunities from across the eSimplicity environment in seconds.</p>
+      <div class="shine-features">
+        <div class="shine-feat"><div class="feat-check">✓</div><span><strong>Intelligent Chat</strong> — ask anything about eSimplicity, get sourced answers</span></div>
+        <div class="shine-feat"><div class="feat-check">✓</div><span><strong>Proof Point Catalog</strong> — searchable past performance, ready for proposals</span></div>
+        <div class="shine-feat"><div class="feat-check">✓</div><span><strong>Growth Opportunities</strong> — GovWin &amp; GSA eBuy, triaged automatically</span></div>
+        <div class="shine-feat"><div class="feat-check">✓</div><span><strong>M365 SSO</strong> — no new login required</span></div>
+      </div>
+    </div>
+    <div class="shine-right">
+      <div class="shine-panel">
+        <div class="ba-label">Before &amp; After SHINE</div>
+        <div class="ba-row">
+          <span class="ba-task">Past performance research</span>
+          <span class="ba-change"><span class="ba-before">4–8 hrs</span><span class="ba-arrow">→</span><span class="ba-after">&lt;5 min</span></span>
+        </div>
+        <div class="ba-row">
+          <span class="ba-task">Proposal section first draft</span>
+          <span class="ba-change"><span class="ba-before">3 days</span><span class="ba-arrow">→</span><span class="ba-after">30 min</span></span>
+        </div>
+        <div class="ba-row">
+          <span class="ba-task">Opportunity triage</span>
+          <span class="ba-change"><span class="ba-before">Manual</span><span class="ba-arrow">→</span><span class="ba-after">Automated</span></span>
+        </div>
+      </div>
+      <div class="shine-panel">
+        <p class="shine-quote"><strong>The front door to everything eSimplicity knows.</strong>SHINE connects the growth team to eSimplicity's institutional knowledge — past performance, proposals, CPARS, technical docs, and more — in one place, accessible to anyone with an M365 account.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <div class="cta-banner">
+    <div class="cta-text">
+      <h2>Have an idea?<br>We build fast.</h2>
+      <p>Submit a request and we'll respond within one business day. No idea is too early — bring us your RFP deadlines, program challenges, or half-formed concepts. We'll figure out the rest.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn-primary" href="https://esimplicity.atlassian.net/jira/software/c/form/afd8ee66-e212-4939-a77a-24733dffed57" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Submit a Request
+      </a>
+      <p class="cta-note">Tracked in Jira · Assigned within 1 business day</p>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <p>Rapid Innovation Center · eSimplicity · <a href="mailto:ric@esimplicity.com">ric@esimplicity.com</a> · <a href="ric-reports/index.html">Weekly Reports</a></p>
+</footer>
+
+</body>
+</html>
